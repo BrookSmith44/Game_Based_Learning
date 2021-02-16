@@ -1,0 +1,42 @@
+{% extends 'banner.html.twig' %}
+{# Login/SignUp Page #}
+{% block content %}
+    <div id="page-content-div">
+        <div id="login-signup-wrapper">
+            <div class="content-div" id="login-content-div">
+                <h1>{{ signin }}</h1>
+                <p>{{ signin_content }}</p>
+                <div id="signin-form-wrapper">
+                    <form id="signin-form" action="">
+                        <input class="signin-text-input" id="signin-email-input" type="text" name="signin_email" placeholder="{{ email }}" />
+                        <input class="signin-text-input" id="signin-pass-input" type="password" name="signin_pass" placeholder="{{ pass }}" />
+
+                        <input class="btn" id="signin-submit-input" type="submit" name="signin_submit" value="Sign In!" />
+                    </form>
+                </div>
+                <button class="btn" id="btn-signin">{{ signin }}</button>
+            </div>
+            <div class="content-div" id="signup-content-div">
+                <h1>{{ signup }}</h1>
+                <p>{{ signup_content }}</p>
+
+                <div id="signup-form-wrapper">
+                    <form id="signup-form" action="">
+                        <div id="name-wrapper">
+                            <input class="signin-text-input" id="signup-fname-input" type="text" name="signup_fname" placeholder="{{ fname }}" />
+                            <input class="signin-text-input" id="signup-surname-input" type="text" name="signup_surname" placeholder="{{ surname }}" />
+                        </div>
+                        <input class="signin-text-input" id="signup-dob-input" type="date" name="signup_dob" placeholder="{{ dob }}" />
+                        <input class="signin-text-input" id="signup-email-input" type="email" name="signup_email" placeholder="{{ email }}" />
+                        <input class="signin-text-input" id="signup-cemail-input" type="email" name="signup_cemail" placeholder="{{ cemail }}" />
+                        <input class="signin-text-input" id="signup-pass-input" type="password" name="signup_pass" placeholder="{{ pass }}" />
+                        <input class="signin-text-input" id="signup-cpass-input" type="password" name="signup_cpass" placeholder="{{ cpass }}" />
+
+                        <input class="btn" id="signup-submit-input" type="submit" name="signup_submit" value="Sign Up!" />
+                    </form>
+                </div>
+                <button class="btn" id="btn-signup">{{ signup }}</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

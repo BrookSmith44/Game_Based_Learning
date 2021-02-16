@@ -1,0 +1,257 @@
+/**
+* Imported fonts
+*/
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: 'Raleway', sans-serif;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+body {
+    background-image: url("images/pitch-background.jpg");
+}
+
+#page-content-div {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Login Page */
+#login-signup-wrapper {
+    width: 50vw;
+    border-radius: 5%;
+    background-color: white;
+    opacity: 0.95;
+    box-shadow: 5px 5px 20px;
+    margin: 5px;
+}
+
+.content-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: width 1s, opacity 1s;
+}
+
+.content-div p {
+    text-align: center;
+    padding: 20px;
+}
+
+#login-content-div {
+    height: 100%;
+    width: 60%;
+    float: left;
+    color: seagreen;
+}
+
+#login-content-div h1 {
+    font-weight: 1000;
+    padding: 10px;
+}
+
+#signup-content-div {
+    height: 100%;
+    width: 40%;
+    float: right;
+    background-color: seagreen;
+    border-radius: 0 5% 5% 0;
+    box-shadow: -3px 0 5px 0 grey;
+}
+
+#signin-form-wrapper {
+    width: 100%;
+    height: 50%;
+    opacity: 1;
+}
+
+#signin-form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.signin-label {
+    margin-left: 5px;
+}
+
+.signin-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.signin-text-input {
+    width: 80%;
+    margin: 10px;
+    border-bottom: solid 2px seagreen;
+    align-self: center;
+}
+
+.btn {
+    margin: 20px;
+    height: 50px;
+    width: 30%;
+    border-radius: 20px;
+    font-size: large;
+    transition: background-color .5s, color .5s;
+}
+
+#signin-submit-input, #btn-signin {
+    align-self: center;
+    background-color: seagreen;
+    border: solid 2px seagreen;
+    color: white;
+}
+
+#btn-signin {
+    display: none;
+}
+
+#signin-submit-input:hover, #btn-signin:hover {
+    background-color: white;
+    color: seagreen;
+    cursor: pointer;
+}
+
+#signup-content-div {
+    color: white;
+    
+}
+
+#signup-content-div h1{
+    margin: 20px;
+}
+
+#signup-content-div p{
+    padding: 10px;
+    text-align: center;
+}
+
+#signup-form-wrapper {
+    height: 100%;
+    display: none;
+    width: 100%;
+}
+
+#signup-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#name-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80%;
+}
+
+#signup-fname-input {
+    margin-left: 0;
+}
+
+#signup-surname-input {
+    margin-right: 0;
+}
+
+#signup-form-wrapper .signin-text-input {
+    background-color: seagreen;
+    color: white;
+    width: 80%;
+    border-bottom: 2px solid white;
+}
+
+#signup-form-wrapper .signin-text-input::placeholder {
+   color: white;
+}
+
+#btn-signup, #signup-submit-input {
+    background-color: white;
+    color: seagreen;
+    border: 2px solid white;
+}
+
+#btn-signup:hover, #signup-submit-input:hover {
+    background-color: seagreen;
+    color: white;
+    cursor: pointer;
+}
+    
+/* Smartphones */
+@media only screen and (min-width : 390px) and (max-device-width : 540px) {
+    #login-signup-wrapper {
+        height: 40vh;
+        width: 80%;
+    }
+
+    .signin-text-input {
+        height: 40px;
+        font-size: larger;
+    }
+
+    #btn-signup, #btn-signin {
+        width: 100px;
+    }
+}
+
+/* Surface Pro */
+@media only screen and (min-device-width : 540px) and (max-device-width : 720px) {
+    #login-signup-wrapper {
+        height: 60vh;
+        width: 80%;
+    }
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1224px) {
+    #login-signup-wrapper {
+        height: 60vh;
+        width: 80%;
+    }
+}
+/* Desktops and laptops ----------- */
+@media only screen  and (min-width : 1024px) {
+    #login-signup-wrapper {
+        height: 80vh;
+        width: 60%;
+    }
+
+    .signin-text-input {
+        height: 20px;
+        font-size: medium;
+    }
+    
+}
+/* Large screens ----------- */
+@media only screen  and (min-width : 1824px) {
+    #login-signup-wrapper {
+        height: 75vh;
+
+    }
+
+    .signin-text-input {
+        height: 40px;
+        font-size: large;
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "require": {
+        "slim/slim": "3.*",
+        "twig/twig": "1.18",
+        "slim/twig-view": "2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "FootballTriviaGame\\": "app/src/",
+            "Database\\": "app/src/Database/",
+            "Encryption\\": "app/src/Encryption/"
+        }
+    }
+}
