@@ -16,6 +16,8 @@
         'page_title' => 'Football Game-Based-Learning',
         'page_heading' => 'Log In',
         'signin' => 'Sign In',
+        'signup_action' => '/football_trivia_game/public/signupProcess',
+        'login_action' => '/loginProcess',
         'signin_content' => 'Welcome back! Enter Details here To Sign In',
         'fname' => 'First Name',
         'surname' => 'Surname',

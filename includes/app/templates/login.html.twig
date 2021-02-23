@@ -7,7 +7,7 @@
                 <h1>{{ signin }}</h1>
                 <p>{{ signin_content }}</p>
                 <div id="signin-form-wrapper">
-                    <form id="signin-form" action="">
+                    <form id="signin-form" method="post" action="{{ login_action }}">
                         <input class="signin-text-input" id="signin-email-input" type="text" name="signin_email" placeholder="{{ email }}" />
                         <input class="signin-text-input" id="signin-pass-input" type="password" name="signin_pass" placeholder="{{ pass }}" />
 
@@ -21,7 +21,7 @@
                 <p>{{ signup_content }}</p>
 
                 <div id="signup-form-wrapper">
-                    <form id="signup-form" action="">
+                    <form id="signup-form" method="post" action="{{ signup_action }}">
                         <div id="name-wrapper">
                             <input class="signin-text-input" id="signup-fname-input" type="text" name="signup_fname" placeholder="{{ fname }}" />
                             <input class="signin-text-input" id="signup-surname-input" type="text" name="signup_surname" placeholder="{{ surname }}" />

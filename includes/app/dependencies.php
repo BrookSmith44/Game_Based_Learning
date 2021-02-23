@@ -27,8 +27,8 @@ $container['dbh'] = function () {
 };
 
 // Container for the database model class
-$container['databaseModel'] = function () {
-    $database_model = new \FootballTriviaGame\DatabaseModel();
+$container['userModel'] = function () {
+    $database_model = new \FootballTriviaGame\UserModel();
     return $database_model;
 };
 
@@ -36,6 +36,30 @@ $container['databaseModel'] = function () {
 // Container for the SQL Queries class
 $container['sqlQueries'] = function () {
     $sql_queries = new \FootballTriviaGame\SQLQueries();
+    return $sql_queries;
+};
+
+// Container for the LibSodium Wrapper class
+$container['sqlQueries'] = function () {
+    $sql_queries = new \Encryption\LibSodiumWrapper();
+    return $sql_queries;
+};
+
+// Container for the Base64 Wrapper class
+$container['sqlQueries'] = function () {
+    $sql_queries = new \Encryption\Base64Wrapper();
+    return $sql_queries;
+};
+
+// Container for the BycryptWrapper class
+$container['sqlQueries'] = function () {
+    $sql_queries = new \Encryption\BycryptWrapper();
+    return $sql_queries;
+};
+
+// Container for the Validator class
+$container['sqlQueries'] = function () {
+    $sql_queries = new \FootballTriviaGame\Vadlidator();
     return $sql_queries;
 };
 

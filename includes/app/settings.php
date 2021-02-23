@@ -16,6 +16,10 @@ define('CSS_PATH', $css_path);
 $js_path = $app_url . '/js/javascript.js?' . date('His');
 // Define the js path
 define('JS_PATH', $js_path);
+// Define bycrypt algorithm
+define('BYCRYPT_ALGO', PASSWORD_DEFAULT);
+// Define bycrypt cost
+define('BYCRYPT_COST', 12);
 
 // Set settings
 $settings = [

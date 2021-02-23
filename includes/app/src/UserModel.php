@@ -1,11 +1,11 @@
 <?php
 /**
- * Database Model Class
+ * User Model Class
  */
 
  namespace FootballTriviaGame;
 
- class DatabaseModel {
+ class UserModel {
      // Properties
      private $username;
      private $server_type;
