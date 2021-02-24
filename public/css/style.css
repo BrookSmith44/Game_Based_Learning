@@ -33,7 +33,7 @@ body {
 
 /* Login Page */
 #login-signup-wrapper {
-    height: 80vh;
+    height: 85vh;
     width: 80vw;
     border-radius: 5%;
     background-color: white;
@@ -204,7 +204,6 @@ body {
 /* Smartphones */
 @media only screen and (min-width : 400px) {
     #login-signup-wrapper {
-        height: 80vh;
         width: 80%;
     }
 
@@ -220,7 +219,6 @@ body {
 /* Surface Pro */
 @media only screen and (min-device-width : 540px) {
     #login-signup-wrapper {
-        height: 80vh;
         width: 80%;
     }
 }
@@ -235,7 +233,7 @@ body {
 /* Desktops and laptops ----------- */
 @media only screen  and (min-width : 1024px) {
     #login-signup-wrapper {
-        height: 80vh;
+        height: 85vh;
         width: 60%;
     }
 
@@ -248,7 +246,7 @@ body {
 /* Large screens ----------- */
 @media only screen  and (min-width : 1824px) {
     #login-signup-wrapper {
-        height: 75vh;
+        height: 80vh;
 
     }
 

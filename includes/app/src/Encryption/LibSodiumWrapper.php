@@ -34,7 +34,8 @@ class LibSodiumWrapper {
         // Check the key is the correct size
         if (mb_strlen($this->key, '8bit') !== SODIUM_CRYPTO_SECRETBOX_KEYBYTES) {
             // Throw error exception - Output error message
-            throw new RangeException('Key must be 32 bytes');
+            throw new \RangeException('Key must be 32 bytes');
+
         }
     }
 

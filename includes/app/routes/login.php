@@ -19,6 +19,7 @@
         'signup_action' => '/football_trivia_game/public/signupProcess',
         'login_action' => '/loginProcess',
         'signin_content' => 'Welcome back! Enter Details here To Sign In',
+        'username' => 'Username',
         'fname' => 'First Name',
         'surname' => 'Surname',
         'email' => 'Email',

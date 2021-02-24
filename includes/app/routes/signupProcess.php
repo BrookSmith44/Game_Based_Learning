@@ -14,6 +14,12 @@
     // Call function to clean form values
     $cleaned_values = cleanFormValues($app, $form_values);
 
+    var_dump($cleaned_values);
+
+    // Call function to encrypt form data
+    $encrypted = encrypt($app, $cleaned_values);
+
+    var_dump($encrypted);
 
  });
 
@@ -26,6 +32,7 @@
   // Get validator container
   $validator = $app->getContainer()->get('validator');
 
+  $cleaned_values['username'] = $validator->sanitizeString($form_values['signup_username']);
   $cleaned_values['fname'] = $validator->sanitizeString($form_values['signup_fname']);
   $cleaned_values['surname'] = $validator->sanitizeString($form_values['signup_surname']);
   $cleaned_values['dob'] = $validator->sanitizeDate($form_values['signup_dob']);
@@ -36,4 +43,22 @@
   
   return $cleaned_values;
  }
+
+ // Function to encrypt form values
+function encrypt($app, $cleaned_values) {
+    // Get lib sodium container
+    $libsodium = $app->getContainer()->get('libSodiumWrapper');
+    
+    // Empty array for encrypted data
+    $encrypted_data = [];
+
+    // Encrypt Data
+    $encrypted_data['fname_and_nonce'] = $libsodium->encryption($cleaned_values['fname']);
+    $encrypted_data['surname_and_nonce'] = $libsodium->encryption($cleaned_values['surname']);
+    $encrypted_data['email_and_nonce'] = $libsodium->encryption($cleaned_values['email']);
+    $encrypted_data['pass_and_nonce'] = $libsodium->encryption($cleaned_values['pass']);
+
+    // Return encrypted data
+    return $encrypted_data;
+}
 
