@@ -40,26 +40,26 @@ $container['sqlQueries'] = function () {
 };
 
 // Container for the LibSodium Wrapper class
-$container['sqlQueries'] = function () {
+$container['libSodiumWrapper'] = function () {
     $sql_queries = new \Encryption\LibSodiumWrapper();
     return $sql_queries;
 };
 
 // Container for the Base64 Wrapper class
-$container['sqlQueries'] = function () {
+$container['base64Wrapper'] = function () {
     $sql_queries = new \Encryption\Base64Wrapper();
     return $sql_queries;
 };
 
 // Container for the BycryptWrapper class
-$container['sqlQueries'] = function () {
+$container['bycryptWrapper'] = function () {
     $sql_queries = new \Encryption\BycryptWrapper();
     return $sql_queries;
 };
 
 // Container for the Validator class
-$container['sqlQueries'] = function () {
-    $sql_queries = new \FootballTriviaGame\Vadlidator();
+$container['validator'] = function () {
+    $sql_queries = new \FootballTriviaGame\Validator();
     return $sql_queries;
 };
 
