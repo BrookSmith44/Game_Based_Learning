@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '0f7e56cc146c9fd992124da456fc253c33ba4dfe',
+    'reference' => '52a915dd84f0f0988d8820cd86940a43cd0944fd',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,16 @@
       'aliases' => 
       array (
       ),
-      'reference' => '0f7e56cc146c9fd992124da456fc253c33ba4dfe',
+      'reference' => '52a915dd84f0f0988d8820cd86940a43cd0944fd',
+    ),
+    'monolog/monolog' => 
+    array (
+      'pretty_version' => '2.2.0',
+      'version' => '2.2.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '1cb1cde8e8dd0f70cc0fe51354a59acad9302084',
     ),
     'nikic/fast-route' => 
     array (
@@ -61,6 +70,22 @@
       'provided' => 
       array (
         0 => '1.0',
+      ),
+    ),
+    'psr/log' => 
+    array (
+      'pretty_version' => '1.1.3',
+      'version' => '1.1.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '0f73288fd15629204f9d42b7055f72dacbe811fc',
+    ),
+    'psr/log-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '1.0.0',
       ),
     ),
     'slim/slim' => 

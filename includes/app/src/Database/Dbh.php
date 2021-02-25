@@ -12,6 +12,7 @@ namespace Database;
      private $prepared_statement;
      private $sql_queries;
      private $errors;
+     private $logger;
 
      // Methods
      public function __construct() {
@@ -19,16 +20,9 @@ namespace Database;
          $this->db_handle = null;
          $this->prepared_statement = null;
          $this->sql_queries = null;
+         $this->logger = null;
          $this->errors = [];
      }
-
-     /*protected function db_connect() {
-        $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbName;
-        $pdo = new \PDO($dsn, $this->username, $this->password);
-        $pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
-
-        return $pdo;
-     }*/
 
      public function setDbConnectionSettings($db_connection_settings) {
          $this->db_connection_settings = $db_connection_settings;
@@ -62,6 +56,35 @@ namespace Database;
 
      public function setSQLQueries($sql_queries) {
          $this->sql_queries = $sql_queries;
+     }
+
+     public function setLogger($logger) {
+         $this->logger = $logger;
+     }
+
+     // Method to store data
+     public function storeData($param_values) {
+         // Get sql query from class
+         $query_string = $this->sql_queries->insertGeneralAccount();
+
+         // Set query parameters
+         $query_parameters = [
+             ':param_username' => $param_values['username'],
+             ':param_fname' => $param_values['fname'],
+             ':param_surname' => $param_values['surname'],
+             ':param_dob' => $param_values['dob'],
+             ':param_email' => $param_values['email'],
+             ':param_pass' => $param_values['pass'],
+             ':param_ftl' => $param_values['first_time_login'],
+             ':param_da' => $param_values['date_added'],
+             ':param_student' => $param_values['student'],
+             ':param_teacher' => $param_values['teacher'],
+             ':param_admin' => $param_values['admin'],
+             ':param_general' => $param_values['general']
+         ];
+
+         // Call method to query database
+         $this->safeQuery($query_string, $query_parameters);
      }
 
      public function getValues($param_value) {

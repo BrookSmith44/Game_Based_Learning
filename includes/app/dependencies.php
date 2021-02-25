@@ -3,6 +3,10 @@
  * Dependencies
  */
 
+use \Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\FingersCrossedHandler;
+
  // Container for the view
 $container['view'] = function ($container) {
     $view = new \Slim\Views\Twig(
@@ -22,7 +26,7 @@ $container['view'] = function ($container) {
 
 // Container for the database class
 $container['dbh'] = function () {
-    $dbh = new \FootballTriviaGame\Dbh();
+    $dbh = new \Database\Dbh();
     return $dbh;
 };
 
@@ -35,7 +39,7 @@ $container['userModel'] = function () {
 
 // Container for the SQL Queries class
 $container['sqlQueries'] = function () {
-    $sql_queries = new \FootballTriviaGame\SQLQueries();
+    $sql_queries = new \Database\SQLQueries();
     return $sql_queries;
 };
 
@@ -63,3 +67,22 @@ $container['validator'] = function () {
     return $sql_queries;
 };
 
+// Logger
+$container['logger'] = function () {
+    $logger = new Logger('logger');
+
+    $session_log_notices = LOG_FILE_PATH . 'notices.log';
+    $stream_notices = new StreamHandler($session_log_notices, Logger::NOTICE);
+    $logger->pushHandler($stream_notices);
+
+    $session_log_warnings = LOG_FILE_PATH . 'warnings.log';
+    $stream_warnings = new StreamHandler($session_log_warnings, Logger::WARNING);
+    $logger->pushHandler($stream_warnings);
+
+    $logger->pushProcessor(function ($record) {
+        $record['context']['sid'] = session_id();
+        return $record;
+    });
+
+    return $logger;
+};

@@ -10,6 +10,8 @@ ini_set('html_errors', 'On');
 $app_url = dirname($_SERVER['SCRIPT_NAME']);
 // Get css path
 $css_path = $app_url . '/css/style.css?' . date('His');
+// Get log file path
+$log_file_path = '/logs/';
 // Define css path
 define('CSS_PATH', $css_path);
 // Get js path
@@ -20,6 +22,8 @@ define('JS_PATH', $js_path);
 define('BYCRYPT_ALGO', PASSWORD_DEFAULT);
 // Define bycrypt cost
 define('BYCRYPT_COST', 12);
+// Define log file path
+define('LOG_FILE_PATH', $log_file_path);
 
 // Set settings
 $settings = [

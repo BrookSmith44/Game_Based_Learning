@@ -8,8 +8,10 @@ $baseDir = dirname($vendorDir);
 return array(
     'Slim\\Views\\' => array($vendorDir . '/slim/twig-view/src'),
     'Slim\\' => array($vendorDir . '/slim/slim/Slim'),
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
+    'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'FootballTriviaGame\\' => array($baseDir . '/app/src'),
     'FastRoute\\' => array($vendorDir . '/nikic/fast-route/src'),
     'Encryption\\' => array($baseDir . '/app/src/Encryption'),
