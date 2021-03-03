@@ -12,10 +12,10 @@
 
     public function __destruct() {}
 
-    public function getFname() {
-        $query_string = "SELECT account_fname ";
+    public function getSessionData() {
+        $query_string = "SELECT account_username, account_fname, first_time_login ";
         $query_string .= "FROM fb_tr_accounts ";
-        $query_string .= "WHERE account_fname = :param_value ";
+        $query_string .= "WHERE account_username = :param_username ";
         return $query_string;
     }
 

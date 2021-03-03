@@ -84,19 +84,22 @@ namespace Database;
          ];
 
          // Call method to query database
-         $this->safeQuery($query_string, $query_parameters);
+        $store_result =  $this->safeQuery($query_string, $query_parameters);
+
+        return $store_result;
      }
 
      public function getValues($param_value) {
-        $query_string = $this->sql_queries->getFname();
+        $query_string = $this->sql_queries->getSessionData();
 
         $query_parameters = [
-            ':param_value' => $param_value
+            ':param_username' => $param_value
         ];
 
         $this->safeQuery($query_string, $query_parameters);
 
         $results = $this->prepared_statement->fetch();
+        
         return $results;
      }
 

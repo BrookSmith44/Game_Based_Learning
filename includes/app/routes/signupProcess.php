@@ -30,7 +30,7 @@
 
  // Functions
  // Function to clean form values
- function cleanFormValues($app, $form_values) {
+ function cleanFormValues($app, $form_values): array {
   // empty array for cleaned values
   $cleaned_values = [];
 
@@ -50,7 +50,7 @@
  }
 
  // Function to encrypt form values
-function encrypt($app, $cleaned_values) {
+function encrypt($app, $cleaned_values): array {
     // Get lib sodium container
     $libsodium = $app->getContainer()->get('libSodiumWrapper');
     
@@ -68,7 +68,7 @@ function encrypt($app, $cleaned_values) {
 }
 
 // Function to encode encrypted data 
-function encode ($app, $encrypted_data) {
+function encode ($app, $encrypted_data): array {
     // Get base64 container
     $base64 = $app->getContainer()->get('base64Wrapper');
 
@@ -129,10 +129,11 @@ function decrypt($app, $encoded): array {
 }
 
 // Upload user data to accounts table
-function storeData($app, $encoded, $cleaned_values) {
+function storeData($app, $encoded, $cleaned_values): bool {
     // get containers
     $db = $app->getContainer()->get('dbh');
     $user_model = $app->getContainer()->get('userModel');
+    $session_wrapper = $app->getContainer()->get('sessionWrapper');
     $sql_queries = $app->getContainer()->get('sqlQueries');
     $logger = $app->getContainer()->get('logger');
     $db_config = $app->getContainer()->get('settings');
@@ -151,9 +152,13 @@ function storeData($app, $encoded, $cleaned_values) {
     $user_model->setDbConnectionSettings($db_connection_settings);
     $user_model->setDb($db);
     $user_model->setSQLQueries($sql_queries);
+    $user_model->setSessionWrapper($session_wrapper);
     $user_model->setLogger($logger);
 
     // Store user data
-    $store_results = $user_model->storeGeneralAccountData();
-    
+    $store_results = $user_model->signupStorage();
+
+    var_dump($_SESSION['username']);
+
+    return $store_results;
 }

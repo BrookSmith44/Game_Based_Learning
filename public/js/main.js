@@ -1,21 +1,25 @@
 // Function to switch to sign up
-function signupSwitch() {
-    /*
-    // Get Elements
-    // Signup div
-    const signup_div = document.getElementById('signup-content-div');
-    // Login div
-    const login_div = document.getElementById('login-content-div');
-    // Form wrapper
-    const form_wrapper = document.getElementById('signin-form-wrapper');
+function validateForm() {
+    // get input by IDs
+    const inputs = document.forms['signup-form'];
 
-    // Change width
-    signup_div.style.width = '60%';
-    login_div.style.width = '40%';
-    // Hide wrapper content
-    form_wrapper.style.opacity = '0';
-    */
+    // Empty variable for validation
+    let validated;
+
+    // Instantiate Object
+    const validate_form = new Validate(inputs);
+
+    console.log(validate_form);
+    
+    // Call method to check all the inputs have been filled in 
+    const inputs_filled = validate_form.checkDataEntered();
+
+    return inputs_filled;
 }
+
+
+
+
 
 $('#btn-signup').click(function() {
     // Change width 

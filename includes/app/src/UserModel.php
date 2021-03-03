@@ -17,6 +17,7 @@
      private $db_connection_settings;
      private $db;
      private $sql_queries;
+     private $session_wrapper;
      private $logger;
  
     // Methods
@@ -30,6 +31,7 @@
         $this->results = null;
         $this->sql_queries = null;
         $this->db_connection_settings = null;
+        $this->session_wrapper = null;
         $this->logger = null;
     }
 
@@ -72,6 +74,10 @@
         $this->sql_queries = $sql_queries;
     }
 
+    public function setSessionWrapper($session_wrapper) {
+        $this->session_wrapper = $session_wrapper;
+    }
+
     public function setLogger($logger) {
         $this->logger = $logger;
     }
@@ -84,7 +90,7 @@
     }
 
     // Method to store user account data
-    public function storeGeneralAccountData() {
+    public function signupStorage() {
         $this->connect();
 
         // Empty array for data to store
@@ -103,13 +109,26 @@
         $data_to_store['admin'] = 'N';
         $data_to_store['general'] = 'Y';
 
-        $this->db->storeData($data_to_store);
+        // Call database handle to store data 
+        $store_results = $this->db->storeData($data_to_store);
+
+        if ($store_results === false) {
+            // Get session data
+            $session_data = $this->getSessionData();
+            var_dump($session_data);
+            $this->session_wrapper->setLogger($this->logger);
+            $this->session_wrapper->setSessionVar('username', $this->username);
+        }
+
+        return $store_results;
 
     }
 
-    public function getData() {
+    public function getSessionData() {
         $this->connect();
 
-        return $this->db->getValues($param_value);
+        $store_results = $this->db->getValues($this->username);
+
+        return $store_results;
     }
 }

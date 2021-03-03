@@ -36,6 +36,12 @@ $container['userModel'] = function () {
     return $database_model;
 };
 
+// Container for the session wrapper class
+$container['sessionWrapper'] = function () {
+    $session_wrapper = new \Database\SessionWrapper();
+    return $session_wrapper;
+};
+
 
 // Container for the SQL Queries class
 $container['sqlQueries'] = function () {
@@ -45,26 +51,26 @@ $container['sqlQueries'] = function () {
 
 // Container for the LibSodium Wrapper class
 $container['libSodiumWrapper'] = function () {
-    $sql_queries = new \Encryption\LibSodiumWrapper();
-    return $sql_queries;
+    $libsodium = new \Encryption\LibSodiumWrapper();
+    return $libsodium;
 };
 
 // Container for the Base64 Wrapper class
 $container['base64Wrapper'] = function () {
-    $sql_queries = new \Encryption\Base64Wrapper();
-    return $sql_queries;
+    $base64 = new \Encryption\Base64Wrapper();
+    return $base64;
 };
 
 // Container for the BycryptWrapper class
 $container['bycryptWrapper'] = function () {
-    $sql_queries = new \Encryption\BycryptWrapper();
-    return $sql_queries;
+    $bycrypt = new \Encryption\BycryptWrapper();
+    return $bycrypt;
 };
 
 // Container for the Validator class
 $container['validator'] = function () {
-    $sql_queries = new \FootballTriviaGame\Validator();
-    return $sql_queries;
+    $validator = new \FootballTriviaGame\Validator();
+    return $validator;
 };
 
 // Logger

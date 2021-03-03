@@ -15,9 +15,13 @@ $log_file_path = '/logs/';
 // Define css path
 define('CSS_PATH', $css_path);
 // Get js path
-$js_path = $app_url . '/js/javascript.js?' . date('His');
+$validate = $app_url . '/js/classes/Validate.js?' . date('His');
+// Get js path
+$js_path = $app_url . '/js/main.js?' . date('His');
 // Define the js path
 define('JS_PATH', $js_path);
+// Define the js path
+define('VALIDATE', $validate);
 // Define bycrypt algorithm
 define('BYCRYPT_ALGO', PASSWORD_DEFAULT);
 // Define bycrypt cost

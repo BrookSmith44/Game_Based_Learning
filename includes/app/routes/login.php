@@ -13,6 +13,7 @@
     [
         'css_path' => CSS_PATH,
         'js_path' => JS_PATH,
+        'validate' => VALIDATE,
         'page_title' => 'Football Game-Based-Learning',
         'page_heading' => 'Log In',
         'signin' => 'Sign In',
