@@ -139,6 +139,9 @@ function storeData($app, $encoded, $cleaned_values): bool {
     $db_config = $app->getContainer()->get('settings');
     $db_connection_settings = $db_config['pdo_settings'];
 
+    $base64 = $app->getContainer()->get('base64Wrapper');
+    $libsodium = $app->getContainer()->get('libSodiumWrapper');
+
     // Empty string for store result
     $store_result = '';
 
@@ -154,11 +157,11 @@ function storeData($app, $encoded, $cleaned_values): bool {
     $user_model->setSQLQueries($sql_queries);
     $user_model->setSessionWrapper($session_wrapper);
     $user_model->setLogger($logger);
+    $user_model->setLibsodiumWrapper($libsodium);
+    $user_model->setBase64Wrapper($base64);
 
     // Store user data
-    $store_results = $user_model->signupStorage();
+    $store_result = $user_model->signupStorage();
 
-    var_dump($_SESSION['username']);
-
-    return $store_results;
+    return $store_result;
 }

@@ -35,7 +35,7 @@ namespace Database;
          // Set local variables
          $db_settings = $this->db_connection_settings;
          $host_name = $db_settings['rdbms'] . ':host=' . $db_settings['host'];
-         $port_number = ';port=' . '3306';
+         $port_number = ';port=' . $db_settings['port'];
          $user_db = ';dbname=' . $db_settings['db_name'];
          $host_details = $host_name . $port_number . $user_db;
          $username = $db_settings['username'];
@@ -104,6 +104,7 @@ namespace Database;
      }
 
      public function safeQuery($query_string, $params = null) {
+        $store_result = false;
         $this->errors['db_error'] = false;
         $query_parameters = $params;
 
@@ -111,6 +112,7 @@ namespace Database;
             $this->prepared_statement = $this->db_handle->prepare($query_string);
             $execute_result = $this->prepared_statement->execute($query_parameters);
             $this->errors['execute-OK'] = $execute_result;
+            $store_result = true;
         } 
         catch (PDOException $exception_object) {
             $error_message = 'PDO Exception caught.';
@@ -122,6 +124,6 @@ namespace Database;
             $this->errors['sql_error'] = $error_message;
         }
 
-        return $this->errors['db_error'];
+        return $store_result;
      }
  }

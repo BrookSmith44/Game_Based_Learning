@@ -18,6 +18,8 @@
      private $db;
      private $sql_queries;
      private $session_wrapper;
+     private $libsodium_wrapper;
+     private $base64_wrapper;
      private $logger;
  
     // Methods
@@ -32,6 +34,8 @@
         $this->sql_queries = null;
         $this->db_connection_settings = null;
         $this->session_wrapper = null;
+        $this->libsodium_wrapper = null;
+        $this->base64_wrapper = null;
         $this->logger = null;
     }
 
@@ -78,6 +82,14 @@
         $this->session_wrapper = $session_wrapper;
     }
 
+    public function setLibsodiumWrapper($libsodium_wrapper) {
+        $this->libsodium_wrapper = $libsodium_wrapper;
+    }
+
+    public function setBase64Wrapper($base64_wrapper) {
+        $this->base64_wrapper = $base64_wrapper;
+    }
+
     public function setLogger($logger) {
         $this->logger = $logger;
     }
@@ -91,6 +103,7 @@
 
     // Method to store user account data
     public function signupStorage() {
+        // Connect
         $this->connect();
 
         // Empty array for data to store
@@ -110,25 +123,39 @@
         $data_to_store['general'] = 'Y';
 
         // Call database handle to store data 
-        $store_results = $this->db->storeData($data_to_store);
+        $store_result = $this->db->storeData($data_to_store);
 
-        if ($store_results === false) {
-            // Get session data
-            $session_data = $this->getSessionData();
-            var_dump($session_data);
-            $this->session_wrapper->setLogger($this->logger);
-            $this->session_wrapper->setSessionVar('username', $this->username);
+        // Check to see if data was stored successfully
+        if ($store_result === true) {
+           $this->setSessionData();
         }
 
-        return $store_results;
+        return $store_result;
 
     }
 
-    public function getSessionData() {
-        $this->connect();
+    public function setSessionData() { 
+        // Create empty array for storage results
+        $store_results = [];
+        // Set store result to false initially
+        $store_result = false;
 
-        $store_results = $this->db->getValues($this->username);
+        // Decrypt first name to put into session variable
+        $decrypted_data['fname'] = $this->libsodium_wrapper->decryption(
+            $this->base64_wrapper,
+            $this->fname
+        );
 
-        return $store_results;
+        // Call methods to create session vairables
+        $store_results['username'] = $this->session_wrapper->setSessionVar('username', $this->username);
+        $store_results['fname'] = $this->session_wrapper->setSessionVar('fname', $decrypted_data['fname']);
+
+        // Check all session variables were stored successfully
+        if(count(array_unique($store_results)) === 1) {
+            $store_result = current($store_results);
+        }
+
+        // Return store result
+        return $store_result;
     }
 }
