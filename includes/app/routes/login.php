@@ -30,4 +30,4 @@
         'signup' => 'Sign Up',
         'signup_content' => 'New Here? Create An Account To Start Playing!',
     ]);
- });
+ })->setName('Login');

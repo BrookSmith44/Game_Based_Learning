@@ -29,4 +29,12 @@
     
         return $query_string;
     }
+
+    public function getAccountType() {
+        $query_string = "SELECT first_time_login, student, teacher, admin, general ";
+        $query_string .= "FROM fb_tr_accounts ";
+        $query_string .= "WHERE account_username = :param_username ";
+
+        return $query_string;
+    }
  }

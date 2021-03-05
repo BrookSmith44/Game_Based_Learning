@@ -26,7 +26,13 @@
     // Store data in database
     $store_result = storeData($app, $encoded, $cleaned_values);
 
- });
+    // Redirect user to correct page
+    $redirect = redirect($app, $store_result);
+
+    // Navigate to next page
+    return $response->withRedirect($this->router->pathFor($redirect['page'], ['err' => $redirect['err']]));
+
+ })->setName('signupProcess');
 
  // Functions
  // Function to clean form values
@@ -152,6 +158,7 @@ function storeData($app, $encoded, $cleaned_values): bool {
     $user_model->setEmail($encoded['email']);
     $user_model->setDob($cleaned_values['dob']);
     $user_model->setPassword($encoded['pass']);
+    $user_model->setFirstTimeLogin('Y');
     $user_model->setDbConnectionSettings($db_connection_settings);
     $user_model->setDb($db);
     $user_model->setSQLQueries($sql_queries);
@@ -161,7 +168,32 @@ function storeData($app, $encoded, $cleaned_values): bool {
     $user_model->setBase64Wrapper($base64);
 
     // Store user data
-    $store_result = $user_model->signupStorage();
+    $store_result = $user_model->signupProcess();
 
     return $store_result;
+}
+
+
+// Function to redirect the the user 
+function redirect($app, $store_result) {
+    // Empty initial variables
+    $redirect = [];
+
+    // get containers
+    $user_model = $app->getContainer()->get('userModel');
+
+    // If data has been stored successfully
+    if ($store_result === true) {
+        // Call method to decide where to redirect user based on account type
+        $redirect['page'] = $user_model->redirect();
+        $redirect['err'] = '';
+    } else {
+        $redirect['page'] = 'Login';
+        $redirect['err'] = 'storeErr';
+    }
+
+
+    var_dump($redirect);
+    // Return redirect array
+    return $redirect;
 }

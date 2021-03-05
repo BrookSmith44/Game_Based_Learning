@@ -89,12 +89,7 @@ namespace Database;
         return $store_result;
      }
 
-     public function getValues($param_value) {
-        $query_string = $this->sql_queries->getSessionData();
-
-        $query_parameters = [
-            ':param_username' => $param_value
-        ];
+     public function getValues($query_parameters, $query_string) {
 
         $this->safeQuery($query_string, $query_parameters);
 

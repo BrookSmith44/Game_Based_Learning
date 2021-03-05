@@ -14,6 +14,7 @@
      private $email;
      private $password;
      private $results;
+     private $first_time_login;
      private $db_connection_settings;
      private $db;
      private $sql_queries;
@@ -30,6 +31,7 @@
         $this->email = null;
         $this->dob = null;
         $this->password = null;
+        $this->first_time_login = null;
         $this->results = null;
         $this->sql_queries = null;
         $this->db_connection_settings = null;
@@ -66,6 +68,10 @@
         $this->password = $password;
     }
 
+    public function setFirstTimeLogin($first_time_login) {
+        $this->first_time_login = $first_time_login;
+    }
+
     public function setDbConnectionSettings($db_connection_settings) {
         $this->db_connection_settings = $db_connection_settings;
     }
@@ -94,6 +100,23 @@
         $this->logger = $logger;
     }
 
+    // Method to sign up user
+    public function signupProcess() {
+        // Connect
+        $this->connect();
+
+        // Store user data
+        $store_result = $this->signupStorage();
+
+        // If user data is stored successfully 
+        // Check to see if data was stored successfully
+        if ($store_result === true) {
+            $store_result = $this->setSessionData();
+         }
+
+         return $store_result;
+    }
+
     // Method to connect to database
     public function connect() {
         $this->db->setSQLQueries($this->sql_queries);
@@ -103,9 +126,6 @@
 
     // Method to store user account data
     public function signupStorage() {
-        // Connect
-        $this->connect();
-
         // Empty array for data to store
         $data_to_store = [];
 
@@ -116,7 +136,7 @@
         $data_to_store['email'] = $this->email;
         $data_to_store['pass'] = $this->password;
         $data_to_store['date_added'] = date("Y-m-d");
-        $data_to_store['first_time_login'] = 'Y';
+        $data_to_store['first_time_login'] = $this->first_time_login;
         $data_to_store['student'] = 'N';
         $data_to_store['teacher'] = 'N';
         $data_to_store['admin'] = 'N';
@@ -125,13 +145,7 @@
         // Call database handle to store data 
         $store_result = $this->db->storeData($data_to_store);
 
-        // Check to see if data was stored successfully
-        if ($store_result === true) {
-           $this->setSessionData();
-        }
-
         return $store_result;
-
     }
 
     public function setSessionData() { 
@@ -157,5 +171,40 @@
 
         // Return store result
         return $store_result;
+    }
+
+    // Method to redirect user to page
+    public function redirect() {
+        // Connect to db
+        $this->connect();
+
+        // Get query string from sql queries 
+        $query_string = $this->sql_queries->getAccountType();
+
+        // Set query parameters
+        $query_parameters = [
+            ':param_username' => $this->username
+        ];
+
+        // Query database
+        $results = $this->db->getValues($query_parameters, $query_string);
+
+        // Check to see if results have been returned
+        if(!empty($results)) {
+            // Check what type of account the user has
+            if($results['general'] == 'Y' || $results['student']) {
+                // Check to see whether user has logged in before or not
+                if($results['first_time_login'] == 'Y') {
+                    // Set redirect variables
+                    $redirect = 'TeamDetails';
+                } else {
+                    $redirect = 'PlayerHomepage';
+                }
+            } else {
+                $redirect = 'ManagementHomepage';
+            }
+        }
+
+        return $redirect;
     }
 }
