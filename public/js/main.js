@@ -1,20 +1,32 @@
 // Function to switch to sign up
 function validateForm() {
+    // Set validate caiable to false initally 
+    let validate = false;
+
     // get input by IDs
     const inputs = document.forms['signup-form'];
 
-    // Empty variable for validation
-    let validated;
+    // Empty array for validation
+    let validated = [];
 
     // Instantiate Object
     const validate_form = new Validate(inputs);
-
-    console.log(validate_form);
     
     // Call method to check all the inputs have been filled in 
-    const inputs_filled = validate_form.checkDataEntered();
+    validated['inputs_filled'] = validate_form.checkDataEntered();
 
-    return inputs_filled;
+    // Call method to check the emails match
+    validated['email_match'] = validate_form.checkValuesMatch(inputs['signup-email-input'].value, inputs['signup-cemail-input'].value);
+
+    // Call method to check the passwords match
+    validated['pass_match'] = validate_form.checkValuesMatch(inputs['signup-pass-input'].value, inputs['signup-cpass-input'].value);
+
+    // Return true if all validations have come back true
+    if (validated['inputs_filled'] === true && validated['pass_match'] === true && validated['email_match'] === true) {
+        validate = true;
+    }
+
+    return validate;
 }
 
 

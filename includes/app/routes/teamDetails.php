@@ -9,9 +9,9 @@
 
  $app->get('/teamDetails', function(Request $request, Response $response) use ($app) {
    return $this->view->render($response,
-    'homepage.html.twig',
+    'editTeam.html.twig',
     [
         'css_path' => CSS_PATH,
-        'page_heading' => 'Homepage',
+        'page_heading' => 'Team Details',
     ]);
  })->setName('TeamDetails');

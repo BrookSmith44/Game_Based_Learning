@@ -9,6 +9,8 @@ class Validate {
     checkDataEntered() {
         // Set input filled variable to false initially
         let input_filled = [];
+
+        // Loop through all form inputs
         for (var i = 0; i < this._inputs.length -1; i++) {
             if (this._inputs[i].value == "") {
                 // Change styles to red to indicate error
@@ -27,7 +29,23 @@ class Validate {
             return e === true;
         });
 
-        console.log(validate);
         return validate;
     }
+
+    // Function to check passwords match
+    checkValuesMatch(value_one, value_two) {
+        // Set password match bool to false initially
+        let pass_match = false;
+        
+        // Check if passwords match
+        if (value_one == value_two) {
+            // Set password match variable to true
+            pass_match = true;
+        }
+
+        // Return password match variable
+        return pass_match;
+    }
+
+
 }

@@ -32,7 +32,7 @@ body {
 }
 
 /* Login Page */
-#login-signup-wrapper {
+#content-wrapper {
     height: 85vh;
     width: 80vw;
     border-radius: 5%;
@@ -62,7 +62,8 @@ body {
     color: seagreen;
 }
 
-#login-content-div h1 {
+#login-content-div h1, #signup-content-div h1 {
+    font-size: 2em;
     font-weight: 1000;
     padding: 10px;
 }
@@ -204,7 +205,7 @@ body {
     
 /* Smartphones */
 @media only screen and (min-width : 400px) {
-    #login-signup-wrapper {
+    #content-wrapper {
         width: 80%;
     }
 
@@ -219,21 +220,21 @@ body {
 
 /* Surface Pro */
 @media only screen and (min-device-width : 540px) {
-    #login-signup-wrapper {
+    #content-wrapper {
         width: 80%;
     }
 }
 
 /* iPads (portrait and landscape) ----------- */
 @media only screen and (min-device-width : 768px) {
-    #login-signup-wrapper {
+    #content-wrapper {
         height: 80vh;
         width: 80%;
     }
 }
 /* Desktops and laptops ----------- */
 @media only screen  and (min-width : 1024px) {
-    #login-signup-wrapper {
+    #content-wrapper {
         height: 85vh;
         width: 60%;
     }
@@ -246,7 +247,7 @@ body {
 }
 /* Large screens ----------- */
 @media only screen  and (min-width : 1824px) {
-    #login-signup-wrapper {
+    #content-wrapper {
         height: 80vh;
 
     }
