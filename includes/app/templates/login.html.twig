@@ -18,7 +18,7 @@
             </div>
             <div class="content-div" id="signup-content-div">
                 <h1>{{ signup }}</h1>
-                <p>{{ signup_content }}</p>
+                <p id="signup-err">{{ signup_content }}</p>
 
                 <div id="signup-form-wrapper">
                     <form id="signup-form" method="post" action="{{ signup_action }}" onsubmit="return validateForm()">

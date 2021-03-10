@@ -23,6 +23,7 @@ function validateForm() {
 
     // Return true if all validations have come back true
     if (validated['inputs_filled'] === true && validated['pass_match'] === true && validated['email_match'] === true) {
+        // Set valdidate bool to true when passing all the checks
         validate = true;
     }
 
