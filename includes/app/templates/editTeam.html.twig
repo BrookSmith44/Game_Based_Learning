@@ -2,8 +2,40 @@
 {# Login/SignUp Page #}
 {% block content %}
     <div id="page-content-div">
-        <div id="content-wrapper">
+        <div id="content-wrapper" class="content-div">
             <h1>{{ heading }}</h1>
+            <p>{{ edit_team_content }}</p>
+            <form id="edit-team-form" action="{{ action }}" method="post">
+                <input class="signin-text-input" id="team-name-input" type="text" name="team_name" placeholder="{{ name }}" />
+                <label id="colour-label">{{ colour }}</label>
+                <div id="team-colour">
+                    <label for="red-team">
+                    <input class="radio" id="red-team" type="radio" name="colour" value="red" />
+                    <span id="red-radio"></span>
+                    </label>
+                    <label for="blue-team">
+                    <input class="radio" id="blue-team" type="radio" name="colour" value="blue" />
+                    <span id="blue-radio"></span>
+                    </label>
+                    <label for="yellow-team">
+                    <input class="radio" id="yellow-team" type="radio" name="colour" value="yellow" />
+                    <span id="yellow-radio"></span>
+                    </label>
+                    <label for="green-team">
+                    <input class="radio" id="green-team" type="radio" name="colour" value="green" />
+                    <span id="green-radio"></span>
+                    </label>
+                    <label for="purple-team">
+                    <input class="radio" id="purple-team" type="radio" name="colour" value="purple" />
+                    <span id="purple-radio"></span>
+                    </label>
+                    <label for="pink-team">
+                    <input class="radio" id="pink-team" type="radio" name="colour" value="pink" />
+                    <span id="pink-radio"></span>
+                    </label>
+                </div>
+                <input class="btn" id="team-submit-input" type="submit" name="team_submit" value="Start Playing!" />
+            </form>
         </div>
     </div>
 {% endblock %}

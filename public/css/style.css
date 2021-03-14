@@ -52,7 +52,8 @@ body {
 
 .content-div p {
     text-align: center;
-    padding: 20px;
+    padding: 5px;
+    color: seagreen;
 }
 
 #login-content-div {
@@ -62,10 +63,14 @@ body {
     color: seagreen;
 }
 
-#login-content-div h1, #signup-content-div h1 {
+.content-div h1 {
     font-size: 2em;
-    font-weight: 1000;
     padding: 10px;
+    color: seagreen;
+}
+
+#signup-content-div h1, #signup-content-div p {
+    color: white;
 }
 
 #signup-content-div {
@@ -142,12 +147,8 @@ body {
     
 }
 
-#signup-content-div h1{
-    margin: 20px;
-}
-
-#signup-content-div p{
-    padding: 10px;
+#signup-content-div p {
+    padding: 5px;
     text-align: center;
 }
 
@@ -199,6 +200,96 @@ body {
 #btn-signup:hover, #signup-submit-input:hover {
     background-color: seagreen;
     color: white;
+    cursor: pointer;
+}
+
+/* Team Customization Page */
+#edit-team-form {
+    width: 73%;
+    margin: .5em 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#team-name-input {
+    width: 100%;
+}
+
+#colour-label {
+    color: seagreen;
+    padding: 1em 0;
+}
+
+#team-colour {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#edit-team-form label > input[type="radio"] {
+    display: none;
+}
+
+#edit-team-form label > input[type="radio"] + *::before {
+    content: "";
+    display: inline-block;
+    vertical-align: bottom;
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
+    border: 1px solid seagreen;
+    cursor: pointer;
+    transition: .5s width, .5s height, .5s border;
+}
+
+#edit-team-form label > input[type="radio"] + #red-radio::before {
+    background-color: red;
+}
+
+#edit-team-form label > input[type="radio"] + #blue-radio::before {
+    background-color: lightblue;
+}
+
+#edit-team-form label > input[type="radio"] + #yellow-radio::before {
+    background-color: yellow;
+}
+
+#edit-team-form label > input[type="radio"] + #green-radio::before {
+    background-color: green;
+}
+
+#edit-team-form label > input[type="radio"] + #purple-radio::before {
+    background-color: darkorchid;
+}
+
+#edit-team-form label > input[type="radio"] + #pink-radio::before {
+    background-color: pink;
+}
+
+#edit-team-form label > input[type="radio"] + *:hover::before {
+    border: 5px solid seagreen;
+}
+
+#edit-team-form label > input[type="radio"]:checked + *::before {
+    background-color: red;
+    border: 2px solid seagreen;
+    width: 2.4em;
+    height: 2.4em;
+}
+
+#team-submit-input {
+    width: 50%;
+    margin: 3em 25% 0 25%;
+    background-color: seagreen;
+    color: white;
+    border: 2px solid seagreen;
+}
+
+#team-submit-input:hover {
+    background-color: white;
+    color: seagreen;
     cursor: pointer;
 }
 

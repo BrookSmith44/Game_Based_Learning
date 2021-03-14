@@ -11,7 +11,7 @@ $app_url = dirname($_SERVER['SCRIPT_NAME']);
 // Get css path
 $css_path = $app_url . '/css/style.css?' . date('His');
 // Get log file path
-$log_file_path = '/logs/';
+$log_file_path = 'Football_Trivia_Game/logs/';
 // Define css path
 define('CSS_PATH', $css_path);
 // Get js path
@@ -46,7 +46,7 @@ $settings = [
             'rdbms' => 'mysql',
             'host' => 'localhost',
             'db_name' => 'fb_tr_db',
-            'port' => '3360',
+            'port' => '3306',
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8',

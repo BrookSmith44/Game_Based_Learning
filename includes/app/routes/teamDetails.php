@@ -13,5 +13,10 @@
     [
         'css_path' => CSS_PATH,
         'page_heading' => 'Team Details',
+        'heading' => 'Create Team',
+        'edit_team_content' => 'Fill out the details of your team',
+        'name' => 'Team Name',
+        'colour' => 'Choose Your Team Colour: ',
+        'action' => '/football_trivia_game/public/createTeamProcess'
     ]);
  })->setName('TeamDetails');

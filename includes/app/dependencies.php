@@ -3,7 +3,7 @@
  * Dependencies
  */
 
-use \Monolog\Logger;
+use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\FingersCrossedHandler;
 
@@ -77,12 +77,12 @@ $container['validator'] = function () {
 $container['logger'] = function () {
     $logger = new Logger('logger');
 
-    $session_log_notices = LOG_FILE_PATH . 'notices.log';
-    $stream_notices = new StreamHandler($session_log_notices, Logger::NOTICE);
+    $log_notices = LOG_FILE_PATH . 'notices.log';
+    $stream_notices = new StreamHandler($log_notices, Logger::NOTICE);
     $logger->pushHandler($stream_notices);
 
-    $session_log_warnings = LOG_FILE_PATH . 'warnings.log';
-    $stream_warnings = new StreamHandler($session_log_warnings, Logger::WARNING);
+    $log_warnings = LOG_FILE_PATH . 'warnings.log';
+    $stream_warnings = new StreamHandler($log_warnings, Logger::WARNING);
     $logger->pushHandler($stream_warnings);
 
     $logger->pushProcessor(function ($record) {
