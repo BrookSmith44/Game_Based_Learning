@@ -223,9 +223,11 @@ body {
 
 #team-colour {
     width: 100%;
+    height: 6em;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
 #edit-team-form label > input[type="radio"] {
