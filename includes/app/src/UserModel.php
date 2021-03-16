@@ -121,6 +121,7 @@
     public function connect() {
         $this->db->setSQLQueries($this->sql_queries);
         $this->db->setDbConnectionSettings($this->db_connection_settings);
+        $this->db->setLogger($this->logger);
         $this->db->makeDbConnection();
     }
 
@@ -129,21 +130,24 @@
         // Empty array for data to store
         $data_to_store = [];
 
-        $data_to_store['username'] = $this->username;
-        $data_to_store['fname'] = $this->fname;
-        $data_to_store['surname'] = $this->surname;
-        $data_to_store['dob'] = $this->dob;
-        $data_to_store['email'] = $this->email;
-        $data_to_store['pass'] = $this->password;
-        $data_to_store['date_added'] = date("Y-m-d");
-        $data_to_store['first_time_login'] = $this->first_time_login;
-        $data_to_store['student'] = 'N';
-        $data_to_store['teacher'] = 'N';
-        $data_to_store['admin'] = 'N';
-        $data_to_store['general'] = 'Y';
+        // Get sql query from class
+        $query_string = $this->sql_queries->insertGeneralAccount();
+
+        // Set query parameters
+        $query_parameters = [
+            ':param_username' => $this->username,
+            ':param_fname' => $this->fname,
+            ':param_surname' => $this->surname,
+            ':param_dob' => $this->dob,
+            ':param_email' => $this->email,
+            ':param_pass' => $this->password,
+            ':param_ftl' => $this->first_time_login,
+            ':param_da' => date("Y-m-d"),
+            ':param_acc_type' => 'General'
+        ];
 
         // Call database handle to store data 
-        $store_result = $this->db->storeData($data_to_store);
+        $store_result = $this->db->storeData($query_parameters, $query_string);
 
         return $store_result;
     }
@@ -159,6 +163,9 @@
             $this->base64_wrapper,
             $this->fname
         );
+
+        // Set session logger
+        $this->session_wrapper->setLogger($this->logger);
 
         // Call methods to create session vairables
         $store_results['username'] = $this->session_wrapper->setSessionVar('username', $this->username);
@@ -189,10 +196,11 @@
         // Query database
         $results = $this->db->getValues($query_parameters, $query_string);
 
+        var_dump($results);
         // Check to see if results have been returned
         if(!empty($results)) {
             // Check what type of account the user has
-            if($results['general'] == 'Y' || $results['student']) {
+            if($results['account_type'] == 'General' || $results['account_type'] == 'Student') {
                 // Check to see whether user has logged in before or not
                 if($results['first_time_login'] == 'Y') {
                     // Set redirect variables

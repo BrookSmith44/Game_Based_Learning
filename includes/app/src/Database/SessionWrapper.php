@@ -37,9 +37,10 @@
                     // Compare session variable and value parameter
                     if (strcmp($_SESSION[$key], $value) == 0) {
                         $set_successful = true;
+                        $this->logger->notice('Session key ' . $key . ' set successfully!');
                     } 
                 } catch (Exception $e) {
-                    $this->logger->warning = "Failed to set session variable";
+                    $this->logger->warning("Failed to set session variable");
                 }
             }
 
@@ -62,9 +63,10 @@
             if(!isset($_SESSION[$key])) {
                 // Set success variable to true
                 $unset_successful = true;
+                $this->logger->notice('Session key ' . $key . ' unset successfully!');
             }
         } catch (Exception $e) {
-            $this->logger->warning = "Failed to unset session variable";
+            $this->logger->warning("Failed to unset session variable");
         }
 
         // return success variable
@@ -83,7 +85,7 @@
             }
 
         } catch (Exception $e) {
-            $this->logger->warning = "Falied to get session variable";
+            $this->logger->warning("Falied to get session variable");
         }
         // return session value
         return $session_value;

@@ -45,10 +45,12 @@ namespace Database;
          try {
             $pdo_handle = new \PDO($host_details, $username, $password, $pdo_attributes);
             $this->db_handle = $pdo_handle;
+            $this->logger->notice("Connected to database successfully!");
          }
          catch(\PDOException $exception_object) {
             trigger_error('Error connection to the database');
             $pdo_error = 'Error connection to the database';
+            $this->logger->warning("Failed to connect to database!");
          }
 
          return $pdo_error;
@@ -63,26 +65,8 @@ namespace Database;
      }
 
      // Method to store data
-     public function storeData($param_values) {
-         // Get sql query from class
-         $query_string = $this->sql_queries->insertGeneralAccount();
-
-         // Set query parameters
-         $query_parameters = [
-             ':param_username' => $param_values['username'],
-             ':param_fname' => $param_values['fname'],
-             ':param_surname' => $param_values['surname'],
-             ':param_dob' => $param_values['dob'],
-             ':param_email' => $param_values['email'],
-             ':param_pass' => $param_values['pass'],
-             ':param_ftl' => $param_values['first_time_login'],
-             ':param_da' => $param_values['date_added'],
-             ':param_student' => $param_values['student'],
-             ':param_teacher' => $param_values['teacher'],
-             ':param_admin' => $param_values['admin'],
-             ':param_general' => $param_values['general']
-         ];
-
+     public function storeData($query_parameters, $query_string) {
+ 
          // Call method to query database
         $store_result =  $this->safeQuery($query_string, $query_parameters);
 
@@ -117,6 +101,7 @@ namespace Database;
             // Log this
             $this->errors['db_errors'] = true;
             $this->errors['sql_error'] = $error_message;
+            $this->logger->warning($error_message);
         }
 
         return $store_result;

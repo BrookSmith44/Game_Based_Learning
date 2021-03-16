@@ -30,11 +30,18 @@ $container['dbh'] = function () {
     return $dbh;
 };
 
-// Container for the database model class
+// Container for the user model class
 $container['userModel'] = function () {
     $database_model = new \FootballTriviaGame\UserModel();
     return $database_model;
 };
+
+// Container for the teab model class
+$container['teamModel'] = function () {
+    $database_model = new \FootballTriviaGame\TeamModel();
+    return $database_model;
+};
+
 
 // Container for the session wrapper class
 $container['sessionWrapper'] = function () {
@@ -73,16 +80,26 @@ $container['validator'] = function () {
     return $validator;
 };
 
-// Logger
-$container['logger'] = function () {
-    $logger = new Logger('logger');
+// Create container for two different kind of loggers
+// One logger will handles notices and the other handles warning
+$container['logger'] = function() {
+    // Instantiate logger
+  $logger = new Logger('logger');
 
-    $log_notices = LOG_FILE_PATH . 'notices.log';
-    $stream_notices = new StreamHandler($log_notices, Logger::NOTICE);
+  // Notices logger
+    // Set notices log path
+    $notices_log = LOG_FILE_PATH . 'notices.log';
+    // Create stream handler for notices logger
+    $stream_notices = new StreamHandler($notices_log, Logger::NOTICE);
+    // Push stream handler into logger object
     $logger->pushHandler($stream_notices);
 
-    $log_warnings = LOG_FILE_PATH . 'warnings.log';
-    $stream_warnings = new StreamHandler($log_warnings, Logger::WARNING);
+    // Warning logger
+    // Set warning log path
+    $warning_log = LOG_FILE_PATH . 'warnings.log';
+    // Create stream handler for warnings logger
+    $stream_warnings = new StreamHandler($warning_log, Logger::WARNING);
+    // Push stream handler into logger object
     $logger->pushHandler($stream_warnings);
 
     $logger->pushProcessor(function ($record) {
@@ -90,5 +107,6 @@ $container['logger'] = function () {
         return $record;
     });
 
+    // Return looger
     return $logger;
 };

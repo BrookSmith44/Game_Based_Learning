@@ -29,5 +29,3 @@ require $app_path . 'routes.php';
 
 // Execute app
 $app->run();
-
-session_regenerate_id(true);
