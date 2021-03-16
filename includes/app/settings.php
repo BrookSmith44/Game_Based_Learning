@@ -17,7 +17,7 @@ $validate = $app_url . '/js/classes/Validate.js?' . date('His');
 // Get js path
 $js_path = $app_url . '/js/main.js?' . date('His');
 // Get log file path
-$log_file_path = '/Football_Trivia_Game/logs/';
+$log_file_path = '/xampp/htdocs/football_trivia_game/logs/';
 // Define log file path
 define('LOG_FILE_PATH', $log_file_path);
 // Define the js path

@@ -9,7 +9,7 @@
 
  $app->get('/playerHomepage', function(Request $request, Response $response) use ($app) {
    return $this->view->render($response,
-    'homepage.html.twig',
+    'playerHomepage.html.twig',
     [
         'css_path' => CSS_PATH,
         'page_heading' => 'Homepage',

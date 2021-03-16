@@ -148,8 +148,6 @@ function storeData($app, $encoded, $cleaned_values): bool {
     $base64 = $app->getContainer()->get('base64Wrapper');
     $libsodium = $app->getContainer()->get('libSodiumWrapper');
 
-    $logger->notice('Test Logger');
-
     // Empty string for store result
     $store_result = '';
 

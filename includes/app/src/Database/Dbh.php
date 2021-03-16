@@ -2,6 +2,7 @@
 /** 
  * Database connection class
  */
+
 namespace Database;
 
  class Dbh {
