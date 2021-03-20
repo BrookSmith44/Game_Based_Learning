@@ -12,6 +12,8 @@
     'homepage.html.twig',
     [
         'css_path' => CSS_PATH,
+        'js_path' => JS_PATH,
+        'validate' => VALIDATE,
         'page_heading' => 'Homepage',
     ]);
  })->setName('ManagementHomepage');

@@ -1,1 +1,36 @@
 {% extends 'banner.html.twig' %}
+{% block content %}
+    <div id="page-content-div">
+        <div id="player-homepage-content" class="player-content-div">
+            <div id="team-details" class="player-bar">
+                <div class="team-details-div"></div>
+                <div class="team-details-div">
+                    <h1> {{ team_name }} </h1>
+                </div>
+                <div id="skill-rating-div" class="team-details-div">
+                    <div id="rating-container">
+                        <img src="css/images/star.png"  />
+                        <h3>{{ rating }}</h3>
+                    </div>
+                </div>
+            </div>
+            <button id="homepage-match-button" class="btn">Play Match</button>
+            <nav id="player-navbar" class="player-bar">
+            <button id="myAccount-button" class="player-buttons" onclick="openModal('accountModal', 'accountModal-close')"><h2>My Account</h2></button>
+            <button id="gamestats-button" class="player-buttons"><h2>Game Stats</h2></button>
+            </nav>
+        </div>
+        <div id="accountModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span id="accountModal-close" class="close">&times;</span>
+                    <h2>Modal Header</h2>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the Modal Body</p>
+                    <p>Some other text...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

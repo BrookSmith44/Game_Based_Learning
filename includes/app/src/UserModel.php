@@ -167,7 +167,19 @@
         // Set session logger
         $this->session_wrapper->setLogger($this->logger);
 
+        // Set parameters
+        $query_parameters = [
+            ':param_username' => $this->username
+        ];
+
+        // Reset query string to get team id
+        $query_string = $this->sql_queries->getAccountID();
+
+        // Get account id
+        $account_id = $this->db->getValues($query_parameters, $query_string);
+
         // Call methods to create session vairables
+        $store_results['account_id'] = $this->session_wrapper->setSessionVar('account_id', $account_id['account_id']);
         $store_results['username'] = $this->session_wrapper->setSessionVar('username', $this->username);
         $store_results['fname'] = $this->session_wrapper->setSessionVar('fname', $decrypted_data['fname']);
 
@@ -214,5 +226,23 @@
         }
 
         return $redirect;
+    }
+
+    public function checkUsername() {
+        // Connect to database
+        $this->connect();
+
+        // Set username parameter
+        $query_parameter = [
+            ':param_username' => $this->username
+        ];
+
+        // Get query from sql class
+        $query_string = $this->sql_queries->checkUsername();
+
+        // Execute query
+        $checked = $this->db->getValues($query_parameter, $query_string);
+
+        return $checked;
     }
 }

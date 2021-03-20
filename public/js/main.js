@@ -1,9 +1,32 @@
+// get form
+const signup_form = document.forms['signup-form'];
+
+// Run validate function on form submission
+signup_form.addEventListener("submit", (event) => {
+
+    // Validate form - Check all inputs are filled, emails match and passwords match
+    validate = validateForm();
+
+    // Do not submit form is funciton returns false bool
+    if (validate === false) {
+        // Prevent submit
+        event.preventDefault();
+    }
+});
+
+// When user clicks off usernam input
+signup_form['signup-username-input'].addEventListener("focusout", (event) => {
+    // Function to check the username
+    checkUsername(signup_form['signup-username-input'].value);
+});
+
+
 // Function to switch to sign up
 function validateForm() {
     // Set validate caiable to false initally 
     let validate = false;
 
-    // get input by IDs
+    // get form
     const inputs = document.forms['signup-form'];
 
     // Empty array for validation
@@ -30,8 +53,43 @@ function validateForm() {
     return validate;
 }
 
+// Function to check if the username has been taken
+function checkUsername(suggested_username) {
+    // Send http request to get route to check username
+    $.ajax({
+        url: '/football_trivia_game/public/checkUsername',
+        type: 'POST',
+        data: {
+            suggested_username: suggested_username,
+        },
 
+        success: function (data) {
+            console.log('it worked!');
+            console.log(data);
+        },
+        error: function () {
+            console.log('it failed!');
+        }
+    });
+}
 
+// Function to bring up modal
+function openModal(modalName, spanName) {
+    // Get the modal
+    const modal = document.getElementById(modalName);
+
+    // Get close span element
+    const span = document.getElementById(spanName);
+    
+    // change modal display to make it visible
+    modal.style.display = "flex";
+
+    // Close the modal when the close span is clicked
+    span.onclick = function() {
+        // Change modal display to none to close
+        modal.style.display = "none";
+    }
+}
 
 
 $('#btn-signup').click(function() {

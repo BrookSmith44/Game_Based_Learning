@@ -12,6 +12,8 @@
     'editTeam.html.twig',
     [
         'css_path' => CSS_PATH,
+        'js_path' => JS_PATH,
+        'validate' => VALIDATE,
         'page_heading' => 'Team Details',
         'heading' => 'Create Team',
         'edit_team_content' => 'Fill out the details of your team',

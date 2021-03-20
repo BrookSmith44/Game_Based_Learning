@@ -14,7 +14,9 @@
     // Clean values
     $cleaned_values = cleanTeamValues($app, $form_values);
 
-    $redirect = storeTeamData($app, $cleaned_values);
+    $store_result = storeTeamData($app, $cleaned_values);
+
+    $redirect = redirectCreateTeam($store_result);
 
     // Navigate to next page
     return $response->withRedirect($this->router->pathFor($redirect['page'], ['err' => $redirect['err']]));
@@ -37,7 +39,7 @@
  }
 
  // Upload user data to accounts table
-function storeTeamData($app, $cleaned_values): array {
+function storeTeamData($app, $cleaned_values) {
     // get containers
     $db = $app->getContainer()->get('dbh');
     $team_model = $app->getContainer()->get('teamModel');
@@ -53,7 +55,7 @@ function storeTeamData($app, $cleaned_values): array {
     // Set team models properties
     $team_model->setTeamName($cleaned_values['team_name']);
     $team_model->setColour($cleaned_values['colour']);
-    $team_model->setSkillRating(0);
+    $team_model->setSkillRating(100);
     $team_model->setGamesPlayed(0);
     $team_model->setGamesWon(0);
     $team_model->setGamesLost(0);
@@ -67,6 +69,10 @@ function storeTeamData($app, $cleaned_values): array {
     // Store team data
     $store_result = $team_model->createTeam();
 
+    return $store_result;
+}
+
+function redirectCreateTeam($store_result) {
     // Empty redirect array
     $redirect = [];
 

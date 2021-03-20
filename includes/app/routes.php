@@ -10,3 +10,5 @@
  require 'routes/createTeamProcess.php';
  require 'routes/managementHomepage.php';
  require 'routes/playerHomepage.php';
+ require 'routes/ajaxRequest.php';
+ require 'routes/checkUsername.php';

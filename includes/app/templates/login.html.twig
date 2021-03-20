@@ -21,7 +21,7 @@
                 <p id="signup-err">{{ signup_content }}</p>
 
                 <div id="signup-form-wrapper">
-                    <form id="signup-form" method="post" action="{{ signup_action }}" onsubmit="return validateForm()">
+                    <form id="signup-form" method="post" action="{{ signup_action }}">
                         <input class="signin-text-input" id="signup-username-input" type="text" name="signup_username" placeholder="{{ username }}" />
                         <div id="name-wrapper">
                             <input class="signin-text-input" id="signup-fname-input" type="text" name="signup_fname" placeholder="{{ fname }}" />
@@ -37,6 +37,7 @@
                     </form>
                 </div>
                 <button class="btn" id="btn-signup">{{ signup }}</button>
+                <p id="test"></p>
             </div>
         </div>
     </div>

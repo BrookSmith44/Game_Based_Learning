@@ -102,26 +102,17 @@
         // Connect to database
         $this->connect();
 
-        // Get username saved in session variable
+        // Get username and account_id saved in session variable
         $username = $this->session_wrapper->getSessionVar('username');
 
-        // Set query parameter
-        $query_parameters = [
-            ':param_username' => $username
-        ];
-
-        // Get query for account id from sql class
-        $query_string = $this->sql_queries->getAccountID();
-
-        // Get account id to set as foreign key for team
-        $user_id = $this->db->getValues($query_parameters, $query_string);
+        $account_id = $this->session_wrapper->getSessionVar('account_id');
 
         // Reset query parameters for inserting team
         $query_parameters = [
             ':param_name' => $this->team_name,
             ':param_colour' => $this->colour,
             ':param_rating' => $this->skill_rating,
-            ':param_id' => $user_id['account_id']
+            ':param_id' => $account_id
         ];
 
         // Reset query string for inserting team
@@ -132,7 +123,7 @@
 
         // Set query parameter
         $query_parameters = [
-            ':param_id' => $user_id['account_id']
+            ':param_id' => $account_id
         ];
         
         // Reset query string to get team id
@@ -155,6 +146,9 @@
         // Insert game stats into table
         $store_results['insert_stats'] = $this->db->storeData($query_parameters, $query_string);
 
+        // Set session variables
+        $store_results['session_variables'] = $this->setTeamSessionVar($team_id['team_id'], $this->team_name, $this->colour, $this->skill_rating);
+        
         // Check all data was stored successfully
         if(count(array_unique($store_results)) === 1) {
             $store_result = current($store_results);
@@ -162,5 +156,65 @@
 
         // Return storage results
         return $store_result;
+    }
+
+    // Method to set team session variables
+    public function setTeamSessionVar($team_id, $team_name, $colour, $rating) {
+        // create empty variable for store results
+        $store_results = [];
+
+        $this->session_wrapper->setLogger($this->logger);
+
+        // Set session variables
+        $store_results['team_id'] = $this->session_wrapper->setSessionVar('team_id', $team_id);
+        $store_results['team_name'] = $this->session_wrapper->setSessionVar('team_name', $team_name);
+        $store_results['colour'] = $this->session_wrapper->setSessionVar('colour', $colour);
+        $store_results['rating'] = $this->session_wrapper->setSessionVar('rating', $rating);
+
+        // Check all data was stored successfully
+        if(count(array_unique($store_results)) === 1) {
+            $store_result = current($store_results);
+        }
+
+        return $store_result;
+    }
+
+    // Method to get session variables
+    public function getTeamSessionVar() {
+        // set empty array to store session variables
+        $session_variables = [];
+
+        $this->session_wrapper->setLogger($this->logger);
+
+        $session_variables['team_id'] = $this->session_wrapper->getSessionVar('team_id');
+        $session_variables['team_name'] = $this->session_wrapper->getSessionVar('team_name');
+        $session_variables['colour'] = $this->session_wrapper->getSessionVar('colour');
+        $session_variables['rating'] = $this->session_wrapper->getSessionVar('rating');
+
+        return $session_variables;
+    }
+
+    public function getTeamData() {
+        // Set empty array for results
+        $results = [];
+
+        $this->connect();
+
+        // Get team id
+        $session_variables = $this->getTeamSessionVar();
+
+        // Set query parameter
+        $query_parameters = [
+            ':param_id' => $session_variables['team_id']
+        ];
+        
+        // query to get team data
+        $query_string = $this->sql_queries->getTeamData();
+
+        // Call method to execute query
+        $results = $this->db->getValues($query_parameters, $query_string);
+
+        // Return results
+        return $results;
     }
 }

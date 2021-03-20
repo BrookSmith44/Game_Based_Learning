@@ -295,6 +295,191 @@ body {
     cursor: pointer;
 }
 
+
+/* Player Homepage */
+
+.player-content-div {
+    height: 90%;
+    width: 90vw;
+    border-radius: 20px;
+    background-color: white;
+    opacity: 0.95;
+    box-shadow: 5px 5px 20px;
+    margin: 5px;
+    background: 
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(255, 255, 255, 0.73)),
+    url('images/boot_on_ball.jpg') no-repeat;
+    background-size: cover;
+    background-size: 100% 100%;
+}
+
+#player-homepage-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.player-bar {
+    height: 4em;
+    width: 100%;
+    background-color: seagreen;
+    color: white;
+}
+
+.player-bar h1 {
+    font-size: 1.5em;
+    text-align: center;
+}
+
+#team-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0px 3px 3px -1px gray;
+}
+
+.team-details-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 33%;
+}
+
+#team-details h3 {
+    color: seagreen;
+    font-size: 1.3em;
+    padding-right: 1em;
+    padding: 0 15% 0 35%;
+}
+
+#team-details img {
+    height: 45px;
+    width: 45px;
+    position: fixed;
+    margin-left: -35px;
+    opacity: 1;
+}
+
+#skill-rating-div {
+    justify-content: flex-end;
+}
+
+#rating-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 1.8em;
+    width: 5em;
+    border-radius: 20px 20px 0 20px;
+    background-color: white;
+    align-self: flex-start;
+}
+
+#player-navbar {
+    display: flex;
+    flex-direction: row;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0px -3px 3px gray;
+    color: white;
+}
+
+.player-buttons {
+    height: 100%;
+    width: 50%;
+    background-color: seagreen;
+    color: white;
+    transition: box-shadow .5s ease-in-out, color 1s;
+    cursor: pointer;
+}
+
+#myAccount-button {
+    border-right: 1px solid white;
+    border-radius: 0 0 0 20px;
+}
+
+#gamestats-button {
+    border-left: 1px white solid;
+    border-radius: 0 0 20px 0;
+}
+
+#myAccount-button:hover {
+    box-shadow: inset -300px 0 0 0 white;
+    color: seagreen;
+}
+
+#gamestats-button:hover {
+    box-shadow: inset 300px 0 0 0 white;
+    color: seagreen;
+}
+
+#homepage-match-button {
+    width: 10em;
+    background-color: seagreen;
+    color: white;
+    border: 2px solid seagreen;
+    transition: border .5s;
+    margin-top: 100%;
+    box-shadow: 0px 2px 15px black;
+}
+
+#homepage-match-button:hover {
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    justify-content: space-between;
+    width: 60vw;
+    height: 90%;
+    opacity: .9;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 10px gray,;
+    -webkit-animation: animateTop 1s;
+}
+
+/* Modal Header */
+.modal-header {
+    background-color: seagreen;
+    height: 15%;
+    color: white;
+    border-radius: 20px 20px 0 0;
+    top: 0;
+  }
+  
+  /* Modal Content */
+.modal-content {
+      width: 100%;
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.close {
+    color: white;
+    float: right;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@-webkit-keyframes animateTop {
+    from {bottom: -300px; opacity: 0;}
+    to {bottom: 35px; opacity: .9;}
+}
+
     
 /* Smartphones */
 @media only screen and (min-width : 400px) {
@@ -309,12 +494,38 @@ body {
     #btn-signup, #btn-signin {
         width: 100px;
     }
+
+    .player-content-div {
+        width: 90vw;
+    }
+
+    #homepage-match-button {
+        margin-top: 90%;
+    }
 }
 
 /* Surface Pro */
 @media only screen and (min-device-width : 540px) {
     #content-wrapper {
         width: 80%;
+    }
+
+    .player-content-div {
+        width: 70vw;
+    }
+
+    #homepage-match-button {
+        margin-top: 90%;
+    }
+}
+
+@media only screen and (min-device-width : 620px) {
+    .player-content-div {
+        width: 65vw;
+    }
+
+    #homepage-match-button {
+        margin-top: 90%;
     }
 }
 
@@ -323,6 +534,14 @@ body {
     #content-wrapper {
         height: 80vh;
         width: 80%;
+    }
+
+    .player-content-div {
+        width: 45vw;
+    }
+
+    #homepage-match-button {
+        margin-top: 95%;
     }
 }
 /* Desktops and laptops ----------- */
@@ -336,8 +555,28 @@ body {
         height: 20px;
         font-size: medium;
     }
+
+    .player-content-div {
+        width: 35vw;
+    }
+
+    #homepage-match-button {
+        margin-top: 85%;
+        margin-bottom: 20px;
+    }
     
 }
+
+@media only screen  and (min-width : 1524px) {
+    .player-content-div {
+        width: 30vw;
+    }
+
+    #homepage-match-button {
+        margin-top: 80%;
+    }
+}
+
 /* Large screens ----------- */
 @media only screen  and (min-width : 1824px) {
     #content-wrapper {
@@ -348,5 +587,9 @@ body {
     .signin-text-input {
         height: 40px;
         font-size: large;
+    }
+
+    .player-content-div {
+        width: 20vw;
     }
 }

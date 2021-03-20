@@ -38,6 +38,12 @@
         return $query_string;
     }
 
+    public function checkUsername() {
+        $query_string = "SELECT COUNT(*) FROM general_accounts WHERE account_username = :param_username";
+
+        return $query_string;
+    }
+
     public function getAccountID() {
         $query_string = "SELECT account_id ";
         $query_string .= "FROM general_accounts ";
@@ -57,6 +63,12 @@
 
     public function getTeamID() {
         $query_string = 'SELECT team_id FROM team WHERE user_id = :param_id ';
+
+        return $query_string;
+    }
+
+    public function getTeamData() {
+        $query_string = 'SELECT * FROM team WHERE team_id = :param_id ';
 
         return $query_string;
     }
