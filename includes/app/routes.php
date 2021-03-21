@@ -11,3 +11,5 @@
  require 'routes/managementHomepage.php';
  require 'routes/playerHomepage.php';
  require 'routes/checkUsername.php';
+ require 'routes/addTeacher.php';
+ require 'routes/addTeacherProcess.php';

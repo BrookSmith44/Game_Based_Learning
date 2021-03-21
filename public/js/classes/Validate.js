@@ -1,9 +1,11 @@
 class Validate {
 
     // Constuctor method
-    constructor(inputs, element) {
+    constructor(inputs, element, colour, radio) {
         this._inputs = inputs;
         this._element = element;
+        this._colour = colour;
+        this._radio = radio;
     }
 
     // Function to switch to sign up
@@ -22,7 +24,7 @@ class Validate {
                 // Push true to array to show input filled in
                 input_filled.push(true);
                 // Change styles to white to show input is filled
-                this._inputs[i].style.borderBottomColor = "white";
+                this._inputs[i].style.borderBottomColor = this._colour;
             }
         }
 
@@ -85,13 +87,11 @@ class Validate {
     // Function display username check response
     userNameCheckResponse(check) {
         const taken = this.classTaken();
-        console.log(taken);
-        console.log(check);
 
         // If username exists in database
         if (check == 1) {
             // Display error message to inform user username has been taken
-            this.displayMessage('This Username has been taken! <br> Please try another one', 'red', this._element);
+            this.displayMessage('This Username has been taken!', 'red', this._element);
             // Set username input border to red
             this._inputs['signup-username-input'].style.borderBottomColor = 'red';
             // Set class name to taken to indicate username has been taken
@@ -107,6 +107,32 @@ class Validate {
         }
     }
 
+    classTaken() {
+        // Get error message p tag by ID
+        const err_p = document.getElementById('signup-err');
+
+        // Check if 
+        const taken = err_p.classList.contains("taken");
+
+        return taken;
+    }
+
+    checkRadioSelected() {
+        // Set empty variable for selected
+        let selected = false;
+        // Loop to check each radio
+        for (const radio of this._radio) {
+            // If one of the radios has been selected
+            if (radio.checked) {
+                console.log(radio.value);
+                selected = true;
+                break;
+            }
+        }
+
+        return selected;
+    }
+
     // Function to display error message
     displayMessage(msg, color, element) {
         // Add error Message to P tag
@@ -117,15 +143,5 @@ class Validate {
         
         // Set font weight to bold
         element.style.fontWeight = 'bold';
-    }
-
-    classTaken() {
-        // Get error message p tag by ID
-        const err_p = document.getElementById('signup-err');
-
-        // Check if 
-        const taken = err_p.classList.contains("taken");
-
-        return taken;
     }
 }

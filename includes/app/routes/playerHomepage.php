@@ -25,7 +25,7 @@
         'css_path' => CSS_PATH,
         'js_path' => JS_PATH,
         'validate' => VALIDATE,
-        'page_heading' => 'Homepage',
+        'page_heading' => 'Player Homepage',
         'team_name' => $team_info['team_name'],
         'rating' => $team_info['rating']
     ]);

@@ -14,6 +14,6 @@
         'css_path' => CSS_PATH,
         'js_path' => JS_PATH,
         'validate' => VALIDATE,
-        'page_heading' => 'Homepage',
+        'page_heading' => 'Management Homepage',
     ]);
  })->setName('ManagementHomepage');
