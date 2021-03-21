@@ -1,8 +1,9 @@
 class Validate {
 
     // Constuctor method
-    constructor(inputs) {
+    constructor(inputs, element) {
         this._inputs = inputs;
+        this._element = element;
     }
 
     // Function to switch to sign up
@@ -32,7 +33,7 @@ class Validate {
 
         // If validate is not true display error message
         if (validate !== true) {
-            this.displayErrorMessage('All fields must be filled out!');
+            this.displayMessage('All fields must be filled out!', 'red', this._element);
         }
 
         // Return validation result
@@ -49,22 +50,82 @@ class Validate {
             // Set value match variable to true
             values_match = true;
         } else {
-            this.displayErrorMessage('Please ensure passwords and emails match!');
+            this.displayMessage('Please ensure passwords and emails match!', 'red', this._element);
         }
 
         // Return password match variable
         return values_match;
     }
 
-    // Function to display error message
-    displayErrorMessage($msg) {
-        // Get error div
-        const err_p = document.getElementById('signup-err');
+    // Function to checkUsername
+    checkUsername() {
+        // Set variables to be used in ajax call
+        const this_var = this;
+        const suggested_username = this._inputs['signup-username-input'].value;
+  
+        // Send http request to get route to check username
+         $.ajax({
+            url: '/football_trivia_game/public/checkUsername',
+            type: 'POST',
+            data: {
+                // Set data to be sent to php to username value
+                suggested_username: suggested_username,
+            },
+            // If ajax request is successful
+            success: function (data) {
+                console.log('it worked!');
+                this_var.userNameCheckResponse(data);
+            },
+            error: function () {
+                console.log('it failed!');
+            }
+        });
+    }
 
+    // Function display username check response
+    userNameCheckResponse(check) {
+        const taken = this.classTaken();
+        console.log(taken);
+        console.log(check);
+
+        // If username exists in database
+        if (check == 1) {
+            // Display error message to inform user username has been taken
+            this.displayMessage('This Username has been taken! <br> Please try another one', 'red', this._element);
+            // Set username input border to red
+            this._inputs['signup-username-input'].style.borderBottomColor = 'red';
+            // Set class name to taken to indicate username has been taken
+            this._element.classList.add('taken');
+
+        } else if (check == 0 && taken == true) {
+            // Display error message to inform user username has been taken
+            this.displayMessage('This username is available!', 'white', this._element);
+            // Set username input border to red
+            this._inputs['signup-username-input'].style.borderBottomColor = 'white';
+            // remove class name taken 
+            this._element.classList.remove('taken');
+        }
+    }
+
+    // Function to display error message
+    displayMessage(msg, color, element) {
         // Add error Message to P tag
-        err_p.innerHTML = $msg;
+        element.innerHTML = msg;
 
         // Style Error Message
-        err_p.style.color = 'red'; 
+        element.style.color = color;
+        
+        // Set font weight to bold
+        element.style.fontWeight = 'bold';
+    }
+
+    classTaken() {
+        // Get error message p tag by ID
+        const err_p = document.getElementById('signup-err');
+
+        // Check if 
+        const taken = err_p.classList.contains("taken");
+
+        return taken;
     }
 }

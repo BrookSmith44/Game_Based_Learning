@@ -18,10 +18,11 @@
             </div>
             <div class="content-div" id="signup-content-div">
                 <h1>{{ signup }}</h1>
-                <p id="signup-err">{{ signup_content }}</p>
+                <p>{{ signup_content }}</p>
+                <p id="signup-err"></p>
 
                 <div id="signup-form-wrapper">
-                    <form id="signup-form" method="post" action="{{ signup_action }}">
+                    <form id="signup-form" method="post" action="{{ signup_action }}" >
                         <input class="signin-text-input" id="signup-username-input" type="text" name="signup_username" placeholder="{{ username }}" />
                         <div id="name-wrapper">
                             <input class="signin-text-input" id="signup-fname-input" type="text" name="signup_fname" placeholder="{{ fname }}" />

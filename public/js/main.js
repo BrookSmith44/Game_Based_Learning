@@ -5,44 +5,52 @@ const signup_form = document.forms['signup-form'];
 signup_form.addEventListener("submit", (event) => {
 
     // Validate form - Check all inputs are filled, emails match and passwords match
-    validate = validateForm();
+    const validate = validateForm(signup_form);
+
+    const validator = new Validate();
+
+    validator.checkUsername();
+    
+    const taken = validator.classTaken();
 
     // Do not submit form is funciton returns false bool
-    if (validate === false) {
+    if (validate === false || taken == true) {
         // Prevent submit
         event.preventDefault();
     }
-});
+});     
 
 // When user clicks off usernam input
 signup_form['signup-username-input'].addEventListener("focusout", (event) => {
+    const element = document.getElementById('signup-err');
+    
     // Function to check the username
-    checkUsername(signup_form['signup-username-input'].value);
+    checkUsername(signup_form, element);
 });
 
 
 // Function to switch to sign up
-function validateForm() {
+function validateForm(form) {
+    // Get error message p tag by ID
+    const err_p = document.getElementById('signup-err');
+
     // Set validate caiable to false initally 
     let validate = false;
-
-    // get form
-    const inputs = document.forms['signup-form'];
 
     // Empty array for validation
     let validated = [];
 
     // Instantiate Object
-    const validate_form = new Validate(inputs);
+    const validate_form = new Validate(form, err_p);
     
     // Call method to check all the inputs have been filled in 
     validated['inputs_filled'] = validate_form.checkDataEntered();
 
     // Call method to check the emails match
-    validated['email_match'] = validate_form.checkValuesMatch(inputs['signup-email-input'].value, inputs['signup-cemail-input'].value);
+    validated['email_match'] = validate_form.checkValuesMatch(form['signup-email-input'].value, form['signup-cemail-input'].value);
 
     // Call method to check the passwords match
-    validated['pass_match'] = validate_form.checkValuesMatch(inputs['signup-pass-input'].value, inputs['signup-cpass-input'].value);
+    validated['pass_match'] = validate_form.checkValuesMatch(form['signup-pass-input'].value, form['signup-cpass-input'].value);
 
     // Return true if all validations have come back true
     if (validated['inputs_filled'] === true && validated['pass_match'] === true && validated['email_match'] === true) {
@@ -54,23 +62,12 @@ function validateForm() {
 }
 
 // Function to check if the username has been taken
-function checkUsername(suggested_username) {
-    // Send http request to get route to check username
-    $.ajax({
-        url: '/football_trivia_game/public/checkUsername',
-        type: 'POST',
-        data: {
-            suggested_username: suggested_username,
-        },
+function checkUsername(form, err_p) {
+    // Instantiate new validate object 
+    validate = new Validate(form, err_p);
 
-        success: function (data) {
-            console.log('it worked!');
-            console.log(data);
-        },
-        error: function () {
-            console.log('it failed!');
-        }
-    });
+    // Call check username function
+    validate.checkUsername();
 }
 
 // Function to bring up modal
