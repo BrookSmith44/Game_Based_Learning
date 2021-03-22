@@ -18,6 +18,8 @@ $validate = $app_url . '/js/classes/Validate.js?' . date('His');
 $js_path = $app_url . '/js/main.js?' . date('His');
 // Get log file path
 $log_file_path = '/xampp/htdocs/football_trivia_game/logs/';
+// default password
+$default = 'password';
 // Define log file path
 define('LOG_FILE_PATH', $log_file_path);
 // Define the js path
@@ -28,6 +30,8 @@ define('VALIDATE', $validate);
 define('BYCRYPT_ALGO', PASSWORD_DEFAULT);
 // Define bycrypt cost
 define('BYCRYPT_COST', 12);
+// Define default password
+define('DEFAULT_PASS', $default);
 
 // Set settings
 $settings = [

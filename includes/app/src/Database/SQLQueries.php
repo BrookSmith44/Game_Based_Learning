@@ -30,6 +30,17 @@
         return $query_string;
     }
 
+    public function insertTeacherAccount() {
+        $query_string = "INSERT INTO teacher_accounts";
+        $query_string .= "(account_username, account_fname, account_surname, account_email, ";
+        $query_string .= "account_password, date_added, first_time_login, account_type) ";
+        $query_string .= "VALUES ";
+        $query_string .= "( :param_username, :param_fname, :param_surname, :param_email, :param_pass, ";
+        $query_string .= ":param_da, :param_ftl, :param_acc_type) ";
+    
+        return $query_string;
+    }
+
     public function getAccountType() {
         $query_string = "SELECT first_time_login, account_type ";
         $query_string .= "FROM general_accounts ";
@@ -39,7 +50,19 @@
     }
 
     public function checkUsername() {
-        $query_string = "SELECT COUNT(*) FROM general_accounts WHERE account_username = :param_username";
+        $query_string = "SELECT ( ";
+        $query_string .= "SELECT COUNT(*) ";
+        $query_string .= "FROM general_accounts ";
+        $query_string .= "WHERE account_username = :param_username ";
+        $query_string .= ") AS count1, ";
+        $query_string .= "(SELECT COUNT(*) ";
+        $query_string .= "FROM teacher_accounts ";
+        $query_string .= "WHERE account_username = :param_username ";
+        $query_string .= ") AS count2, ";
+        $query_string .= "(SELECT COUNT(*) ";
+        $query_string .= "FROM student_accounts ";
+        $query_string .= "WHERE account_username = :param_username ";
+        $query_string .= ") AS count3 ";
 
         return $query_string;
     }

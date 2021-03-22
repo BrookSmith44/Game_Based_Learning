@@ -77,6 +77,7 @@ class Validate {
             success: function (data) {
                 console.log('it worked!');
                 this_var.userNameCheckResponse(data);
+                console.log(data);
             },
             error: function () {
                 console.log('it failed!');

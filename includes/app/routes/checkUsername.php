@@ -11,8 +11,8 @@
     $cleaned_values = validateUsername($app, $form_data);
     
     $check = checkUsername($app, $cleaned_values['suggested_username']);
-
-    return $check['COUNT(*)'];
+    
+    echo $check;
 
  })->setName('test');
 

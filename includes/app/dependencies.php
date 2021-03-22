@@ -42,6 +42,11 @@ $container['teamModel'] = function () {
     return $database_model;
 };
 
+// Container for the teab model class
+$container['teacherModel'] = function () {
+    $database_model = new \FootballTriviaGame\TeacherModel();
+    return $database_model;
+};
 
 // Container for the session wrapper class
 $container['sessionWrapper'] = function () {

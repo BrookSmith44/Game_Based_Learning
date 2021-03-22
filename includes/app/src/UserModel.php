@@ -7,21 +7,21 @@
 
  class UserModel {
      // Properties
-     private $username;
-     private $fname;
-     private $surname;
+     protected $username;
+     protected $fname;
+     protected $surname;
      private $dob;
-     private $email;
-     private $password;
+     protected $email;
+     protected $password;
      private $results;
-     private $first_time_login;
-     private $db_connection_settings;
-     private $db;
-     private $sql_queries;
-     private $session_wrapper;
+     protected $first_time_login;
+     protected $db_connection_settings;
+     protected $db;
+     protected $sql_queries;
+     protected $session_wrapper;
      private $libsodium_wrapper;
      private $base64_wrapper;
-     private $logger;
+     protected $logger;
  
     // Methods
     public function __construct() {
@@ -232,6 +232,9 @@
         // Connect to database
         $this->connect();
 
+        // Empty variable for check result
+        $check_result = '';
+
         // Set username parameter
         $query_parameter = [
             ':param_username' => $this->username
@@ -241,8 +244,15 @@
         $query_string = $this->sql_queries->checkUsername();
 
         // Execute query
-        $checked = $this->db->getValues($query_parameter, $query_string);
+        $check_results = $this->db->getValues($query_parameter, $query_string);
 
-        return $checked;
+         // Check all counts were returned as 0
+         if ($check_results['count1'] == 0 && $check_results['count2'] == 0 && $check_results['count3'] == 0) {
+            $check_result = 0;
+        } else {
+            $check_result = 1;
+        }
+
+        return $check_result;
     }
 }
