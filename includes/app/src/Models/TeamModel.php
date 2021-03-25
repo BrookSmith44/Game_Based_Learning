@@ -4,7 +4,7 @@
  * Model class for the team 
  */
 
- namespace FootballTriviaGame;
+ namespace Model;
 
  class TeamModel {
     // Properties
@@ -103,7 +103,7 @@
         $this->connect();
 
         // Get username and account_id saved in session variable
-        $username = $this->session_wrapper->getSessionVar('username');
+        $this->username = $this->session_wrapper->getSessionVar('username');
 
         $account_id = $this->session_wrapper->getSessionVar('account_id');
 
@@ -147,7 +147,7 @@
         $store_results['insert_stats'] = $this->db->storeData($query_parameters, $query_string);
 
         // Set session variables
-        $store_results['session_variables'] = $this->setTeamSessionVar($team_id['team_id'], $this->team_name, $this->colour, $this->skill_rating);
+        $store_results['session_variables'] = $this->setTeamSessionVar();
         
         // Check all data was stored successfully
         if(count(array_unique($store_results)) === 1) {
@@ -159,17 +159,16 @@
     }
 
     // Method to set team session variables
-    public function setTeamSessionVar($team_id, $team_name, $colour, $rating) {
+    public function setTeamSessionVar() {
         // create empty variable for store results
         $store_results = [];
 
         $this->session_wrapper->setLogger($this->logger);
 
         // Set session variables
-        $store_results['team_id'] = $this->session_wrapper->setSessionVar('team_id', $team_id);
-        $store_results['team_name'] = $this->session_wrapper->setSessionVar('team_name', $team_name);
-        $store_results['colour'] = $this->session_wrapper->setSessionVar('colour', $colour);
-        $store_results['rating'] = $this->session_wrapper->setSessionVar('rating', $rating);
+        $store_results['team_name'] = $this->session_wrapper->setSessionVar('team_name', $this->team_name);
+        $store_results['colour'] = $this->session_wrapper->setSessionVar('colour', $this->colour);
+        $store_results['rating'] = $this->session_wrapper->setSessionVar('rating', $this->skill_rating);
 
         // Check all data was stored successfully
         if(count(array_unique($store_results)) === 1) {
@@ -186,7 +185,6 @@
 
         $this->session_wrapper->setLogger($this->logger);
 
-        $session_variables['team_id'] = $this->session_wrapper->getSessionVar('team_id');
         $session_variables['team_name'] = $this->session_wrapper->getSessionVar('team_name');
         $session_variables['colour'] = $this->session_wrapper->getSessionVar('colour');
         $session_variables['rating'] = $this->session_wrapper->getSessionVar('rating');
@@ -200,21 +198,42 @@
 
         $this->connect();
 
-        // Get team id
-        $session_variables = $this->getTeamSessionVar();
+        // Set logger for session wrapper
+        $this->session_wrapper->setLogger($this->logger);
+
+        // Get account type
+        $this->account_type = $this->session_wrapper->getSessionVar('account_type');
 
         // Set query parameter
         $query_parameters = [
-            ':param_id' => $session_variables['team_id']
+            ':param_username' => $this->username
         ];
         
         // query to get team data
-        $query_string = $this->sql_queries->getTeamData();
+        $query_string = $this->sql_queries->getTeamData($this->account_type);
 
         // Call method to execute query
         $results = $this->db->getValues($query_parameters, $query_string);
 
+        // Set class properties
+        $this->team_name = $results['team_name'];
+        $this->colour = $results['team_colour'];
+        $this->skill_rating = $results['skill_rating'];
+
         // Return results
         return $results;
+    }
+
+    // Destroy session variables 
+    public function destroySessionVar() {
+
+        // Set session wrapper logger
+        $this->session_wrapper->setLogger($this->logger);
+
+        // Call methods to destroy session vairables
+        $this->session_wrapper->unsetSessionVar('team_name');
+        $this->session_wrapper->unsetSessionVar('colour');
+        $this->session_wrapper->unsetSessionVar('rating');
+
     }
 }

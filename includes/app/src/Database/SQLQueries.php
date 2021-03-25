@@ -30,13 +30,23 @@
         return $query_string;
     }
 
+    public function loginQuery() {
+        $query_string = "SELECT account_fname, first_time_login, account_password, account_type FROM fb_tr_db.general_accounts WHERE account_username = :param_username ";
+        $query_string .= "UNION ALL ";
+        $query_string .= "SELECT account_fname, first_time_login, account_password, account_type  FROM fb_tr_db.student_accounts WHERE account_username = :param_username ";
+        $query_string .= "UNION ALL ";
+        $query_string .= "SELECT account_fname, first_time_login, account_password, account_type  FROM fb_tr_db.teacher_accounts WHERE account_username = :param_username ";
+    
+        return $query_string;
+    }
+
     public function insertTeacherAccount() {
         $query_string = "INSERT INTO teacher_accounts";
         $query_string .= "(account_username, account_fname, account_surname, account_email, ";
-        $query_string .= "account_password, date_added, first_time_login, account_type) ";
+        $query_string .= "account_password, date_added, first_time_login, account_type, admin) ";
         $query_string .= "VALUES ";
         $query_string .= "( :param_username, :param_fname, :param_surname, :param_email, :param_pass, ";
-        $query_string .= ":param_da, :param_ftl, :param_acc_type) ";
+        $query_string .= ":param_da, :param_ftl, :param_acc_type, :param_admin) ";
     
         return $query_string;
     }
@@ -90,9 +100,25 @@
         return $query_string;
     }
 
-    public function getTeamData() {
-        $query_string = 'SELECT * FROM team WHERE team_id = :param_id ';
+    public function getTeamData($account_type) {
+        // Empty string for table name
+        $table_name = '';
 
+        // Switch to decide which table to query
+        switch ($account_type) {
+            case 'General': 
+                $table_name = 'general_accounts';
+                break;
+            case 'Student':
+                $table_name = 'student_accounts';
+                break;
+        }
+
+        $query_string = 'SELECT team_name, team_colour, skill_rating FROM ' . $table_name . ' ';
+        $query_string .= 'JOIN fb_tr_db.team ON ' . $table_name . '.account_id = team.user_id ';
+        $query_string .= 'JOIN fb_tr_db.game_statistics ON team.team_id = game_statistics.team_id ';
+        $query_string .= 'WHERE ' . $table_name . '.account_username = :param_username ';
+        
         return $query_string;
     }
 
@@ -102,6 +128,27 @@
         $query_string .= 'VALUES ';
         $query_string .= '(:param_played, :param_won, :param_lost, :param_scored, :param_id) ';
 
+        return $query_string;
+    }
+
+    public function updateFirstTimeLogin($account_type) {
+        // Empty string for table name
+        $table_name = '';
+
+        // Switch to decide which table to query
+        switch ($account_type) {
+            case 'General': 
+                $table_name = 'general_accounts';
+                break;
+            case 'Student':
+                $table_name = 'student_accounts';
+                break;
+        }
+        
+        $query_string = 'UPDATE ' . $table_name . ' ';
+        $query_string .= 'SET first_time_login = :param_ftl ';
+        $query_string .= 'WHERE account_username = :param_username ';
+    
         return $query_string;
     }
  }

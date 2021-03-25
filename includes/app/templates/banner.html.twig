@@ -1,4 +1,13 @@
 {% extends 'layout.html.twig' %}
 {% block title %}{{ page_heading }}{% endblock %}
 {% block banner %}
+<header>
+{% if is_logged_in == true %}
+    <form id="singout" method="post" action="{{ logout_action }}">
+        <input id="signout-button" class="header-button" type="submit" value="{{ signout }}" />
+    </form>
+    {% else %}
+    <a href='/football_trivia_game/public/login' id="signin-link" class="header-button">{{ signin }}</a>
+    {% endif %}
+</header>
 {% endblock %}

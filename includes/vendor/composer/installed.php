@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '52a915dd84f0f0988d8820cd86940a43cd0944fd',
+    'reference' => '2a5922954c4f18c1720bf21abeae99428bf7e81a',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '52a915dd84f0f0988d8820cd86940a43cd0944fd',
+      'reference' => '2a5922954c4f18c1720bf21abeae99428bf7e81a',
     ),
     'monolog/monolog' => 
     array (
@@ -40,21 +40,21 @@
     ),
     'pimple/pimple' => 
     array (
-      'pretty_version' => 'v3.3.1',
-      'version' => '3.3.1.0',
+      'pretty_version' => 'v3.4.0',
+      'version' => '3.4.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '21e45061c3429b1e06233475cc0e1f6fc774d5b0',
+      'reference' => '86406047271859ffc13424a048541f4531f53601',
     ),
     'psr/container' => 
     array (
-      'pretty_version' => '1.0.0',
-      'version' => '1.0.0.0',
+      'pretty_version' => '1.1.1',
+      'version' => '1.1.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'b7ce3b176482dbbc1245ebf52b181af44c2cf55f',
+      'reference' => '8622567409010282b7aeebe4bb841fe98b58dcaf',
     ),
     'psr/http-message' => 
     array (

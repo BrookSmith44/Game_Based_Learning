@@ -29,6 +29,8 @@
     // Redirect user to correct page
     $redirect = redirect($app, $store_result);
 
+    var_dump($redirect);
+
     // Navigate to next page
     return $response->withRedirect($this->router->pathFor($redirect['page'], ['err' => $redirect['err']]));
 
@@ -185,8 +187,7 @@ function redirect($app, $store_result) {
     // If data has been stored successfully
     if ($store_result === true) {
         // Call method to decide where to redirect user based on account type
-        $redirect['page'] = $user_model->redirect();
-        $redirect['err'] = '';
+        $redirect = $user_model->redirect();
     } else {
         $redirect['page'] = 'Login';
         $redirect['err'] = 'storeErr';

@@ -12,6 +12,7 @@ return array(
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
+    'Model\\' => array($baseDir . '/app/src/Models'),
     'FootballTriviaGame\\' => array($baseDir . '/app/src'),
     'FastRoute\\' => array($vendorDir . '/nikic/fast-route/src'),
     'Encryption\\' => array($baseDir . '/app/src/Encryption'),

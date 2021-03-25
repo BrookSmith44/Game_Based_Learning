@@ -32,19 +32,19 @@ $container['dbh'] = function () {
 
 // Container for the user model class
 $container['userModel'] = function () {
-    $database_model = new \FootballTriviaGame\UserModel();
+    $database_model = new \Model\UserModel();
     return $database_model;
 };
 
 // Container for the teab model class
 $container['teamModel'] = function () {
-    $database_model = new \FootballTriviaGame\TeamModel();
+    $database_model = new \Model\TeamModel();
     return $database_model;
 };
 
 // Container for the teab model class
 $container['teacherModel'] = function () {
-    $database_model = new \FootballTriviaGame\TeacherModel();
+    $database_model = new \Model\TeacherModel();
     return $database_model;
 };
 

@@ -9,7 +9,8 @@
         "psr-4": {
             "FootballTriviaGame\\": "app/src/",
             "Database\\": "app/src/Database/",
-            "Encryption\\": "app/src/Encryption/"
+            "Encryption\\": "app/src/Encryption/",
+            "Model\\": "app/src/Models/"
         }
     }
 }

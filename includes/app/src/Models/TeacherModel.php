@@ -4,7 +4,7 @@
  * Handles anything to do with the teacher
  */
 
- namespace FootballTriviaGame;
+ namespace Model;
 
  class TeacherModel extends UserModel {
      // Properties
@@ -39,7 +39,8 @@
             ':param_pass' => $this->password,
             ':param_ftl' => $this->first_time_login,
             ':param_da' => date("Y-m-d"),
-            ':param_acc_type' => 'Teacher'
+            ':param_acc_type' => 'Teacher',
+            ':param_admin' => $this->admin
          ];
 
          // Get query string

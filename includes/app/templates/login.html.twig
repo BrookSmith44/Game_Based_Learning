@@ -6,9 +6,10 @@
             <div class="content-div" id="login-content-div">
                 <h1>{{ signin }}</h1>
                 <p>{{ signin_content }}</p>
+                <p id="signin-err" class="err">{{ err }}</p>
                 <div id="signin-form-wrapper">
                     <form id="signin-form" method="post" action="{{ login_action }}">
-                        <input class="signin-text-input" id="signin-email-input" type="text" name="signin_email" placeholder="{{ email }}" />
+                        <input class="signin-text-input" id="signin-username-input" type="text" name="signin_username" placeholder="{{ username }}" />
                         <input class="signin-text-input" id="signin-pass-input" type="password" name="signin_pass" placeholder="{{ pass }}" />
 
                         <input class="btn" id="signin-submit-input" type="submit" name="signin_submit" value="Sign In!" />
@@ -19,7 +20,7 @@
             <div class="content-div" id="signup-content-div">
                 <h1>{{ signup }}</h1>
                 <p>{{ signup_content }}</p>
-                <p id="signup-err"></p>
+                <p id="signup-err" class="err"></p>
 
                 <div id="signup-form-wrapper">
                     <form id="signup-form" method="post" action="{{ signup_action }}">

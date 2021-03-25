@@ -7,7 +7,15 @@
  use \Psr\Http\Message\ServerRequestInterface as Request;
  use \Psr\Http\Message\ResponseInterface as Response; 
 
- $app->get('/login', function(Request $request, Response $response) use ($app) {
+ $app->get('/login[/{err}]', function(Request $request, Response $response, $args) use ($app) {
+  // Check to see if logged in
+  $logged_in = displayHeaderButton();
+
+  if ($args['err'] == 'accessErr') {
+    // Set error message to inform user they have to be logged in to gain access to the website
+    $err_message = 'Must be logged in to gain access';
+  }
+
    return $this->view->render($response,
     'login.html.twig',
     [
@@ -16,9 +24,11 @@
         'validate' => VALIDATE,
         'page_title' => 'Football Game-Based-Learning',
         'page_heading' => 'Log In',
+        'is_logged_in' => $logged_in,
         'signin' => 'Sign In',
+        'signout' => 'Sign Out',
         'signup_action' => '/football_trivia_game/public/signupProcess',
-        'login_action' => '/loginProcess',
+        'login_action' => '/football_trivia_game/public/loginProcess',
         'signin_content' => 'Welcome back! Enter Details here To Sign In',
         'username' => 'Username',
         'fname' => 'First Name',
@@ -29,5 +39,6 @@
         'cpass' => 'Confirm Password',
         'signup' => 'Sign Up',
         'signup_content' => 'New Here? Create An Account To Start Playing!',
+        'err' => $err_message
     ]);
  })->setName('Login');

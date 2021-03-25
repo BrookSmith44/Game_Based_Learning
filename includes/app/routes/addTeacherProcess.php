@@ -95,7 +95,7 @@
 
  // Function to store teacher data
  function storeTeacherData($app, $data, $cleaned_values) {
-    // Get teacher model
+    // Get containers
     $teacher_model = $app->getContainer()->get('teacherModel');
     $db = $app->getContainer()->get('dbh');
     $db_config = $app->getContainer()->get('settings');

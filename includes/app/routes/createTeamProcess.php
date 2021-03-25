@@ -43,6 +43,7 @@ function storeTeamData($app, $cleaned_values) {
     // get containers
     $db = $app->getContainer()->get('dbh');
     $team_model = $app->getContainer()->get('teamModel');
+    $user_model = $app->getContainer()->get('userModel');
     $session_wrapper = $app->getContainer()->get('sessionWrapper');
     $sql_queries = $app->getContainer()->get('sqlQueries');
     $logger = $app->getContainer()->get('logger');
@@ -50,7 +51,7 @@ function storeTeamData($app, $cleaned_values) {
     $db_connection_settings = $db_config['pdo_settings'];
 
     // Empty string for store result
-    $store_result = '';
+    $store_result = [];
 
     // Set team models properties
     $team_model->setTeamName($cleaned_values['team_name']);
@@ -65,9 +66,17 @@ function storeTeamData($app, $cleaned_values) {
     $team_model->setSQLQueries($sql_queries);
     $team_model->setSessionWrapper($session_wrapper);
     $team_model->setLogger($logger);
+
+    // Set user model properties
+    $user_model->setDbConnectionSettings($db_connection_settings);
+    $user_model->setDb($db);
+    $user_model->setSQLQueries($sql_queries);
+    $user_model->setSessionWrapper($session_wrapper);
+    $user_model->setLogger($logger);
     
     // Store team data
-    $store_result = $team_model->createTeam();
+    $store_result['team_storage'] = $team_model->createTeam();
+    $store_result['update_ftl'] = $user_model->updateFirstTimeLogin();
 
     return $store_result;
 }
@@ -78,7 +87,7 @@ function redirectCreateTeam($store_result) {
 
     // if storeage fails send back to create team form with error message
     // If storage successful redirect to player homepage 
-    if ($store_result === true) {
+    if ($store_result['team_storage'] === true && $store_result['update_ftl'] == true) {
         $redirect['page'] = 'PlayerHomepage';
         $redirect['err'] = '';
     } else {
