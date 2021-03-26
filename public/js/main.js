@@ -1,6 +1,37 @@
+// Initiate form listeners
 formListeners();
 
+// Get teachers 
+getTeacherData();
+
+
+// Function for form listeners
 function formListeners() {
+    // Check to see if current page has sign up form before settting listeners
+    if (document.forms['signin-form'] !== undefined) {
+        // get form
+        const signup_form = document.forms['signin-form'];
+
+        // get error p tag
+        const err = document.getElementById('signin-err');
+
+        // Run validate function on form submission
+        signup_form.addEventListener("submit", (event) => {
+            
+            // Instantiate validate object
+            const validate = new Validate(signup_form, err, 'seagreen');
+
+            // Check all inputs are filled
+            const validated = validate.checkDataEntered();
+
+            // Do not submit form is funciton returns false bool
+            if (validated === false) {
+                // Prevent submit
+                event.preventDefault();
+            }
+        });  
+    }
+
     // Check to see if current page has sign up form before settting listeners
     if (document.forms['signup-form'] !== undefined) {
         // get form
@@ -13,7 +44,7 @@ function formListeners() {
             const validated = validateSignUpForm(signup_form);
             
             // Instantiate validate object
-            validate = new Validate(signup_form, signup_form['signup-username-input'], 'white');
+            const validate = new Validate(signup_form, signup_form['signup-username-input'], 'white');
 
             // Check username is not already in the database
             validate.checkUsername();
@@ -42,7 +73,6 @@ function formListeners() {
         const team_form = document.forms['edit-team-form'];
         const err_p = document.getElementById('team-err');
         const colour_radio = document.querySelectorAll('input[name="colour"]');
-        console.log(colour_radio);
 
         // Check data has been entered when submitting
         team_form.addEventListener('submit', (event) => {
@@ -72,13 +102,13 @@ function formListeners() {
         const addTeacher_form = document.getElementById('add-teacher-form');
         // Get err p tag
         const err_p = document.getElementById('add-teacher-err');
-        console.log(err_p);
+
         // Create empty validted variable
         let validated = [];
 
         addTeacher_form.addEventListener('submit', (event) => {
             // Instantiate validate object
-            validate = new Validate(addTeacher_form, err_p, 'seagreen');
+            const validate = new Validate(addTeacher_form, err_p, 'seagreen');
 
             // Check data has been entered
             validated['inputs_filled'] = validate.checkDataEntered();
@@ -86,14 +116,43 @@ function formListeners() {
             // Check emails match
             validated['emails_match'] = validate.checkValuesMatch(addTeacher_form['add-teacher-email'].value, addTeacher_form['add-teacher-cemail'].value);
 
-            console.log(validated);
-
             // Do not submit form is funciton returns false bool
             if (validated['inputs_filled'] === false || validated['emails_match'] == false) {
                 // Prevent submit
                 event.preventDefault();
             }
         });
+    }
+
+    // Check to see if current page has sign up form before settting listeners
+    if (document.forms['change-pass-form'] !== undefined) {
+        // get form
+        const change_pass_form = document.forms['change-pass-form'];
+
+        // get error p tag
+        const err = document.getElementById('change-pass-err');
+
+        // Run validate function on form submission
+        change_pass_form.addEventListener("submit", (event) => {
+            
+            // Instantiate validate object
+            const validate = new Validate(change_pass_form, err, 'seagreen');
+
+            // Set empty 
+            let validated = []
+
+            // Check all inputs are filled
+            validated['inputs_filled'] = validate.checkDataEntered();
+
+            // Make sure passwords match
+            validated['pass_match'] = validate.checkValuesMatch(change_pass_form['password-input'].value, change_pass_form['cpassword-input'].value);
+
+            // Do not submit form is funciton returns false bool
+            if (validated['inputs_filled'] === false || validated['pass_match'] == false) {
+                // Prevent submit
+                event.preventDefault();
+            }
+        });  
     }
 
 }
@@ -154,6 +213,17 @@ function openModal(modalName, spanName) {
     span.onclick = function() {
         // Change modal display to none to close
         modal.style.display = "none";
+    }
+}
+
+// function get teacher data
+function getTeacherData() {
+    if (document.getElementById('teacher-table') !== undefined) {
+        // Initiate list data class
+        const list_data = new ListData();
+
+        // get teachers 
+        let teachers = list_data.listTeachers();
     }
 }
 

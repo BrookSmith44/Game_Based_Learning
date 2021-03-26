@@ -20,6 +20,9 @@ button:focus {
 
 body {
     background-image: url("images/pitch-background.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
 }
 
 header {
@@ -39,11 +42,15 @@ header {
     cursor: pointer;
 }
 
+#home-link {
+    border: 0;
+}
+
 #signout-button {
     padding: 5px;
 }
 
-#signin-link {
+#signin-link, #home-link {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -87,7 +94,10 @@ header {
 
 .content-div p {
     text-align: center;
-    padding: 5px;
+    padding: 5px 10%;
+}
+
+.content-text {
     color: seagreen;
 }
 
@@ -177,7 +187,7 @@ header {
     cursor: pointer;
 }
 
-#signin-err {
+.err {
     font-weight: bold;
     color: red;
 }
@@ -334,6 +344,33 @@ header {
     background-color: white;
     color: seagreen;
     cursor: pointer;
+}
+
+/* Change password Form */
+#change-pass-text {
+    width: 60%;
+    padding: 20px 20%;
+}
+
+#change-pass-form {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#change-pass-submit {
+    background-color: seagreen;
+    color: white;
+    border: 2px solid seagreen;
+    transition: background-color .5s, color .5s;
+    cursor: pointer;
+}
+
+#change-pass-submit:hover {
+    background-color: white;
+    color: seagreen;
 }
 
 
@@ -527,6 +564,78 @@ header {
 @-webkit-keyframes animateTop {
     from {bottom: -300px; opacity: 0;}
     to {bottom: 35px; opacity: .9;}
+}
+
+/* Management Homepage */
+.management-link {
+    height: 10em;
+    width: 10em;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    text-decoration: none;
+    background-color: white;
+    color: seagreen;
+    box-shadow: 0px 2px 15px black;
+    border: 2px solid white;
+    border-radius: 20px;
+    opacity: 0.9;
+    transition: background-color .5s, color .5s;
+}
+
+.management-link:hover {
+    background-color: seagreen;
+    color: white;
+}
+
+/* List Teachers Page */
+table {
+    width: 100%;
+    border-spacing: 0;
+    margin-top: 10px;
+    font-weight: normal;
+}
+
+.table-header th {
+    background-color: seagreen;
+    color: white;
+    height: 10vh;
+}
+
+tr:nth-child(odd) {
+    background-color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #ccc;
+}
+
+
+
+.add-link {
+    height: 50px;
+    width: 50px;
+    margin: 10px;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    color: seagreen;
+    border-radius: 50%;
+    border: 2px solid white;
+    bottom: 0;
+    right: 0;
+    text-decoration: none;
+    font-size: 5em;
+    transition: background-color .5s, color .5s;
+}
+
+.add-link:hover {
+    background-color: seagreen;
+    color: white;
 }
 
 /* Add Teacher Form */
