@@ -186,7 +186,7 @@
         ];
 
         // Set query string
-        $query_string = $this->sql_queries->getAccountID();
+        $query_string = $this->sql_queries->getAccountID($this->account_type);
 
         // Execute query
         $results = $this->db->getValues($query_parameters, $query_string);
@@ -201,6 +201,10 @@
         $store_results['fname'] = $this->session_wrapper->setSessionVar('fname', $this->fname);
         $store_results['account_type'] = $this->session_wrapper->setSessionVar('account_type', $this->account_type);
 
+        if ($this->account_type == 'Teacher') {
+            $store_results['admin'] = $this->session_wrapper->setSessionVar('admin', $results['admin']);
+        }
+
         // Check all session variables were stored successfully
         if(count(array_unique($store_results)) === 1) {
             $store_result = current($store_results);
@@ -208,6 +212,23 @@
 
         // Return store result
         return $store_result;
+    }
+
+    // Method to get session data 
+    public function getSessionVar() {
+        // Empty array for session data
+        $session_data = [];
+        // Set session wrapper logger
+        $this->session_wrapper->setLogger($this->logger);
+
+        // Call methods to create session vairables
+        $session_data['is_logged_in'] = $this->session_wrapper->getSessionVar('is_logged_in');
+        $session_data['account_id'] = $this->session_wrapper->getSessionVar('account_id');
+        $session_data['username'] = $this->session_wrapper->getSessionVar('username');
+        $session_data['fname'] = $this->session_wrapper->getSessionVar('fname');
+        $session_data['account_type'] = $this->session_wrapper->getSessionVar('account_type');
+
+        return $session_data;
     }
 
     // Method to redirect user to page
@@ -419,6 +440,30 @@
 
         // Get query string
         $query_string = $this->sql_queries->updateFirstTimeLogin($this->account_type);
+
+        // Execute query
+        $store_result = $this->db->storeData($query_parameters, $query_string);
+
+        return $store_result;
+    }
+
+    // Method to change password in the database
+    public function updatePassword() {
+        // Connect to database
+        $this->connect();
+
+        // Set properties
+        $this->username = $this->session_wrapper->getSessionVar('username');
+        $this->account_type = $this->session_wrapper->getSessionVar('account_type');
+
+        // Set query parameters
+        $query_parameters = [
+            ':param_username' => $this->username,
+            ':param_password' => $this->password
+        ];
+
+        // Get query string
+        $query_string = $this->sql_queries->updatePassword($this->account_type);
 
         // Execute query
         $store_result = $this->db->storeData($query_parameters, $query_string);

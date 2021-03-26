@@ -16,20 +16,22 @@
     'homepage.html.twig',
     [
         'css_path' => CSS_PATH,
+        'js_path' => JS_PATH,
+        'validate' => VALIDATE,
         'page_heading' => 'Homepage',
         'is_logged_in' => $logged_in,
         'logout_action' => '/football_trivia_game/public/logoutProcess',
+        'homepage_link' => '/football_trivia_game/public/',
         'signin' => 'Sign In',
         'signout' => 'Sign Out',
     ]);
  })->setName('Homepage');
 
- function displayHeaderButton() {
+function displayHeaderButton() {
      // Check to see if session logged in is set
      if (isset($_SESSION['is_logged_in'])) {
          return true;
      } else {
          return false;
-     }
-
+    }
  }

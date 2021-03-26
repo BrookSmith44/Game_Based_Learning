@@ -85,6 +85,24 @@ $container['validator'] = function () {
     return $validator;
 };
 
+// Container for the mail class
+$container['sendMail'] = function () {
+    $send_mail = new \FootballTriviaGame\SendMail();
+    return $send_mail;
+};
+
+// Container for the email template class
+$container['emailTemplate'] = function () {
+    $send_mail = new \FootballTriviaGame\CreateEmailTemplate();
+    return $send_mail;
+};
+
+// Container for the create list class
+$container['createList'] = function () {
+    $send_mail = new \FootballTriviaGame\CreateList();
+    return $send_mail;
+};
+
 // Create container for two different kind of loggers
 // One logger will handles notices and the other handles warning
 $container['logger'] = function() {

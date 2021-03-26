@@ -20,7 +20,6 @@
    // process login details
    $redirect = processLoginDetails($app, $cleaned_values);
 
-
    // Navigate to next page
    return $response->withRedirect($this->router->pathFor($redirect['page'], ['err' => $redirect['err']]));
 

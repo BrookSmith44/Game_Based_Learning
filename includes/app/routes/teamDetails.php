@@ -25,6 +25,7 @@
         'page_heading' => 'Team Details',
         'is_logged_in' => $logged_in,
         'logout_action' => '/football_trivia_game/public/logoutProcess',
+        'homepage_link' => '/football_trivia_game/public/playerHomepage',
         'signin' => 'Sign In',
         'signout' => 'Sign Out',
         'heading' => 'Create Team',

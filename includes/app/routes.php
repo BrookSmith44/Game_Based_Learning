@@ -10,7 +10,11 @@
  require 'routes/logoutProcess.php';
  require 'routes/teamDetails.php';
  require 'routes/createTeamProcess.php';
+ require 'routes/changePassword.php';
+ require 'routes/changePasswordProcess.php';
  require 'routes/managementHomepage.php';
+ require 'routes/listTeachers.php';
+ require 'routes/getTeachers.php';
  require 'routes/playerHomepage.php';
  require 'routes/checkUsername.php';
  require 'routes/addTeacher.php';

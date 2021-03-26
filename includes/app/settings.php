@@ -60,7 +60,12 @@ $settings = [
                 \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
                 \PDO::ATTR_EMULATE_PREPARES => true,
 
-            ]
+            ]],
+        'mail_server_settings' => [
+            'host' => 'smtp.sendgrid.net',
+            'username' => 'apikey',
+            'password' => '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',
+            'port' => '587'
         ]
     ]
 ];

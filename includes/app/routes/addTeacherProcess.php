@@ -28,7 +28,11 @@
    $encoded['admin'] = $cleaned_values['admin'];
 
    // Store teacher data 
-   $store_result = storeTeacherData($app, $encoded, $cleaned_values);
+   $redirect = storeTeacherData($app, $encoded, $cleaned_values);
+
+   // Navigate to next page
+   return $response->withRedirect($this->router->pathFor($redirect['page'], ['err' => $redirect['err']]));
+
  });
 
  // Function to validate user inputs on add teacher form
@@ -65,8 +69,8 @@
 
    // Encrypt data
    $encrypted['fname'] = $libsodium->encryption($cleaned_values['fname']);
-   $encrypted['surname'] = $libsodium->encryption($cleaned_values['fname']);
-   $encrypted['email'] = $libsodium->encryption($cleaned_values['fname']);
+   $encrypted['surname'] = $libsodium->encryption($cleaned_values['surname']);
+   $encrypted['email'] = $libsodium->encryption($cleaned_values['email']);
 
    // Hash the default password before 
    $hashed_password = hashPassword($app, DEFAULT_PASS);
@@ -134,9 +138,29 @@
     // Call method to store teacher data in the database
     $store_result = $teacher_model->storeTeacherData();
 
+    $redirect = [];
+
+    // If data is stored successfullt
+   if ($store_result == true) {
+      // Send mail to recipient
+      $send_success = sendMail($app, $cleaned_values, $username);
+
+      if ($sent_success == true) {
+         $redirect['page'] = 'EmailConfirmation';
+         $redirect['err'] = '';
+
+      } else {
+         $redirect['page'] = 'AddTeacher';
+         $redirect['err'] = 'emailErr';
+      }
+   } else {
+      $redirect['page'] = 'AddTeacher';
+      $redirect['err'] = 'storeErr';
+   }
+
     // Result stored - still need to deal with storage result and send user details to user email 
 
-    return $store_result;
+    return $redirect;
  }
 
  // Function tp create username
@@ -155,3 +179,34 @@
 
     return $username;
  }
+
+ function sendMail($app, $email_details, $username) {
+   $send_success = '';
+
+    $send_mail = $app->getContainer()->get('sendMail');
+    $email_template = $app->getContainer()->get('emailTemplate');
+    $user_model = $app->getContainer()->get('userModel');
+    $settings = $app->getContainer()->get('settings');
+    $mail_server_settings = $settings['mail_server_settings'];
+    $logger = $app->getContainer()->get('logger');
+
+    $email_template->setFname($email_details['fname']);
+    $email_template->setUsername($username);
+    $email_template->setPassword(DEFAULT_PASS);
+
+    $html_template = $email_template->generateHTML();
+    $non_html_template = $email_template->generateNonHTML();
+    
+    $send_mail->setFname($email_details['fname']);
+    $send_mail->setEmailAddress($email_details['email']);
+    $send_mail->setServerSettings($mail_server_settings);
+    $send_mail->setLogger($logger);
+
+    $send_mail->setSubject('Automated Login Details');
+    $send_mail->setContent($html_template);
+    $send_mail->setNonHTMLContent($non_html_template);
+
+    $send_success = $send_mail->sendMail();
+    
+    return $send_success;
+}

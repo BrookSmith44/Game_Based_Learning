@@ -1,0 +1,18 @@
+{% extends 'banner.html.twig' %}
+{% block content %}
+<table id="teacher-table">
+    <tbody>
+        <tr class="table-header">
+            <th>Account ID</th>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Date Added</th>
+            <th></th>      
+        </tr>
+    </tbody>
+</table>
+<a href="/football_trivia_game/public/addTeacher" id="add-teaher-link" class="add-link">&#43;</a>
+
+<script src="/football_trivia_game/public/js/classes/ListData.js"></script>
+{% endblock %}

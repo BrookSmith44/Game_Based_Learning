@@ -83,6 +83,15 @@ namespace Database;
         return $results;
      }
 
+     public function getMultipleValues($query_parameters, $query_string) {
+
+        $this->safeQuery($query_string, $query_parameters);
+
+        $results = $this->prepared_statement->fetchAll();
+        
+        return $results;
+     }
+
      public function safeQuery($query_string, $params = null) {
         $store_result = false;
         $this->errors['db_error'] = false;

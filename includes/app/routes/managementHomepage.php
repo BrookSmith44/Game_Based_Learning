@@ -18,7 +18,7 @@
   $logged_in = displayHeaderButton();  
   
   return $this->view->render($response,
-    'homepage.html.twig',
+    'managementHomepage.html.twig',
     [
         'css_path' => CSS_PATH,
         'js_path' => JS_PATH,
@@ -26,6 +26,7 @@
         'page_heading' => 'Management Homepage',
         'is_logged_in' => $logged_in,
         'logout_action' => '/football_trivia_game/public/logoutProcess',
+        'homepage_link' => '/football_trivia_game/public/ManagentHomepage',
         'signin' => 'Sign In',
         'signout' => 'Sign Out',
     ]);

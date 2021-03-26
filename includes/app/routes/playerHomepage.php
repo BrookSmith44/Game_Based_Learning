@@ -29,6 +29,7 @@
         'page_heading' => 'Player Homepage',
         'is_logged_in' => $logged_in,
         'logout_action' => '/football_trivia_game/public/logoutProcess',
+        'homepage_link' => '/football_trivia_game/public/playerHomepage',
         'signin' => 'Sign In',
         'signout' => 'Sign Out',
         'team_name' => $team_info['team_name'],

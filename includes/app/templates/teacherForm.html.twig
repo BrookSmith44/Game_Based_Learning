@@ -4,8 +4,8 @@
     <div id="page-content-div">
         <div id="content-wrapper" class="content-div">
             <h1>{{ heading }}</h1>
-            <p>{{ add_teacher_content }}</p>
-            <p id="add-teacher-err"></p>
+            <p class="content-text">{{ add_teacher_content }}</p>
+            <p id="add-teacher-err" class="err">{{ err }}</p>
             <form id="add-teacher-form" method="post" action="{{action}}">
                 <div class="name-wrapper" id="teacher-name-wrapper">
                     <input class="signin-text-input" id="add-teacher-fname" type="text" name="teacher-fname" placeholder="{{ teacher_fname }}" />

@@ -77,10 +77,27 @@
         return $query_string;
     }
 
-    public function getAccountID() {
-        $query_string = "SELECT account_id ";
-        $query_string .= "FROM general_accounts ";
-        $query_string .= "WHERE account_username = :param_username ";
+    public function getAccountID($account_type) {
+        // Empty string for table name
+        $table_name = '';
+        $admin = '';
+
+        // Switch to decide which table to query
+        switch ($account_type) {
+            case 'General': 
+                $table_name = 'general_accounts';
+                break;
+            case 'Student':
+                $table_name = 'student_accounts';
+                break;
+            case 'Teacher':
+                $table_name = 'teacher_accounts';
+                $admin =', admin';
+        }
+
+        $query_string = 'SELECT account_id' . $admin . ' ';
+        $query_string .= 'FROM ' . $table_name . ' ';
+        $query_string .= 'WHERE account_username = :param_username ';
 
         return $query_string;
     }
@@ -143,12 +160,46 @@
             case 'Student':
                 $table_name = 'student_accounts';
                 break;
+            case 'Teacher':
+                $table_name = 'teacher_accounts';
+                break;
         }
         
         $query_string = 'UPDATE ' . $table_name . ' ';
         $query_string .= 'SET first_time_login = :param_ftl ';
         $query_string .= 'WHERE account_username = :param_username ';
     
+        return $query_string;
+    }
+
+    public function updatePassword($account_type) {
+        // Empty string for table name
+        $table_name = '';
+
+        // Switch to decide which table to query
+        switch ($account_type) {
+            case 'General': 
+                $table_name = 'general_accounts';
+                break;
+            case 'Student':
+                $table_name = 'student_accounts';
+                break;
+            case 'Teacher':
+                $table_name = 'teacher_accounts';
+                break;
+        }
+        
+        $query_string = 'UPDATE ' . $table_name . ' ';
+        $query_string .= 'SET account_password = :param_password ';
+        $query_string .= 'WHERE account_username = :param_username ';
+    
+        return $query_string;
+    }
+
+    public function getAllTeachers() {
+        $query_string = 'SELECT account_id, account_username, account_fname, account_surname, account_email, date_added ';
+        $query_string .= 'FROM teacher_accounts';
+
         return $query_string;
     }
  }

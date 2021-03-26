@@ -79,4 +79,24 @@
 
          return $check_result;
      }
+
+     // Method to get all the teachers in the database
+     public function getAllTeachers() {
+        // Set empty array for results
+        $results = []; 
+        
+        // connect to database
+         $this->connect();
+
+         // Set empty query parameters
+         $query_parameters = [];
+
+         // set query string 
+         $query_string = $this->sql_queries->getAllTeachers();
+
+         // Execute query
+         $results = $this->db->getMultipleValues($query_parameters, $query_string);
+
+         return $results;
+     }
  }

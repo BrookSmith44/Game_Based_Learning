@@ -11,9 +11,13 @@
   // Check to see if logged in
   $logged_in = displayHeaderButton();
 
-  if ($args['err'] == 'accessErr') {
-    // Set error message to inform user they have to be logged in to gain access to the website
-    $err_message = 'Must be logged in to gain access';
+  // Empty error message variable
+  $err_message = '';
+  if (isset($args['err'])) {
+    if ($args['err'] == 'accessErr') {
+        // Set error message to inform user they have to be logged in to gain access to the website
+        $err_message = 'Must be logged in to gain access';
+      }
   }
 
    return $this->view->render($response,
@@ -25,6 +29,7 @@
         'page_title' => 'Football Game-Based-Learning',
         'page_heading' => 'Log In',
         'is_logged_in' => $logged_in,
+        'homepage_link' => '/football_trivia_game/public/',
         'signin' => 'Sign In',
         'signout' => 'Sign Out',
         'signup_action' => '/football_trivia_game/public/signupProcess',
