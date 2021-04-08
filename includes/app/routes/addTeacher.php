@@ -33,6 +33,7 @@
         'css_path' => CSS_PATH,
         'js_path' => JS_PATH,
         'validate' => VALIDATE,
+        'list_data' => LISTDATA,
         'action' => '/football_trivia_game/public/addTeacherProcess',
         'homepage_link' => '/football_trivia_game/public/managementHomepage',
         'logout_action' => '/football_trivia_game/public/logoutProcess',

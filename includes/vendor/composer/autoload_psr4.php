@@ -14,6 +14,7 @@ return array(
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Model\\' => array($baseDir . '/app/src/Models'),
+    'Game\\' => array($baseDir . '/app/src/Game'),
     'FootballTriviaGame\\' => array($baseDir . '/app/src'),
     'FastRoute\\' => array($vendorDir . '/nikic/fast-route/src'),
     'Encryption\\' => array($baseDir . '/app/src/Encryption'),

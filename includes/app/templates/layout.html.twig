@@ -7,12 +7,20 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+{% if in_match == false %}
 {% block banner %}{% endblock %}
+{% endif %}
 {% block content %}{% endblock %}
 </body>
 <footer>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    {% if in_match == true %}
+    <script src="{{ user_team }}"></script>
+    <script src="{{ opposition_team }}"></script>
+    <script src="{{ match }}"></script>
+    {% endif %}
     <script src="{{ validate }}"></script>
+    <script src="{{ list_data }}"></script>
     <script src="{{ js_path }}"></script>
     <!--<a target="_blank" href="https://icons8.com/icons/set/star--v1">Star icon icon by </a><a target="_blank" href="https://icons8.com">Icons8</a>-->
 </footer>

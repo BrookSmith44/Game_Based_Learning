@@ -103,6 +103,18 @@ $container['createList'] = function () {
     return $send_mail;
 };
 
+// Container for the general questions class
+$container['generalQuestions'] = function () {
+    $general_questions = new \Game\GeneralQuestions();
+    return $general_questions;
+};
+
+// Container for the commentary class
+$container['commentary'] = function () {
+    $commentary = new \Game\Commentary();
+    return $commentary;
+};
+
 // Create container for two different kind of loggers
 // One logger will handles notices and the other handles warning
 $container['logger'] = function() {

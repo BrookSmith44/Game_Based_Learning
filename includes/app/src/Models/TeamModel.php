@@ -201,12 +201,13 @@
         // Set logger for session wrapper
         $this->session_wrapper->setLogger($this->logger);
 
-        // Get account type
+        // Get account type and username from session variables
         $this->account_type = $this->session_wrapper->getSessionVar('account_type');
+        $username = $this->session_wrapper->getSessionVar('username');
 
         // Set query parameter
         $query_parameters = [
-            ':param_username' => $this->username
+            ':param_username' => $username
         ];
         
         // query to get team data

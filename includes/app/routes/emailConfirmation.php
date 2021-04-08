@@ -18,6 +18,7 @@
         'css_path' => CSS_PATH,
         'js_path' => JS_PATH,
         'validate' => VALIDATE,
+        'list_data' => LISTDATA,
         'page_heading' => 'Homepage',
         'is_logged_in' => $logged_in,
         'logout_action' => '/football_trivia_game/public/logoutProcess',

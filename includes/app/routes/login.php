@@ -26,6 +26,7 @@
         'css_path' => CSS_PATH,
         'js_path' => JS_PATH,
         'validate' => VALIDATE,
+        'list_data' => LISTDATA,
         'page_title' => 'Football Game-Based-Learning',
         'page_heading' => 'Log In',
         'is_logged_in' => $logged_in,

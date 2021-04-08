@@ -26,6 +26,7 @@
         'css_path' => CSS_PATH,
         'js_path' => JS_PATH,
         'validate' => VALIDATE,
+        'list_data' => LISTDATA,
         'page_heading' => 'Player Homepage',
         'is_logged_in' => $logged_in,
         'logout_action' => '/football_trivia_game/public/logoutProcess',
@@ -65,9 +66,6 @@
   $logger = $app->getContainer()->get('logger');
   $db_config = $app->getContainer()->get('settings');
   $db_connection_settings = $db_config['pdo_settings'];
-
-  // Empty string for store result
-  $store_result = '';
 
   $team_model->setDbConnectionSettings($db_connection_settings);
   $team_model->setDb($db);

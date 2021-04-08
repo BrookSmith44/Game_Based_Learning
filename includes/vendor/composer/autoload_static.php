@@ -28,6 +28,10 @@ class ComposerStaticInitc383d1a4cb2543444b63d0f56d59bd48
             'Monolog\\' => 8,
             'Model\\' => 6,
         ),
+        'G' => 
+        array (
+            'Game\\' => 5,
+        ),
         'F' => 
         array (
             'FootballTriviaGame\\' => 19,
@@ -75,6 +79,10 @@ class ComposerStaticInitc383d1a4cb2543444b63d0f56d59bd48
         'Model\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/src/Models',
+        ),
+        'Game\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/src/Game',
         ),
         'FootballTriviaGame\\' => 
         array (

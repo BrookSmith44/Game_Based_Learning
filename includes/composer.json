@@ -11,7 +11,8 @@
             "FootballTriviaGame\\": "app/src/",
             "Database\\": "app/src/Database/",
             "Encryption\\": "app/src/Encryption/",
-            "Model\\": "app/src/Models/"
+            "Model\\": "app/src/Models/",
+            "Game\\": "app/src/Game/"
         }
     }
 }
