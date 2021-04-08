@@ -3,10 +3,23 @@ formListeners();
 
 // Get teachers 
 getTeacherData();
-
-
 // Function for form listeners
 function formListeners() {
+    // Event to run when page loads
+    window.addEventListener('load', function() {
+        // Get match div
+        const match_div = document.getElementById('match-container');
+
+        if (match_div !== undefined) {
+            // Instantiate user team, opposition team and match classes
+            const user_team = new UserTeam();
+            const opposition_team = new OppositionTeam();
+            const match = new Match(user_team, opposition_team);
+
+            match.getData();
+        }
+    });
+
     // Check to see if current page has sign up form before settting listeners
     if (document.forms['signin-form'] !== undefined) {
         // get form
@@ -14,6 +27,15 @@ function formListeners() {
 
         // get error p tag
         const err = document.getElementById('signin-err');
+
+        // When user clicks off username input
+        signup_form['signin-username-input'].addEventListener("focusout", (event) => {
+            // Get error p tag
+            const element = document.getElementById('signin-err');
+
+            // Function to check the username
+            checkUsername(signup_form, element);
+        });
 
         // Run validate function on form submission
         signup_form.addEventListener("submit", (event) => {
@@ -24,8 +46,11 @@ function formListeners() {
             // Check all inputs are filled
             const validated = validate.checkDataEntered();
 
+            // Check taken is not set to err p tag
+            const taken = validate.classTaken();
+
             // Do not submit form is funciton returns false bool
-            if (validated === false) {
+            if (validated === false || taken == true) {
                 // Prevent submit
                 event.preventDefault();
             }
@@ -59,7 +84,7 @@ function formListeners() {
             }
         });     
 
-        // When user clicks off usernam input
+        // When user clicks off username input
         signup_form['signup-username-input'].addEventListener("focusout", (event) => {
             const element = document.getElementById('signup-err');
             
@@ -67,6 +92,8 @@ function formListeners() {
             checkUsername(signup_form, element);
         });
     }
+
+    
     // Check current page has edit team form before setting listeners
     if (document.forms['edit-team-form'] != undefined) {
         // Get form by id
@@ -218,9 +245,11 @@ function openModal(modalName, spanName) {
 
 // function get teacher data
 function getTeacherData() {
-    if (document.getElementById('teacher-table') !== undefined) {
+    if (document.getElementById('teacher-table') !== null) {
         // Initiate list data class
         const list_data = new ListData();
+        
+        console.log(document.getElementById('teacher-table'));
 
         // get teachers 
         let teachers = list_data.listTeachers();

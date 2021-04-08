@@ -6,13 +6,11 @@ class ListData {
     // function to get teacher list
     listTeachers() {
         const this_var = this;
-        // Send http request to get route to check username
+        // Send http request to get route to get list of teachers
         $.ajax({
             url: '/football_trivia_game/public/getTeachers',
             type: 'POST',
-            data: {
-                test: 'test'
-            },
+            data: {},
             // If ajax request is successful
             success: function (data) {
                 console.log('it worked!');

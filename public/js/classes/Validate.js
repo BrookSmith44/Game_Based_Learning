@@ -63,7 +63,7 @@ class Validate {
     checkUsername() {
         // Set variables to be used in ajax call
         const this_var = this;
-        const suggested_username = this._inputs['signup-username-input'].value;
+        const suggested_username = this._inputs[0].value;
   
         // Send http request to get route to check username
          $.ajax({
@@ -77,7 +77,6 @@ class Validate {
             success: function (data) {
                 console.log('it worked!');
                 this_var.userNameCheckResponse(data);
-                console.log(data);
             },
             error: function () {
                 console.log('it failed!');
@@ -89,29 +88,53 @@ class Validate {
     userNameCheckResponse(check) {
         const taken = this.classTaken();
 
+        // Get id of form to decipher which form is being used
+        const form_id = this._inputs.id;
+
         // If username exists in database
         if (check == 1) {
-            // Display error message to inform user username has been taken
-            this.displayMessage('This Username has been taken!', 'red', this._element);
-            // Set username input border to red
-            this._inputs['signup-username-input'].style.borderBottomColor = 'red';
-            // Set class name to taken to indicate username has been taken
-            this._element.classList.add('taken');
+            // Switch case to determine which form is being used and what message to display
+            switch (form_id) {
+                case 'signin-form':
+                    if (taken == true) {
+                        // Display error message to inform user username does exist
+                        this.displayMessage('This Username exists!', 'seagreen', this._element);
+                        // remove class name taken 
+                        this._element.classList.remove('taken');
+                    }
+                    break;
+                case 'signup-form':
+                    // Display error message to inform user username has been taken
+                    this.displayMessage('This Username has been taken!', 'red', this._element);
+                    // Set class name to taken to indicate username has been taken
+                    this._element.classList.add('taken');
+                    break;
+                }
 
-        } else if (check == 0 && taken == true) {
-            // Display error message to inform user username has been taken
-            this.displayMessage('This username is available!', 'white', this._element);
-            // Set username input border to red
-            this._inputs['signup-username-input'].style.borderBottomColor = 'white';
-            // remove class name taken 
-            this._element.classList.remove('taken');
+        } else if (check == 0) {
+            // Switch case to determine which form is being used and what message to display
+            switch (form_id) {
+                case 'signin-form':
+                    // Display error message to inform user username does not exist
+                    this.displayMessage('This Username does not exist!', 'red', this._element);
+                    // Set class name to taken to indicate username has been taken
+                    this._element.classList.add('taken');
+                    break;
+                case 'signup-form':
+                    if (taken == true) {
+                        // Display error message to inform user username has been taken
+                        this.displayMessage('This username is available!', 'white', this._element);
+                        // remove class name taken 
+                        this._element.classList.remove('taken');
+                    }
+                    break;
+                }
         }
     }
 
     classTaken() {
-        // Get error message p tag by ID
-        const err_p = document.getElementById('signup-err');
-
+        // Set variable for err p tag
+        const err_p = this._element;
         // Check if 
         const taken = err_p.classList.contains("taken");
 
@@ -135,14 +158,17 @@ class Validate {
     }
 
     // Function to display error message
-    displayMessage(msg, color, element) {
+    displayMessage(msg, colour, element) {
         // Add error Message to P tag
         element.innerHTML = msg;
 
         // Style Error Message
-        element.style.color = color;
+        element.style.color = colour;
         
         // Set font weight to bold
         element.style.fontWeight = 'bold';
+
+        // Set username input border to red
+        this._inputs[0].style.borderBottomColor = colour;
     }
 }
