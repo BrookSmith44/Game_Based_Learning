@@ -18,12 +18,17 @@ function formListeners() {
             const difficulty = localStorage.getItem('difficulty');
             const subject = localStorage.getItem('subject');
 
-            // Instantiate user team, opposition team and match classes
-            const user_team = new UserTeam();
-            const opposition_team = new OppositionTeam();
-            const match = new Match(user_team, opposition_team, difficulty, subject);
+            if (difficulty !== null && subject !== null) {
+                // Instantiate user team, opposition team and match classes
+                const user_team = new UserTeam();
+                const opposition_team = new OppositionTeam();
+                const match = new Match(user_team, opposition_team, difficulty, subject);
 
-            match.getData();
+                match.getData();
+            } else {
+                // redirect to homepage
+                window.location.href = '/football_trivia_game/public/playerHomepage';
+            }
         }
     });
 

@@ -12,6 +12,15 @@
   if (!isset($_SESSION['is_logged_in'])) {
     // Navigate to login page with error
     return $response->withRedirect($this->router->pathFor('Login', ['err' => 'accessErr']));
+  } else {
+    // Check access
+    // Check it is management account
+    $management_access = checkManagementAccess($app);
+
+    if ($management_access == false) {
+      // Navigate to player homepage
+      return $response->withRedirect($this->router->pathFor('PlayerHomepage'));
+    } 
   }
 
   if (!empty($args)) {

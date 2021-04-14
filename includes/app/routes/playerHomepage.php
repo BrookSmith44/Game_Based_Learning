@@ -12,7 +12,17 @@
   if (!isset($_SESSION['is_logged_in'])) {
     // Navigate to login page with error
     return $response->withRedirect($this->router->pathFor('Login', ['err' => 'accessErr']));
+  } else {
+    // Check access
+    // Check it is management account
+    $player_access = checkPlayerAccess($app);
+
+    if ($player_access == false) {
+      // Navigate to player homepage
+      return $response->withRedirect($this->router->pathFor('ManagementHomepage'));
+    } 
   }
+  
   // Check to see if logged in
   $logged_in = displayHeaderButton();
 
@@ -37,6 +47,24 @@
         'rating' => $team_info['rating']
     ]);
  })->setName('PlayerHomepage');
+
+
+ function checkPlayerAccess($app) {
+  // Get container
+ $session_wrapper = $app->getContainer()->get('sessionWrapper');
+
+ // Get account type and admin
+ $account_type = $session_wrapper->getSessionVar('account_type');
+ 
+ // Set access variable to false initially
+ $access = false;
+ if ($account_type !== 'Teacher') {
+   // Check if user is not a teacher
+   $access = true;
+ }
+
+ return $access;
+}
 
  function getTeamInfo($app) {
    // Get containers

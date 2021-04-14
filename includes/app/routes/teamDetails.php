@@ -12,7 +12,17 @@
   if (!isset($_SESSION['is_logged_in'])) {
     // Navigate to login page with error
     return $response->withRedirect($this->router->pathFor('Login', ['err' => 'accessErr']));
+  } else {
+    // Check access
+    // Check it is management account
+    $player_access = checkPlayerAccess($app);
+
+    if ($player_access == false) {
+      // Navigate to player homepage
+      return $response->withRedirect($this->router->pathFor('ManagementHomepage'));
+    } 
   }
+  
   // Check to see if logged in
   $logged_in = displayHeaderButton(); 
   

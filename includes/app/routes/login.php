@@ -12,13 +12,7 @@
   $logged_in = displayHeaderButton();
 
   // Empty error message variable
-  $err_message = '';
-  if (isset($args['err'])) {
-    if ($args['err'] == 'accessErr') {
-        // Set error message to inform user they have to be logged in to gain access to the website
-        $err_message = 'Must be logged in to gain access';
-      }
-  }
+  $err_message = addFormError($args);
 
    return $this->view->render($response,
     'login.html.twig',

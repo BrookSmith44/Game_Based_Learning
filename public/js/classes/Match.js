@@ -825,6 +825,9 @@ class Match {
             },
             // If ajax request is successful
             success: function (data) {
+                // Unset local storage keys
+                localStorage.removeItem('difficulty');
+                localStorage.removeItem('subject');
             },
             error: function () {
 

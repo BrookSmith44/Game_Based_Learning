@@ -12,7 +12,25 @@
   if (!isset($_SESSION['is_logged_in'])) {
     // Navigate to login page with error
     return $response->withRedirect($this->router->pathFor('Login', ['err' => 'accessErr']));
+  } else {
+    // Check access
+    // Check it is management account
+    $management_access = checkManagementAccess($app);
+
+    // Check it is management account
+    $admin_access = checkAdminAccess($app);
+
+    if ($management_access == false) {
+      // Navigate to player homepage
+      return $response->withRedirect($this->router->pathFor('PlayerHomepage'));
+    } else if ($admin_access == false) {
+      // Navigate to player homepage
+      return $response->withRedirect($this->router->pathFor('ManagementHomepage'));
+    }
   }
+
+    // Check wheter user is admin
+    $admin = getAdmin($app);
 
     // Empty err message
     $err_message = addFormError($args);
@@ -73,3 +91,38 @@
 
   return $err_message;
  }
+
+ function checkManagementAccess($app) {
+   // Get container
+  $session_wrapper = $app->getContainer()->get('sessionWrapper');
+
+  // Get account type and admin
+  $account_type = $session_wrapper->getSessionVar('account_type');
+  
+  // Set access variable to false initially
+  $access = false;
+  if ($account_type == 'Teacher') {
+    // Check if user is not a teacher
+    $access = true;
+  }
+
+  return $access;
+ }
+
+ function checkAdminAccess($app) {
+  // Get container
+  $session_wrapper = $app->getContainer()->get('sessionWrapper');
+
+  // Get account type and admin
+  $admin = $session_wrapper->getSessionVar('admin');
+
+  // Set access to false initiallly
+  $access = false;
+
+  if ($admin == 'Y') {
+    // Check if user is not a teacher
+    $access = true;
+  }
+
+  return $access;
+}

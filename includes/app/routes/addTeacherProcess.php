@@ -30,7 +30,6 @@
    // Store teacher data 
    $redirect = storeTeacherData($app, $encoded, $cleaned_values);
 
-   var_dump($redirect);
    // Navigate to next page
    return $response->withRedirect($this->router->pathFor($redirect['page'], ['err' => $redirect['err']]));
 

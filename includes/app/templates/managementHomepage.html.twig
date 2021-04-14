@@ -1,7 +1,9 @@
 {% extends 'banner.html.twig' %}
 {% block content %}
     <div id="management-homepage">
+    {% if admin == 'Y' %}
         <a href="/football_trivia_game/public/listTeachers" id="teacher-list-link" class="management-link"><h1>Manage Teachers</h1></a>
+        {% endif %}
         <a href="/football_trivia_game/public/listStudents" id="student-list-link" class="management-link"><h1>Manage Students</h1></a>
         <a href="/football_trivia_game/public/listQuestions" id="question-list-link" class="management-link"><h1>Manage Questions</h1></a>
     </div>
