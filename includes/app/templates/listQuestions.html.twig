@@ -1,0 +1,22 @@
+{% extends 'banner.html.twig' %}
+{% block content %}
+<table id="questions-table">
+    <tbody>
+        <tr class="table-header">
+            <th>Quesion ID</th>
+            <th>Quesion</th>
+            <th>Choice 1</th>
+            <th>Choice 2</th>
+            <th>Choice 3</th>
+            <th>Choice 4</th>
+            <th>Answer</th>    
+            <th>Difficulty</th>  
+            <th>Subject</th> 
+            <th>Teacher</th>
+            <th>Date Added</th>
+            <th></th>
+        </tr>
+    </tbody>
+</table>
+<a href="/football_trivia_game/public/addQuestion" id="add-teaher-link" class="add-link">&#43;</a>
+{% endblock %}

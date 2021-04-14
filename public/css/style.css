@@ -19,6 +19,7 @@ button:focus {
 }
 
 body {
+    background-color: seagreen;
     background-image: url("images/pitch-background.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -64,11 +65,11 @@ header {
 }
 
 
-#page-content-div {
+#page-content-div, #management-homepage {
     height: 95vh;
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -161,7 +162,7 @@ header {
     font-size: .8em;
 }
 
-.btn, #question form button {
+.btn, #question form button, .update-btn {
     margin: 20px;
     height: 50px;
     width: 5em;
@@ -208,7 +209,7 @@ header {
     width: 100%;
 }
 
-#signup-form {
+#signup-form, #update-form, #update-pass-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -223,26 +224,31 @@ header {
     align-self: center;
 }
 
-#signup-fname-input {
+#signup-fname-input, #add-choice1, #add-choice3, #update-fname {
     margin-left: 0;
 }
 
-#signup-surname-input {
+#signup-surname-input, #add-choice2, #add-choice4, #update-surname {
     margin-right: 0;
 }
 
-#signup-form-wrapper .signin-text-input {
+#signup-form-wrapper .signin-text-input, #update-submit-input {
     background-color: seagreen;
     color: white;
     width: 80%;
     border-bottom: 2px solid white;
 }
 
+#signup-submit-input {
+    margin-top: 10px;
+}
+
+
 #signup-form-wrapper .signin-text-input::placeholder {
    color: white;
 }
 
-#btn-signup, #signup-submit-input {
+#btn-signup, #signup-submit-input, #update-submit-input:hover  {
     background-color: white;
     color: seagreen;
     border: 2px solid white;
@@ -252,6 +258,36 @@ header {
     background-color: seagreen;
     color: white;
     cursor: pointer;
+}
+
+/* my account page */
+#update-form, #update-pass-form {
+    width: 80%;
+}
+
+#update-submit-input, #delete-submit-input {
+    cursor: pointer;
+    width: 10em;
+    border: none;
+    box-shadow: 2px 2px 5px black;
+    transition: background-color .5s, color .5s, border .5s;
+}
+
+#delete-form {
+    align-self: flex-end;
+    position: absolute;
+    bottom: 6.7%;
+}
+
+#delete-submit-input {
+    background-color: red;
+    color: white;
+    border: 2px solid red;
+}
+
+#delete-submit-input:hover {
+    background-color: white;
+    color: red;
 }
 
 /* Team Customization Page */
@@ -305,8 +341,8 @@ header {
     background-color: lightblue;
 }
 
-#edit-team-form label > input[type="radio"] + #yellow-radio::before {
-    background-color: yellow;
+#edit-team-form label > input[type="radio"] + #orange-radio::before {
+    background-color: orange;
 }
 
 #edit-team-form label > input[type="radio"] + #green-radio::before {
@@ -340,7 +376,7 @@ header {
     border: 2px solid seagreen;
 }
 
-#team-submit-input:hover {
+#team-submit-input:hover, #start-game:hover {
     background-color: white;
     color: seagreen;
     cursor: pointer;
@@ -406,7 +442,7 @@ header {
 }
 
 .player-bar h1 {
-    font-size: 1.5em;
+    font-size: 1em;
     text-align: center;
 }
 
@@ -423,8 +459,20 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     height: 100%;
-    width: 33%;
+}
+
+.team-details-div:nth-child(even) {
+    width: 50%;
+}
+
+.team-details-div:nth-child(odd) {
+    width: 25%;
+}
+
+.team-details-div h1 {
+    padding: 10px 10px;
 }
 
 #team-details h3 {
@@ -437,7 +485,7 @@ header {
 #team-details img {
     height: 45px;
     width: 45px;
-    position: fixed;
+    position: absolute;
     margin-left: -35px;
     opacity: 1;
 }
@@ -475,7 +523,7 @@ header {
     cursor: pointer;
 }
 
-#myAccount-button {
+#edit-team-button {
     border-right: 1px solid white;
     border-radius: 0 0 0 20px;
 }
@@ -485,13 +533,13 @@ header {
     border-radius: 0 0 20px 0;
 }
 
-#myAccount-button:hover {
-    box-shadow: inset -300px 0 0 0 white;
+#edit-team-button:hover {
+    box-shadow: inset -400px 0 0 0 white;
     color: seagreen;
 }
 
 #gamestats-button:hover {
-    box-shadow: inset 300px 0 0 0 white;
+    box-shadow: inset 400px 0 0 0 white;
     color: seagreen;
 }
 
@@ -518,40 +566,229 @@ header {
     cursor: pointer;
 }
 
+#backdrop {
+    display: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    position: absolute;
+    transition: opactiy 1s;
+}
+
 .modal {
     display: none;
     position: fixed;
     justify-content: space-between;
-    width: 60vw;
-    height: 90%;
+    width: 90%;
+    height: 90vh;
     opacity: .9;
     border-radius: 20px;
     box-shadow: 0 4px 8px 10px gray,;
     -webkit-animation: animateTop 1s;
 }
 
+ /* Modal Content */
+ .modal-content {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
 /* Modal Header */
 .modal-header {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
     background-color: seagreen;
     height: 15%;
     color: white;
     border-radius: 20px 20px 0 0;
     top: 0;
   }
-  
-  /* Modal Content */
-.modal-content {
-      width: 100%;
-      background-color: white;
-      border-radius: 20px;
-      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-}
+
+  .modal-header h1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 2em;
+    padding-left: 64px;
+    text-align: center;
+  }
 
 .close {
+    height: 32px;
+    width: 32px;
+    text-align: center;
+    position: relative;
     color: white;
     float: right;
-    font-size: 2em;
     font-weight: bold;
+    font-size: 2em;
+    padding: 5px 10px;
+}
+
+.points {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75px;
+    height: 100%;
+    border-radius: 20px 0 0 20px;
+    background-color: white;
+    color: black;
+    text-align: center;
+    font-size: .8em;
+}
+
+.modal-body {
+    height: 85%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 0 0 20px 20px;
+}
+
+.difficulty, .subject {
+    width: 90%;
+    height: 60px;
+    border-radius: 20px;
+    box-shadow: 0 5px 10px 5px grey;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.open, .subject {
+    background-color: seagreen;
+    color: white;
+    cursor: pointer;
+}
+
+.lock {
+    background-color: grey;
+    color: white;
+    cursor: not-allowed;
+}
+
+#difficulty-range {
+    background-color: white;
+    border-radius: 0 20px 0 20px;
+    padding: 5px 10px;
+    width: 75px;
+    align-self: flex-start;
+    text-align: center;
+    color: black;
+}
+
+.open, #difficulty-range, .subject {
+    transition: background-color .5s, color .5s, box-shadow .5s;
+}
+
+.open:hover, .subject:hover {
+    background-color: white;
+    color: seagreen;
+    box-shadow: 0 5px 10px 5px seagreen;
+}
+
+.open:hover #difficulty-range{
+    background-color: seagreen;
+    color: white;
+}
+
+.subject {
+    justify-content: center;
+}
+
+.stats-modal {
+    justify-content: flex-start;
+}
+
+.stats-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.stats-options {
+    width: 100%;
+}
+
+.leaderboard-button {
+    width: 50%;
+    background-color: white;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color .5s, color .5s;
+    float: right;
+}
+
+.leaderboard-button:hover {
+    background-color: seagreen;
+    color: white;
+}
+
+.stats-modal select {
+    height: 20px;
+    cursor: pointer;
+}
+
+.stats-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.stat {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.stat:nth-of-type(4n + 3), .stat:nth-of-type(4n + 2) {
+    background-color: #ccc;
+}
+
+
+.stat:nth-last-child(1) {
+    border-radius: 0 0 20px 0;
+}
+
+.stat:nth-last-child(2) {
+    border-radius: 0 0 0 20px;
+}
+
+.stats-content table {
+    height: 100%;
+}
+
+.stats-content table tbody {
+    height: 100%;
+}
+.stats-content table, .stats-content tbody, .stats-content tr:nth-last-child(1) {
+    border-radius: 0 0 20px 20px;
+}
+
+.stats-content tr:nth-last-child(1) td:nth-last-child(1) {
+    border-radius: 0 0 20px 0;
+}
+
+.stats-content tr:nth-last-child(1) td:nth-child(1) {
+    border-radius: 0 0 0 20px;
 }
 
 .close:hover,
@@ -563,10 +800,13 @@ header {
 
 @-webkit-keyframes animateTop {
     from {bottom: -300px; opacity: 0;}
-    to {bottom: 35px; opacity: .9;}
+    to {bottom: 15px; opacity: .9;}
 }
 
 /* Management Homepage */
+#management-homepage {
+    flex-direction: row;
+}
 .management-link {
     height: 10em;
     width: 10em;
@@ -612,6 +852,10 @@ tr:nth-child(even) {
     background-color: #ccc;
 }
 
+table td {
+    text-align: center;
+}
+
 
 
 .add-link {
@@ -639,7 +883,7 @@ tr:nth-child(even) {
 }
 
 /* Add Teacher Form */
-#add-teacher-form {
+#add-teacher-form, #add-question-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -661,7 +905,7 @@ tr:nth-child(even) {
     align-self: center;
 }
 
-#addTeacher-submit-input {
+#addTeacher-submit-input, #addQuestion-submit-input {
     align-self: center;
     width: 7em;
     background-color: seagreen;
@@ -671,10 +915,40 @@ tr:nth-child(even) {
     justify-self: flex-start;
 }
 
-#addTeacher-submit-input:hover {
+#addTeacher-submit-input:hover, #addQuestion-submit-input:hover {
     color: seagreen;
     background-color: white;
     cursor: pointer;
+}
+
+/* Add Question Form */
+#add-question-form {
+    height: 70%;
+    padding: 0 5em;
+}
+#add-question-form .name-wrapper select, .stats-modal select, #subject-choice select {
+    width: 50%;
+    background-color: #ccc;
+    box-shadow: 2px 2px 5px grey;
+    border-radius: 5px;
+}
+
+
+#subject-div, #select-difficulty-div {
+    margin: 5px 0;
+}
+
+#subject-div label {
+    margin: 0;
+}
+
+#subject-choice {
+    display: flex;
+    justify-content: center;
+}
+
+#subject-choice input {
+    display: none;
 }
 
 /* Match Page */
@@ -699,7 +973,8 @@ tr:nth-child(even) {
 .team-name {
     width: 40%;
     color: white;
-    font-size: 1em;
+    font-size: 0.8em;
+    padding: 0 10px;
 }
 
 .team-name:nth-child(1) {
@@ -718,9 +993,18 @@ tr:nth-child(even) {
 #commentary-container {
     width: 100%;
     height: 90vh;
-    overflow-y: hidden;
     background: transparent;
     overflow-y: hidden;
+}
+
+#start-game {
+    position: fixed;
+    bottom: 10px;
+    background-color: seagreen;
+    color: white;
+    width: 20%;
+    margin: 10px 40%;
+    border: 2px solid seagreen;
 }
 
 .commentary {
@@ -733,6 +1017,7 @@ tr:nth-child(even) {
     color: white;
     border-bottom: 1px solid white;
     padding: 0 10%;
+    font-size: .7em;
 }
 
 #question {
@@ -742,12 +1027,62 @@ tr:nth-child(even) {
     background-color: #ccc;
 }
 
+#question h1 {
+    padding: 5px 25%;
+}
+
 #question form {
     width: 100%;
+    height: 100%;
+    padding: 5px 0;
+}
+
+#question form div {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+
+#question form div label{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 15%;
+    height: 35%;
+    align-items: center;
+    padding: 20px 20px;
+}
+
+#question form div label {
+    width: 100%;
+}
+
+#question form label > input[type="radio"] {
+    display: none;
+}
+
+#question form label > input[type="radio"] + *::before {
+    content: "";
+    display: inline-block;
+    vertical-align: bottom;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid black;
+    background-color: white;
+    cursor: pointer;
+    transition: .5s width, .5s height, .5s border;
+}
+
+#question form label > input[type="radio"] + *:hover::before {
+    border: 5px solid black;
+}
+
+#question form label > input[type="radio"]:checked + *::before {
+    content: "";
+    background-color: black;
+    border: 2px solid white;
 }
 
 #question form button {
@@ -772,6 +1107,23 @@ tr:nth-child(even) {
     background-color: white;
 }
 
+#end-game-button {
+    background-color: black;
+    cursor: pointer;
+    transition: background-color 1s, color 1s;
+}
+
+#game-button:hover {
+    background-color: white;
+    color: black;
+    border-top: 1px solid black;
+}
+
+.stats-modal select {
+    width: 40%;
+    margin: 5px 5%;
+}
+
     
 /* Smartphones */
 @media only screen and (min-width : 400px) {
@@ -787,12 +1139,24 @@ tr:nth-child(even) {
         width: 100px;
     }
 
-    .player-content-div {
-        width: 90vw;
+    .player-content-div, .modal  {
+        width: 90%;
+    }
+
+    .player-bar h1 {
+        font-size: 1.2em;
     }
 
     .team-name {
         font-size: 1.2em;
+    }
+
+    .commentary {
+        font-size: 0.9em;
+    }
+
+    .update-btn {
+        align-self: flex-start;
     }
 }
 
@@ -802,18 +1166,22 @@ tr:nth-child(even) {
         width: 80%;
     }
 
-    .player-content-div {
-        width: 70vw;
+    .player-content-div, .modal {
+        width: 70%;
     }
 
     .team-name {
-        font-size: 1.4em;
+        font-size: 1.3em;
+    }
+
+    .commentary {
+        font-size: 1em;
     }
 }
 
 @media only screen and (min-device-width : 620px) {
-    .player-content-div {
-        width: 65vw;
+    .player-content-div, .modal {
+        width: 65%;
     }
 
 }
@@ -825,12 +1193,16 @@ tr:nth-child(even) {
         width: 80%;
     }
 
-    .player-content-div {
-        width: 45vw;
+    .player-content-div, .modal {
+        width: 50%;
     }
 
     .team-name {
         font-size: 1.6em;
+    }
+
+    .update-btn {
+        align-self: center;
     }
 }
 /* Desktops and laptops ----------- */
@@ -845,9 +1217,14 @@ tr:nth-child(even) {
         font-size: medium;
     }
 
-    .player-content-div {
-        width: 35vw;
+    .player-content-div, .modal {
+        width: 40%;
     }
+
+    .player-bar h1 {
+        font-size: 1.3em;
+    }
+
 
     .team-name {
         font-size: 1.8em;
@@ -855,9 +1232,18 @@ tr:nth-child(even) {
     
 }
 
+@media only screen  and (min-width : 1250px) {
+    .player-content-div, .modal {
+        width: 35%;
+    }
+    .team-name {
+        font-size: 2em;
+    }
+}
+
 @media only screen  and (min-width : 1524px) {
-    .player-content-div {
-        width: 30vw;
+    .player-content-div, .modal {
+        width: 30%;
     }
     .team-name {
         font-size: 2em;
@@ -876,7 +1262,7 @@ tr:nth-child(even) {
         font-size: large;
     }
 
-    .player-content-div {
-        width: 20vw;
+    .player-content-div, .modal {
+        width: 35%;
     }
 }

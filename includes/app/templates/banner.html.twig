@@ -4,6 +4,7 @@
 <header>
 <a href='{{ homepage_link }}' id="home-link" class="header-button">Homepage</a>
 {% if is_logged_in == true %}
+<a href='/football_trivia_game/public/myAccount' id="home-link" class="header-button">myAccount</a>
     <form id="singout" method="post" action="{{ logout_action }}">
         <input id="signout-button" class="header-button" type="submit" value="{{ signout }}" />
     </form>

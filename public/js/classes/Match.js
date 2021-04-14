@@ -1,8 +1,10 @@
 // javascript class to set teams, play match and send match data to back end
 class Match {
-    constructor(user_team, opposition_team) {
+    constructor(user_team, opposition_team, difficulty, subject) {
         this.user_team = user_team;
         this.opposition_team = opposition_team;
+        this.difficulty = difficulty;
+        this.subject = subject;
         this.game_timer = null;
         this.random = null;
         this.current_type = null;
@@ -26,11 +28,12 @@ class Match {
                     url: '/football_trivia_game/public/getGameData',
                     type: 'POST',
                     data: {
-
+                        difficulty: this_var.difficulty,
+                        subject: this_var.subject
                     },
                     // If ajax request is successful
                     success: function (data) {
-
+                        console.log(data);
                     },
                     error: function () {
 
@@ -48,7 +51,7 @@ class Match {
                     // Set team data
                     this_var.setTeamData(user_team, opposition_team, game_data)
 
-                } else if (game_data['commentary']) {
+                } else if (game_data['commentary'] !== undefined) {
                       this_var.commentary = game_data['commentary'];
 
                 } else if (game_data['questions'] !== undefined) {
@@ -56,7 +59,17 @@ class Match {
                     this_var.questions = game_data['questions'];
                 }
             });
-            this_var.startGame(this_var);
+            // Get start button
+            const start_button = document.getElementById('start-game');
+
+            // Add event listener to start game when user clicks start button
+            start_button.addEventListener('click', function() {
+                // Remove button
+                start_button.remove();
+                
+                // Start game
+                this_var.startGame(this_var);
+            });
         })();
     }
 
@@ -76,7 +89,6 @@ class Match {
 
         // Set oppostion posession to opposite of user posession
         opposition_team.home = !user_team.home;
-        opposition_team.home = !user_team.home;
 
         // Set headers
         // Set user header 
@@ -86,14 +98,14 @@ class Match {
     }
 
     startGame(this_var) {
-        // Set end game to 90 as football games are 90 mins long
-        const timer_tag = document.getElementById('timer');
+        // Set count to 0
         let count = 0;
+        // Commentary type starts at possession
         let commentary_type = 'Possession';
+        // Set to null initially
         this_var.game_timer = null;
 
         this.setGameTimer(this_var, count, commentary_type);
-        
     }
 
     // Method to create interval
@@ -101,7 +113,6 @@ class Match {
         // Create count from parameter
         let count = i;
         const timer_tag = document.getElementById('timer');
-        const commentary_container = document.getElementById('commentary-container');
         // get score counters
         const user_team_counter = document.getElementById(this_var.user_team.team_name);
         const opposition_team_counter = document.getElementById(this_var.opposition_team.team_name);
@@ -133,32 +144,8 @@ class Match {
             if (count > 90) {
                 clearInterval(timer);
                 setTimeout(function() {
-                    // Check who the winner is by comparing score counters
-                    const winner = this_var.getWinner(this_var);
-                    // Empty variable for end message
-                    let end_message;
-                    let end_colour;
-                    // Generate different end game message if its a draw
-                    if (winner == 'draw') {
-                        end_message = 'It all ends in a draw here!!!';
-                        end_colour = 'black';
-                    } else {
-                        end_message = 'The final Whistle Blows!!! ' + winner.team_name + ' win!!!';
-                        end_colour = winner.colour;
-                    }
-                    
-                    
-                    
-                    
-                    this_var.generateCommentary(end_message);
-                    // Get last commentary article in array of class names
-                    const commentary = document.getElementsByClassName('commentary');
-                    commentary[commentary.length-1].setAttribute('id', 'end-game');
-                    // Make winner flash
-                    this_var.commentaryFlash(commentary[commentary.length-1], end_colour);
-                    // Ensure new commentary is always in sight by scrolling to bottom of section
-                    // After every interval
-                    commentary_container.scrollTop = commentary_container.scrollHeight;
+                    // Calll end game function
+                    this_var.endGame(this_var);
                 },2000);
             }
         }, 1000);
@@ -180,6 +167,8 @@ class Match {
         commentary.style.backgroundColor = colour;
         // Append commentary from match container
         commentary_container.appendChild(commentary);
+        // After commentary is added scroll to the bottom of the div to make sure commentary is in view
+        commentary_container.scrollTop = commentary_container.scrollHeight;
     }
 
     commentaryFlash(element, colour) {
@@ -241,12 +230,10 @@ class Match {
                 // Clear current interval to pause game while user answers question
                 clearInterval(timer);
                 // Create timer to answer the question
-                type = this.setQuestionTimer(this_var, type);
+                type = this.setQuestionTimer(this_var);
                 break;
 
         }
-
-        commentary_container.scrollTop = commentary_container.scrollHeight;
         // Return commentary type
         return type;
     }
@@ -366,7 +353,7 @@ class Match {
     }
 
     // Set question timer
-    setQuestionTimer(this_var, type) {
+    setQuestionTimer(this_var) {
         // Empty variable for next type to be returned
         let next_type;
         // Get current question form
@@ -423,7 +410,13 @@ class Match {
         const label4 = document.createElement("label"); 
         const element4 = document.createElement("input");
         const question_header = document.createElement("H1");
+        // Create span elements to make radios styled
+        const span1 = document.createElement('span');
+        const span2 = document.createElement('span');
+        const span3 = document.createElement('span');
+        const span4 = document.createElement('span');
         // Create div to format label and input
+        const choices_div = document.createElement('div');
         const choice1_div = document.createElement('div');
         const choice2_div = document.createElement('div');
         const choice3_div = document.createElement('div');
@@ -458,20 +451,39 @@ class Match {
         label4.innerHTML = choice['choice4'];
         button.innerHTML = 'Submit';
 
+        // array of choices
+        let choices_array = [choice1_div, choice2_div, choice3_div, choice4_div];
+        // randomize array order
+        choices_array = choices_array.sort(() => Math.random() - 0.5);
+
+        // append via loop to randomize order they are put into
+        for (let i = 0; i < choices_array.length; i++) {
+            choices_div.appendChild(choices_array[i]);
+        }
+
+        // Set ids for choice divs
+        choice1_div.setAttribute('id', choice['choice1']);
+        choice2_div.setAttribute('id', choice['choice2']);
+        choice3_div.setAttribute('id', choice['choice3']);
+        choice4_div.setAttribute('id', choice['choice4']);
+
         choice1_div.appendChild(label1); 
         choice2_div.appendChild(label2); 
         choice3_div.appendChild(label3); 
         choice4_div.appendChild(label4); 
 
-        choice1_div.appendChild(element1); 
-        choice2_div.appendChild(element2); 
-        choice3_div.appendChild(element3); 
-        choice4_div.appendChild(element4); 
+        label1.appendChild(element1); 
+        label2.appendChild(element2); 
+        label3.appendChild(element3); 
+        label4.appendChild(element4);
         
-        question_form.appendChild(choice1_div); 
-        question_form.appendChild(choice2_div); 
-        question_form.appendChild(choice3_div); 
-        question_form.appendChild(choice4_div);  
+        label1.appendChild(span1); 
+        label2.appendChild(span2); 
+        label3.appendChild(span3); 
+        label4.appendChild(span4); 
+        
+        question_form.appendChild(choices_div); 
+
         question_form.appendChild(button);
 
         commentary.appendChild(question_header);
@@ -483,9 +495,12 @@ class Match {
 
         // Add class to element for necessary styling
         commentary.classList.add('commentary');
+
+        // After question is added scroll to the bottom of the div to make sure commentary is in view
+        commentary_container.scrollTop = commentary_container.scrollHeight;
     }
 
-    getCheckedInput(this_var) {
+    getCheckedInput() {
         // empty varibale for selected answer
         let selected;
 
@@ -541,7 +556,7 @@ class Match {
         // Get question timer element to remove
         const question_timer_elem = document.getElementById('question-timer');
         // Get user answer
-        const user_answer = this_var.getCheckedInput(this_var);
+        const user_answer = this_var.getCheckedInput();
         // Get index of last question
         const used_index = this_var.used_questions[this_var.used_questions.length -1];
         // Get question
@@ -614,7 +629,6 @@ class Match {
 
         // Check to see if outcome is true or false
         if ((chance == true) && (this_var.game_timer < 88)) {
-            console.log(this_var.game_timer);
             // Set type to question 
             type = 'Question';
         } else {
@@ -651,7 +665,6 @@ class Match {
 
     // Display the commentary and increment score of user or save to stop opponent scoring depending on who is possession and whether the answer is correct
     attackingAnswer(this_var, teamInPossession, correct) {
-        console.log(teamInPossession, correct);
         // get commentary elements
         const commentary = document.getElementsByClassName('commentary');
         //  Empty varibale for commentary text
@@ -726,8 +739,96 @@ class Match {
             this_var.user_team.draw++;
         }
 
-        console.log('win: ' + this_var.user_team.win + ' draw: ' + this_var.user_team.draw + ' loss: ' + this_var.user_team.loss);
-
         return winner;
+    }
+
+    endGame(this_var) {
+        // Check who the winner is by comparing score counters
+        const winner = this_var.getWinner(this_var);
+        // Empty variable for end message
+        let end_message;
+        let end_colour;
+        let commentary;
+        // Generate different end game message if its a draw
+        if (winner == 'draw') {
+            end_message = 'It all ends in a draw here!!!';
+            end_colour = 'black';
+        } else {
+            end_message = 'The final Whistle Blows!!! ' + winner.team_name + ' win!!!';
+            end_colour = winner.colour;
+        }
+        // Create end message
+        this_var.generateCommentary(end_message);
+        // Get last commentary article in array of class names
+        commentary = document.getElementsByClassName('commentary');
+        commentary[commentary.length-1].setAttribute('id', 'end-game');
+        // Make winner flash
+        this_var.commentaryFlash(commentary[commentary.length-1], end_colour);
+        // Create end game button
+        // Create end message
+        this_var.generateCommentary('End Game', '');
+        // Get last commentary article in array of class names
+        commentary = document.getElementsByClassName('commentary');
+        commentary[commentary.length-1].setAttribute('id', 'end-game-button');
+
+        // Get end game button
+        const end_game_button = document.getElementById('end-game-button');
+
+        console.log(this_var.user_team.questions_answered, this_var.user_team.answered_right);
+
+        // Create click event for button that will upload game stats via ajax call and redirect user back to homepage
+        end_game_button.addEventListener('click', function() {
+            // Call function to upload stats
+            this_var.uploadStats(this_var);
+            // redirect to homepage
+            window.location.href = '/football_trivia_game/public/playerHomepage';
+        });
+    }
+
+    uploadStats(this_var) {
+        // Empty variable for skill rating change
+        let rating_change = 0;
+        // Calculate how many skill points to increase or decrease depending on current difficulty
+        if (this_var.user_team.win == 1) {
+            // If user wins then increase by 20
+            rating_change = 20;
+        } else if (this_var.user_team.loss == 1) {
+            // Check difficulty
+            if (this_var.difficulty == 'Easy') {
+                // If user loses then decrease by 10
+                rating_change = 10;
+            } else if (this_var.difficulty == 'Medium') {
+                // If user loses then decrease by 15
+                rating_change = 15;
+            } else if (this_var.difficulty == 'Hard') {
+                // If user loses then decrease by 20
+                rating_change = 20;
+            }
+        }
+  
+        // Send http request to get route to get list of subjects
+        $.ajax({
+            url: '/football_trivia_game/public/uploadStats',
+            type: 'POST',
+            data: {
+                games_played: 1,
+                games_won: this_var.user_team.win,
+                games_drawn: this_var.user_team.draw,
+                games_lost: this_var.user_team.loss,
+                goals_scored: this_var.user_team.score_counter,
+                goals_conceded: this_var.opposition_team.score_counter,
+                questions_answered: this_var.user_team.questions_answered,
+                answers_correct: this_var.user_team.answered_right,
+                rating_change: rating_change,
+                subject: this_var.subject, 
+                difficulty: this_var.difficulty
+            },
+            // If ajax request is successful
+            success: function (data) {
+            },
+            error: function () {
+
+            }
+        });
     }
 }

@@ -12,7 +12,7 @@ class UserTeam {
         this.questions_answered = 0;
         this.answered_right = 0;
         this.score_counter = 0;
-        this.posession = (Math.random() < 0.5);
+        this.home = (Math.random() < 0.5);
         this.possession = this.setPossession();
         this.win = 0;
         this.draw = 0;

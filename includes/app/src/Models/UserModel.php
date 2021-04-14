@@ -13,7 +13,10 @@
      private $dob;
      protected $email;
      protected $password;
+     protected $team_exists;
+     private $changed_pass;
      private $results;
+     private $account_type;
      protected $first_time_login;
      protected $db_connection_settings;
      protected $db;
@@ -33,7 +36,9 @@
         $this->email = null;
         $this->dob = null;
         $this->password = null;
+        $this->account_type = null;
         $this->first_time_login = null;
+        $this->team_exists = null;
         $this->results = null;
         $this->sql_queries = null;
         $this->db_connection_settings = null;
@@ -74,6 +79,14 @@
 
     public function setFirstTimeLogin($first_time_login) {
         $this->first_time_login = $first_time_login;
+    }
+
+    public function setChangedPassword($changed_pass) {
+        $this->changed_pass = $changed_pass;
+    }
+
+    public function setAccountType($account_type) {
+        $this->account_type = $account_type;
     }
 
     public function setDbConnectionSettings($db_connection_settings) {
@@ -199,6 +212,7 @@
         $store_results['account_id'] = $this->session_wrapper->setSessionVar('account_id', $results['account_id']);
         $store_results['username'] = $this->session_wrapper->setSessionVar('username', $this->username);
         $store_results['fname'] = $this->session_wrapper->setSessionVar('fname', $this->fname);
+        $store_results['surname'] = $this->session_wrapper->setSessionVar('surname', $this->surname);
         $store_results['account_type'] = $this->session_wrapper->setSessionVar('account_type', $this->account_type);
 
         if ($this->account_type == 'Teacher') {
@@ -226,6 +240,7 @@
         $session_data['account_id'] = $this->session_wrapper->getSessionVar('account_id');
         $session_data['username'] = $this->session_wrapper->getSessionVar('username');
         $session_data['fname'] = $this->session_wrapper->getSessionVar('fname');
+        $session_data['surname'] = $this->session_wrapper->getSessionVar('surname');
         $session_data['account_type'] = $this->session_wrapper->getSessionVar('account_type');
 
         return $session_data;
@@ -241,19 +256,26 @@
             // Switch case to get account type
             switch($this->account_type) {
                 // General Account
-                case 'General' :
+                case 'General' ;
+                // General Account
                     // Send user to team details route
                     $redirect['page'] = 'TeamDetails';
                     // No error
                     $redirect['err'] = '';
                     break;
-                // Student Account
-                case 'Student';
+                case 'Student':
                 // Teacher Account
-                case 'Teacher';
-                    // Send user to change password route
-                    $redirect['page'] = 'ChangePassword';
-                    $redirect['err'] = 'passErr';
+                case 'Teacher':
+                    if ($this->changed_pass == true) {
+                        // Send user to team details route
+                        $redirect['page'] = 'TeamDetails';
+                        // No error
+                        $redirect['err'] = '';
+                    } else {
+                        // Send user to change password route
+                        $redirect['page'] = 'ChangePassword';
+                        $redirect['err'] = 'passErr';
+                    }
                     break;
             }
         } else {
@@ -270,7 +292,7 @@
                     break;
                 // Teacher Account
                 case 'Teacher':
-                    // Send user to change password route
+                    // Send user to management homepage route
                     $redirect['page'] = 'ManagementHomepage';
                     $redirect['err'] = '';
                     break;
@@ -328,7 +350,7 @@
         $query_results = $this->db->getValues($query_parameters, $query_string);
 
         // Call method to decrypt and check password
-        $authenticate_result = $this->authenticateLogin($query_results);
+        $authenticate_result = $this->authenticate($query_results['account_password']);
 
         // Check authentication - 
         $redirect = $this->processAuthentication($authenticate_result, $query_results);
@@ -337,14 +359,14 @@
     }
 
     // Method to authenticate login details
-    public function authenticateLogin($query_results) {
+    public function authenticate($password) {
         // set empty array for decryption
         $decrypted_data = [];
 
         // Decrypt password 
         $decrypted_data['password'] = $this->libsodium_wrapper->decryption(
             $this->base64_wrapper,
-            $query_results['account_password']
+            $password
         );
 
         // Check inputted password against stored hashed password
@@ -372,7 +394,13 @@
             $this->fname = $this->libsodium_wrapper->decryption(
             $this->base64_wrapper,
             $query_results['account_fname']
-        );
+            );
+
+            // Decrypt fname 
+            $this->surname = $this->libsodium_wrapper->decryption(
+            $this->base64_wrapper,
+            $query_results['account_surname']
+            );
 
             $this->account_type = $query_results['account_type'];
             $this->first_time_login = $query_results['first_time_login'];
@@ -386,18 +414,20 @@
                 switch ($this->account_type) {
                 case 'General';
                 case 'Student';
-                    // Set team model properties
-                    $this->team_model->account_type = $this->account_type;
-                    $this->team_model->username = $this->username;
-                    $this->team_model->setDb($this->db);
-                    $this->team_model->setSqlQueries($this->sql_queries);
-                    $this->team_model->setDbConnectionSettings($this->db_connection_settings);
-                    $this->team_model->setSessionWrapper($this->session_wrapper);
-                    $this->team_model->setLogger($this->logger);
-                    // get team data for this user
-                    $team_data = $this->team_model->getTeamData();
-                    // Set session team data
-                    $store_result = $this->team_model->setTeamSessionVar();
+                    if ($this->first_time_login !== 'Y') {
+                        // Set team model properties
+                        $this->team_model->account_type = $this->account_type;
+                        $this->team_model->username = $this->username;
+                        $this->team_model->setDb($this->db);
+                        $this->team_model->setSqlQueries($this->sql_queries);
+                        $this->team_model->setDbConnectionSettings($this->db_connection_settings);
+                        $this->team_model->setSessionWrapper($this->session_wrapper);
+                        $this->team_model->setLogger($this->logger);
+                        // get team data for this user
+                        $team_data = $this->team_model->getTeamData();
+                        // Set session team data
+                        $store_result = $this->team_model->setTeamSessionVar();
+                    } 
                     break; 
             }
 
@@ -447,19 +477,60 @@
         return $store_result;
     }
 
-    // Method to change password in the database
-    public function updatePassword() {
-        // Connect to database
+    // Method to process password update - make sure user enters old password correctly before changing password
+    public function processPasswordUpdate($new_pass) {
+        // connect to database
         $this->connect();
 
-        // Set properties
+        // Empty array for store results
+        $store_results = [];
+
+        // get username and account type from session variable
         $this->username = $this->session_wrapper->getSessionVar('username');
-        $this->account_type = $this->session_wrapper->getSessionVar('account_type');
+        $account_type = $this->session_wrapper->getSessionVar('account_type');
+
+        // Set query parameters
+        $query_parameters = [
+            ':param_username' =>  $this->username
+        ];
+
+        // get sql query string
+        $query_string = $this->sql_queries->loginQuery();
+
+        // Execute query
+        $results = $this->db->getValues($query_parameters, $query_string);
+        
+        // Authenticate old password to all user to update new password
+        $store_result['authenticate'] = $this->authenticate($results['account_password']);
+        // Check if it is correct password
+        if ($store_result['authenticate'] == true) {
+        
+            // Update password
+            $store_result['update'] = $this->updatePassword($new_pass);
+        }
+
+        return $store_result;
+    }
+
+
+    // Method to change password in the database
+    public function updatePassword($new_pass) {
+        // get username and account type from session variable
+        $this->username = $this->session_wrapper->getSessionVar('username');
+
+        // Hash password
+        $hashed_password = $this->bycrypt->createHashedPassword($new_pass);
+
+        // encrypt password
+        $encrypted_string['password_and_nonce'] = $this->libsodium_wrapper->encryption($hashed_password);
+    
+        // Encode string
+        $encrypted_password = $this->base64_wrapper->encode($encrypted_string['password_and_nonce']['nonce_and_encrypted_string']);
 
         // Set query parameters
         $query_parameters = [
             ':param_username' => $this->username,
-            ':param_password' => $this->password
+            ':param_password' => $encrypted_password
         ];
 
         // Get query string
@@ -477,12 +548,232 @@
         // Set session wrapper logger
         $this->session_wrapper->setLogger($this->logger);
 
+        // Get account type before unsetting it
+        $account_type = $this->session_wrapper->getSessionVar('account_type');
+
         // Call methods to destroy session vairables
         $this->session_wrapper->unsetSessionVar('account_id');
         $this->session_wrapper->unsetSessionVar('username');
         $this->session_wrapper->unsetSessionVar('fname');
+        $this->session_wrapper->unsetSessionVar('surname');
         $this->session_wrapper->unsetSessionVar('account_type');
         $this->session_wrapper->unsetSessionVar('is_logged_in');
+
+        // If account type is not teacher then unset team session variables
+        if ($account_type !== 'Teacher') {
+            $this->session_wrapper->unsetSessionVar('team_name');
+            $this->session_wrapper->unsetSessionVar('colour');
+            $this->session_wrapper->unsetSessionVar('rating');
+            $this->session_wrapper->unsetSessionVar('team_id');
+        } else {
+            $this->session_wrapper->unsetSessionVar('admin');
+        }
+
+    }
+
+    // Method to get user details
+    public function getUserDetails() {
+        // Connect to database
+        $this->connect();
+
+        // Empty variable for store result
+        $results = [];
+
+        // Set logger for session wrapper
+        $this->session_wrapper->setLogger($this->logger);
+
+        // Get account id
+        $account_id = $this->session_wrapper->getSessionVar('account_id');
+        $account_type = $this->session_wrapper->getSessionVar('account_type');
+
+        // Set query parameters
+        $query_parameters = [
+            ':param_id' => $account_id
+        ];
+
+        // Get query string
+        $query_string = $this->sql_queries->getAccountData($account_type);
+
+        // Execute query
+        $results = $this->db->getValues($query_parameters, $query_string);
+
+        return $results;
+    }
+
+    // Method to update the user details
+    public function updateUserDetails() {
+        // Connect to database
+        $this->connect();
+
+        // Empty variable for store result
+        $store_result = [];
+
+        // Set logger for session wrapper
+        $this->session_wrapper->setLogger($this->logger);
+
+        // Get account type and id
+        $account_type = $this->session_wrapper->getSessionVar('account_type');
+        $account_id = $this->session_wrapper->getSessionVar('account_id');
+
+        // Set query parameters
+        $query_parameters = [
+            ':param_username' => $this->username,
+            ':param_fname' => $this->fname,
+            ':param_surname' => $this->surname,
+            ':param_email' => $this->email,
+            ':param_id' => $account_id
+        ];
+
+        // Get query string
+        $query_string = $this->sql_queries->updateAccountData($account_type);
+        
+
+        // Execute query
+        $store_result['update_account'] = $this->db->storeData($query_parameters, $query_string);
+
+        // Update team
+        // Get team id
+        $team_id = $this->session_wrapper->getSessionVar('team_id');
+
+        // Set query parameters
+        $query_parameters = [
+            ':param_username' => $this->username,
+            ':param_id' => $team_id
+        ];
+
+        // Get query string
+        $query_string = $this->sql_queries->updateTeamForeignKey();
+        
+        // Execute query
+        $store_result['update_team'] = $this->db->storeData($query_parameters, $query_string);
+
+        if ($store_result['update_account'] == true && $store_result['update_team'] == true) {
+            $store_result = true;
+        } else {
+            $store_result = false;
+        }
+
+        return $store_result;
+    }
+
+    // Get first time login
+    public function getFirstTimeLogin() {
+        // Connect to database
+        $this->connect();
+
+        // Get username and account type from session variables
+        $account_id = $this->session_wrapper->getSessionVar('account_id');
+        $this->account_type = $this->session_wrapper->getSessionVar('account_type');
+
+        // Set query parameters
+        $query_parameters = [
+            ':param_id' => $account_id
+        ];
+
+        // get query string to check if user has logged in or not
+        $query_string = $this->sql_queries->getFirstTimeLogin( $this->account_type);
+
+        // Execute query
+        $results = $this->db->getValues($query_parameters, $query_string);
+
+        $this->first_time_login = $results['first_time_login'];
+
+        return $this->first_time_login;
+    }
+
+    public function deleteAccount() {
+        // Connect to database
+        $this->connect();
+
+        // store results arrat
+        $store_results = [];
+
+        // get username and and team id
+        $this->username = $this->session_wrapper->getSessionVar('username');
+        $team_id = $this->session_wrapper->getSessionVar('team_id');
+        $account_type = $this->session_wrapper->getSessionVar('account_type');
+
+
+        // Delete game statistics first if account is student or general
+        if ($account_type !== 'Teacher') {
+            // Set query parameters
+            $query_parameters = [
+                ':param' => $team_id
+            ];
+
+            // Delete hard statistics
+            // Get delete query
+            $query_string = $this->sql_queries->deleteRow('hard_statistics', 'team_id');
+
+            // Execute query
+            $store_results['hard_statistics'] = $this->db->storeData($query_parameters, $query_string);
+
+            // Delete medium statistics
+            // Get delete query
+            $query_string = $this->sql_queries->deleteRow('medium_statistics', 'team_id');
+
+            // Execute query
+            $store_results['medium_statistics'] = $this->db->storeData($query_parameters, $query_string);
+
+            // Delete easy statistics
+            // Get delete query
+            $query_string = $this->sql_queries->deleteRow('easy_statistics', 'team_id');
+
+            // Execute query
+            $store_results['easy_statistics'] = $this->db->storeData($query_parameters, $query_string);
+
+            // Delete all statistics
+            // Get delete query
+            $query_string = $this->sql_queries->deleteRow('game_statistics', 'team_id');
+
+            // Execute query
+            $store_results['game_statistics'] = $this->db->storeData($query_parameters, $query_string);
+
+            // Set query parameters
+            $query_parameters = [
+                ':param' => $this->username
+            ];
+
+            // Delete team
+            // Get delete query
+            $query_string = $this->sql_queries->deleteRow('team', 'username');
+
+            // Execute query
+            $store_results['team'] = $this->db->storeData($query_parameters, $query_string);
+
+            // Delete account
+            switch($account_type) {
+                case 'Student':
+                    // Get delete query
+                    $query_string = $this->sql_queries->deleteRow('student_accounts', 'account_username');
+                    break;
+                case 'General':
+                    $query_string = $this->sql_queries->deleteRow('general_accounts', 'account_username');
+                    break;
+            }
+
+            // Execute query
+            $store_results['account'] = $this->db->storeData($query_parameters, $query_string);
+        } else {
+
+            // Set query parameters
+            $query_parameters = [
+                ':param' => $this->username
+            ];
+            // get delete teacher query
+            $query_string = $this->sql_queries->deleteRow('teacher_accounts', 'account_username');
+
+            // Execute query
+            $store_results['account'] = $this->db->storeData($query_parameters, $query_string);
+        }   
+
+        // Check all session variables were stored successfully
+        if(count(array_unique($store_results)) === 1) {
+            $store_result = current($store_results);
+        }
+
+        // Return store result
+        return $store_result;
 
     }
 }

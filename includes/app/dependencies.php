@@ -32,20 +32,32 @@ $container['dbh'] = function () {
 
 // Container for the user model class
 $container['userModel'] = function () {
-    $database_model = new \Model\UserModel();
-    return $database_model;
+    $user_model = new \Model\UserModel();
+    return $user_model;
 };
 
-// Container for the teab model class
+// Container for the team model class
 $container['teamModel'] = function () {
-    $database_model = new \Model\TeamModel();
-    return $database_model;
+    $team_model = new \Model\TeamModel();
+    return $team_model;
 };
 
-// Container for the teab model class
+// Container for the teacher model class
 $container['teacherModel'] = function () {
-    $database_model = new \Model\TeacherModel();
-    return $database_model;
+    $teacher_model = new \Model\TeacherModel();
+    return $teacher_model;
+};
+
+// Container for the student model class
+$container['studentModel'] = function () {
+    $student_model = new \Model\StudentModel();
+    return $student_model;
+};
+
+// Container for the questions model class
+$container['questionModel'] = function () {
+    $questions_model = new \Model\QuestionModel();
+    return $questions_model;
 };
 
 // Container for the session wrapper class

@@ -14,25 +14,32 @@
     // Call function to clean form values
     $cleaned_values = cleanFormValues($app, $form_values);
 
-    // Hash password
-    $cleaned_values['hashed_pass'] = hashPassword($app, $cleaned_values['pass']);
+    // Check username does not already exist in the database
+    $username_check = checkUsername($app, $cleaned_values['username']);
 
-    // Call function to encrypt form data
-    $encrypted = encrypt($app, $cleaned_values);
+    // If the username already exists send back to signup form with error message
+    if ($username_check == 1) {
+        // Navigate to next page
+        return $response->withRedirect($this->router->pathFor('Login', ['err' => 'existErr']));
+    } else {
+        // Hash password
+        $cleaned_values['hashed_pass'] = hashPassword($app, $cleaned_values['pass']);
 
-    // Call function to encode encrypted data
-    $encoded = encode($app, $encrypted);
+        // Call function to encrypt form data
+        $encrypted = encrypt($app, $cleaned_values);
 
-    // Store data in database
-    $store_result = storeData($app, $encoded, $cleaned_values);
+        // Call function to encode encrypted data
+        $encoded = encode($app, $encrypted);
 
-    // Redirect user to correct page
-    $redirect = redirect($app, $store_result);
+        // Store data in database
+        $store_result = storeData($app, $encoded, $cleaned_values);
 
-    var_dump($redirect);
+        // Redirect user to correct page
+        $redirect = redirect($app, $store_result);
 
-    // Navigate to next page
-    return $response->withRedirect($this->router->pathFor($redirect['page'], ['err' => $redirect['err']]));
+        // Navigate to next page
+        return $response->withRedirect($this->router->pathFor($redirect['page'], ['err' => $redirect['err']]));
+    }
 
  })->setName('signupProcess');
 

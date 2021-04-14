@@ -1,0 +1,44 @@
+{% extends 'banner.html.twig' %}
+{# Add Question Form #}
+{% block content %}
+    <div id="page-content-div">
+        <div id="content-wrapper" class="content-div">
+            <h1>{{ heading }}</h1>
+            <p class="content-text">{{ add_content }}</p>
+            <p class="content-text">{{ fyi }}</p>
+            <p id="add-question-err" class="err">{{ err }}</p>
+            <p id="add-question-success">{{ success }}</p>
+            <form id="add-question-form" method="post" action="{{ action }}">
+                <input id="first-choices-div" class="signin-text-input" id="add-question" type="text" name="question" placeholder="{{ question }}" />
+                <div class="name-wrapper">
+                    <input class="signin-text-input" id="add-choice1" type="text" name="choice1" placeholder="{{ choice1 }}" />
+                    <input class="signin-text-input" id="add-choice2" type="text" name="choice2" placeholder="{{ choice2 }}" />
+                </div>
+
+                <div id="second-choices-div" class="name-wrapper">
+                    <input class="signin-text-input" id="add-choice3" type="text" name="choice3" placeholder="{{ choice3 }}" />
+                    <input class="signin-text-input" id="add-choice4" type="text" name="choice4" placeholder="{{ choice4 }}" />
+                </div>
+                <input class="signin-text-input" id="add-answer" type="text" name="answer" placeholder="{{ answer }}" />
+                
+                <div id="select-difficulty-div" class="name-wrapper">
+                    <label for="select-difficulty">Difficulty: </label>
+                    <select id="select-difficulty" name="difficulty">
+                        <option value="Easy">Easy</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Hard">Hard</option>
+                    </select>
+                </div>
+                <div id="subject-div" class="name-wrapper">
+                    <label>Existing Subject: </label><input id="existing-radio" class="radio-subject" name="subject-radio" type="radio" value="existing" checked/>
+                    <label>New Subject: </label><input id="existing-radio" class="radio-subject" name="subject-radio" type="radio" value="new"/>
+                </div>
+                <div id="subject-choice">
+                    <input id="subject-input" class="signin-text-input" name="subject-input" placeholder="Subject" type="text" class="signin-text-input">
+                    <select id="subject-select" name="subject-select"></select>
+                </div>
+                <input class="btn" id="addQuestion-submit-input" type="submit" name="question-submit" value="{{ add }}" />
+            </form>
+    </div>
+</div>
+{% endblock %}

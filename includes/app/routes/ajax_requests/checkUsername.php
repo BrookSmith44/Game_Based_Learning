@@ -14,7 +14,7 @@
     
     echo $check;
 
- })->setName('test');
+ })->setName('CheckUsername');
 
 function validateUsername($app, $form_data) {
     // Empty arry to store cleaned values

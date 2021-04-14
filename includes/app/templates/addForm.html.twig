@@ -1,0 +1,25 @@
+{% extends 'banner.html.twig' %}
+{# Add Teacher/ Student Form #}
+{% block content %}
+    <div id="page-content-div">
+        <div id="content-wrapper" class="content-div">
+            <h1>{{ heading }}</h1>
+            <p class="content-text">{{ add_content }}</p>
+            <p id="add-teacher-err" class="err">{{ err }}</p>
+            <form id="add-teacher-form" method="post" action="{{action}}">
+                <div class="name-wrapper" id="teacher-name-wrapper">
+                    <input class="signin-text-input" id="add-teacher-fname" type="text" name="fname" placeholder="{{ fname }}" />
+                    <input class="signin-text-input" id="add-teacher-surname" type="text" name="surname" placeholder="{{ surname }}" />
+                </div>
+                <input class="signin-text-input" id="add-teacher-email" type="text" name="email" placeholder="{{ email }}" />
+                <input class="signin-text-input" id="add-teacher-cemail" type="text" name="cemail" placeholder="{{ cemail }}" />
+                {% if admin == true %}
+                <div id="admin-div">
+                    <label id="admin-label" for="admin-checkbox">Admin: </label><input id="admin-checkbox" type="checkbox" name="teacher_admin" />
+                </div>
+                {% endif %}
+                 <input class="btn" id="addTeacher-submit-input" type="submit" name="add_teacher_submit" value="{{ add }}" />
+            </form>
+    </div>
+</div>
+{% endblock %}

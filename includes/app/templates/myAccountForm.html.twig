@@ -1,0 +1,32 @@
+{% extends 'banner.html.twig' %}
+{% block content %}
+    <div id="page-content-div">
+        <div id="content-wrapper" class="content-div">
+            <h1>{{ page_heading }}</h1>
+            <p class="content-text">{{ content }}</p>
+            <p id="account-err" class="err">{{ err }}</p>
+            <form id="update-form" method="post" action="{{ personal_action }}">
+                <input class="signin-text-input" id="update-username" type="text" name="update_username" value="{{ username }}" />
+                <div class="name-wrapper">
+                    <input class="signin-text-input" id="update-fname" type="text" name="update_fname" value="{{ fname }}" />
+                    <input class="signin-text-input" id="update-surname" type="text" name="update_surname" value="{{ surname }}" />
+                </div>
+                <input class="signin-text-input" id="update-email" type="email" name="update_email" value="{{ email }}" />
+
+                <input class="update-btn" id="update-submit-input" type="submit" name="update_submit" value="Update Details!" />
+            </form>
+
+            <form id="update-pass-form" method="post" action="{{ password_action }}">
+                <input class="signin-text-input" id="update-old" type="password" name="update_old_passs" placeholder="Old Password" />
+                <input class="signin-text-input" id="update-pass" type="password" name="update_pass" placeholder="New Password" />
+                <input class="signin-text-input" id="update-cpass" type="password" name="update_cpass" placeholder="Confirm New Password" />
+
+                <input class="update-btn" id="update-submit-input" type="submit" name="update_submit" value="Update Password!" />
+            </form>
+            <form id="delete-form" method="post" action="{{ delete_action }}">
+
+                <input class="update-btn" id="delete-submit-input" type="submit" name="update_submit" value="Delete Account" />
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -24,14 +24,14 @@
                 'commentary' => '/ are comfortable in possession for now, they are passing it around the midfield with ease',
                 'key_decision' => 'Pass intercepted!!! / are on the ball now as they charge down the middle and go one on one with the keeper!',
                 'save' => 'An unbelievable save pulled off by the / keeper and he keeps it in his control!',
-                'score' => 'And he smashes it into the back of the net!!! a goal that has been utterly gifted to them'
+                'score' => 'And he smashes it into the back of the net!!! A goal that has been utterly gifted to them'
             ],
 
             'attacking' => [
                 'commentary' => 'Possession turns into attack as they work their way through the midfield to the edge of the box',
                 'key_decision' => 'Space has opened up as / look to shoot from range!',
                 'score' => 'PICK THAT ONE OUT!!! An unstoppable strike right into the top corner',
-                'save' => 'Oooooh so close! the ball smashes off the crossbar and out of play!'
+                'save' => 'Oooooh so close! The ball smashes off the crossbar and out of play!'
             ],
 
             'defending' => [

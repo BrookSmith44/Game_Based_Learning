@@ -18,19 +18,19 @@
                 <button id="homepage-match-button" class="btn">Play Match</button>
             </div>
             <nav id="player-navbar" class="player-bar">
-            <button id="myAccount-button" class="player-buttons" onclick="openModal('accountModal', 'accountModal-close')"><h2>My Account</h2></button>
+            <button id="edit-team-button" class="player-buttons"><h2>Edit Team</h2></button>
             <button id="gamestats-button" class="player-buttons"><h2>Game Stats</h2></button>
             </nav>
         </div>
-        <div id="accountModal" class="modal">
+        <div id="backdrop"></div>
+        <div id="playerModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <span id="accountModal-close" class="close">&times;</span>
-                    <h2>Modal Header</h2>
+                    <span id="playerModal-close" class="close">&times;</span>
+                    <h1 id="modal-header"></h1>
+                    <div class="left"></div>
                 </div>
                 <div class="modal-body">
-                    <p>Some text in the Modal Body</p>
-                    <p>Some other text...</p>
                 </div>
             </div>
         </div>

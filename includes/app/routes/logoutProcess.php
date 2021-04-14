@@ -14,12 +14,12 @@
     // Navigate to next page
     return $response->withRedirect($this->router->pathFor('Homepage'));
 
- });
+ })->setName('Logout');
 
  function logout($app) {
      // get containers
      $user_model = $app->getContainer()->get('userModel');
-     $team_model = $app->getContainer()->get('userModel');
+     $team_model = $app->getContainer()->get('teamModel');
      $session_wrapper = $app->getContainer()->get('sessionWrapper');
      $logger = $app->getContainer()->get('logger');
 

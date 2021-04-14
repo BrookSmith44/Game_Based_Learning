@@ -30,6 +30,7 @@
    // Store teacher data 
    $redirect = storeTeacherData($app, $encoded, $cleaned_values);
 
+   var_dump($redirect);
    // Navigate to next page
    return $response->withRedirect($this->router->pathFor($redirect['page'], ['err' => $redirect['err']]));
 
@@ -44,9 +45,9 @@
     $cleaned_values = [];
 
     // Validate data
-    $cleaned_values['fname'] = $validator->sanitizeString($form_values['teacher-fname']);
-    $cleaned_values['surname'] = $validator->sanitizeString($form_values['teacher-surname']);
-    $cleaned_values['email'] = $validator->sanitizeString($form_values['teacher-email']);
+    $cleaned_values['fname'] = $validator->sanitizeString($form_values['fname']);
+    $cleaned_values['surname'] = $validator->sanitizeString($form_values['surname']);
+    $cleaned_values['email'] = $validator->sanitizeString($form_values['email']);
 
     // If admin checkbox has been checked set to Y for CHAR data type
     if (isset($form_values['teacher_admin'])) {
@@ -145,7 +146,7 @@
       // Send mail to recipient
       $send_success = sendMail($app, $cleaned_values, $username);
 
-      if ($sent_success == true) {
+      if ($send_success == true) {
          $redirect['page'] = 'EmailConfirmation';
          $redirect['err'] = '';
 
@@ -199,7 +200,6 @@
     
     $send_mail->setFname($email_details['fname']);
     $send_mail->setEmailAddress($email_details['email']);
-    $send_mail->setServerSettings($mail_server_settings);
     $send_mail->setLogger($logger);
 
     $send_mail->setSubject('Automated Login Details');
@@ -207,6 +207,7 @@
     $send_mail->setNonHTMLContent($non_html_template);
 
     $send_success = $send_mail->sendMail();
+   
     
     return $send_success;
 }

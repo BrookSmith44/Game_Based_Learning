@@ -56,24 +56,3 @@
    // Return team info
    return $team_info;
  }
-
- function getTeamDataDb() {
-  // get containers
-  $db = $app->getContainer()->get('dbh');
-  $team_model = $app->getContainer()->get('teamModel');
-  $session_wrapper = $app->getContainer()->get('sessionWrapper');
-  $sql_queries = $app->getContainer()->get('sqlQueries');
-  $logger = $app->getContainer()->get('logger');
-  $db_config = $app->getContainer()->get('settings');
-  $db_connection_settings = $db_config['pdo_settings'];
-
-  $team_model->setDbConnectionSettings($db_connection_settings);
-  $team_model->setDb($db);
-  $team_model->setSQLQueries($sql_queries);
-  $team_model->setSessionWrapper($session_wrapper);
-  $team_model->setLogger($logger);
-
-  $results = $team_model->getTeamData();
-  
-  return $results;
- }

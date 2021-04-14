@@ -31,7 +31,7 @@
         'signout' => 'Sign Out',
         'heading' => 'Create Team',
         'edit_team_content' => 'Fill out the details of your team',
-        'name' => 'Team Name',
+        'name' => 'Team Name - Max 25 Characters!',
         'colour' => 'Choose Your Team Colour: ',
         'action' => '/football_trivia_game/public/createTeamProcess'
     ]);

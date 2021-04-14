@@ -82,22 +82,3 @@
 
     return $decrypted_data;
  }
-
- // Function to process data into table format
- function createTeacherList($app, $decrypted_data) {
-     // Get containers
-    $create_list = $app->getContainer()->get('createList');
-
-    // Set properties
-    $create_list->setAccountID($decrypted_data['id']);
-    $create_list->setFname($decrypted_data['fname']);
-    $create_list->setSurname($decrypted_data['surname']);
-    $create_list->setUsername($decrypted_data['username']);
-    $create_list->setEmail($decrypted_data['email']);
-    $create_list->setDateAdded($decrypted_data['date_added']);
-
-    // Get html
-    $output = $create_list->generateHTML();
-
-    return $output;
- }

@@ -11,7 +11,6 @@
     // Check to see if logged in
     $logged_in = displayHeaderButton();
 
-
    return $this->view->render($response,
     'homepage.html.twig',
     [

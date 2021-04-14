@@ -8,15 +8,24 @@
  use \Psr\Http\Message\ResponseInterface as Response; 
 
  $app->post('/getGameData', function(Request $request, Response $response) use ($app) {
+    // Get post data
+    $post_data = $request->getParsedBody();
 
     // call function to get team data from team class
     $team_data = getTeamData($app);
 
-    // call function to get questions from general questions class
-    $questions = getQuestions($app);
+   // Set empty array for questions
+   $questions = [];
+
+    if ($post_data['subject'] !== 'General') {
+      $questions = getRandomQuestions($app, $post_data['subject'], $post_data['difficulty']);
+    } else {
+      // call function to get questions from general questions class
+      $questions = getGeneralQuestions($app, $post_data['difficulty']);
+    }
 
     // call function to get commentary from commentary class
-    $commentary = getCommentary($app, );
+    $commentary = getCommentary($app);
 
     // Send data back to js in json format to easily split arrays
     echo json_encode(array($team_data, $questions, $commentary));
@@ -46,14 +55,47 @@
      return $team_data;
  }
 
+  // Function to get Questions 
+  function getRandomQuestions($app, $subject, $difficulty) {
+   // Get containers
+   $questions_model = $app->getContainer()->get('questionModel');
+   $db = $app->getContainer()->get('dbh');
+   $db_config = $app->getContainer()->get('settings');
+   $db_connection_settings = $db_config['pdo_settings'];
+   $sql_queries = $app->getContainer()->get('sqlQueries');
+   $logger = $app->getContainer()->get('logger');
+
+   // Set empty text variable
+   $questions = [];
+
+   // Set question properties
+   $questions_model->setDb($db);
+   $questions_model->setDbConnectionSettings($db_connection_settings);
+   $questions_model->setSqlQueries($sql_queries);
+   $questions_model->setLogger($logger);
+
+   // Set difficulty 
+   $questions_model->setSubject($subject);
+   $questions_model->setDifficulty($difficulty);
+
+   // Get questions
+   $questions['questions'] = $questions_model->getRandomQuestions();
+
+   return $questions;
+}
+
  // Function to get Questions 
- function getQuestions($app) {
+ function getGeneralQuestions($app, $difficulty) {
     // Get containers
     $questions_container = $app->getContainer()->get('generalQuestions');
 
     // Set empty text variable
     $questions = [];
 
+    // Set difficulty 
+    $questions_container->setDifficulty($difficulty);
+
+    // Get questions
     $questions['questions'] = $questions_container->getQuestions();
 
     return $questions;
@@ -66,12 +108,8 @@
     // Empty array to fill data with and return
     $commentary = [];
 
+    // Get commentary
     $commentary['commentary'] = $commentary_container->getCommentary();
-    /*// Get all types of commentary
-    $commentary['possession'] = $commentary_container->possessionCommentary();
-    $commentary['attacking'] = $commentary_container->attackingCommentary();
-    $commentary['defending'] = $commentary_container->defendingCommentary();
-    */
 
     return $commentary;
  }

@@ -16,10 +16,12 @@ class Validate {
         // Loop through all form inputs
         for (var i = 0; i < this._inputs.length -1; i++) {
             if (this._inputs[i].value == "") {
-                // Change styles to red to indicate error
-                this._inputs[i].style.borderBottomColor = "red";
-                // Push false boolean to array to show input not filled in
-                input_filled.push(false);
+                if (this._inputs[i].style.display !== 'none') {
+                    // Change styles to red to indicate error
+                    this._inputs[i].style.borderBottomColor = "red";
+                    // Push false boolean to array to show input not filled in
+                    input_filled.push(false);
+                } 
             } else {
                 // Push true to array to show input filled in
                 input_filled.push(true);
@@ -27,7 +29,6 @@ class Validate {
                 this._inputs[i].style.borderBottomColor = this._colour;
             }
         }
-
         // Return true if all inputs are filled in
         let validate = input_filled.every(function (e) {
             return e === true;
@@ -59,11 +60,39 @@ class Validate {
         return values_match;
     }
 
+    // Function to ensure string size is smaller than limit
+    checkStringSize() {
+        // Set check to false initially 
+        let correct_size = false;
+        // get team name
+        const string = this._inputs[0].value;
+
+        // count string size
+        const string_size = string.length;
+
+        if (string_size < 25 && string_size > 0) {
+            // set correct size to false
+            correct_size = true;
+        } else if (string_size == 0) {
+            this.displayMessage('Must create a team name!', 'red', this._element);
+            // Set team name input border to red
+            this._inputs[0].style.borderBottomColor = 'red';
+        } else {
+            this.displayMessage('Team Name must be less than 25 characters!', 'red', this._element);
+            // Set username input border to red
+            this._inputs[0].style.borderBottomColor = 'red';
+        }
+
+        return correct_size;
+    }
+
     // Function to checkUsername
     checkUsername() {
         // Set variables to be used in ajax call
         const this_var = this;
         const suggested_username = this._inputs[0].value;
+
+        
   
         // Send http request to get route to check username
          $.ajax({
@@ -75,14 +104,10 @@ class Validate {
             },
             // If ajax request is successful
             success: function (data) {
-                console.log('it worked!');
                 this_var.userNameCheckResponse(data);
-            },
-            error: function () {
-                console.log('it failed!');
             }
-        });
-    }
+    });
+}
 
     // Function display username check response
     userNameCheckResponse(check) {
@@ -99,6 +124,8 @@ class Validate {
                     if (taken == true) {
                         // Display error message to inform user username does exist
                         this.displayMessage('This Username exists!', 'seagreen', this._element);
+                        // Set username input border to red
+                        this._inputs[0].style.borderBottomColor = 'seagreen';
                         // remove class name taken 
                         this._element.classList.remove('taken');
                     }
@@ -106,6 +133,8 @@ class Validate {
                 case 'signup-form':
                     // Display error message to inform user username has been taken
                     this.displayMessage('This Username has been taken!', 'red', this._element);
+                    // Set username input border to red
+                    this._inputs[0].style.borderBottomColor = 'red';
                     // Set class name to taken to indicate username has been taken
                     this._element.classList.add('taken');
                     break;
@@ -117,6 +146,8 @@ class Validate {
                 case 'signin-form':
                     // Display error message to inform user username does not exist
                     this.displayMessage('This Username does not exist!', 'red', this._element);
+                    // Set username input border to red
+                    this._inputs[0].style.borderBottomColor = 'red';
                     // Set class name to taken to indicate username has been taken
                     this._element.classList.add('taken');
                     break;
@@ -124,6 +155,8 @@ class Validate {
                     if (taken == true) {
                         // Display error message to inform user username has been taken
                         this.displayMessage('This username is available!', 'white', this._element);
+                        // Set username input border to red
+                        this._inputs[0].style.borderBottomColor = 'white';
                         // remove class name taken 
                         this._element.classList.remove('taken');
                     }
@@ -148,11 +181,14 @@ class Validate {
         for (const radio of this._radio) {
             // If one of the radios has been selected
             if (radio.checked) {
-                console.log(radio.value);
                 selected = true;
                 break;
             }
         }
+
+        if (selected == false) {
+            this.displayMessage('Must select a team colour!', 'red', this._element);
+        } 
 
         return selected;
     }
@@ -167,8 +203,5 @@ class Validate {
         
         // Set font weight to bold
         element.style.fontWeight = 'bold';
-
-        // Set username input border to red
-        this._inputs[0].style.borderBottomColor = colour;
     }
 }

@@ -12,6 +12,7 @@
     $logged_in = displayHeaderButton();
 
 
+
    return $this->view->render($response,
     'emailConfirmation.html.twig',
     [
@@ -22,7 +23,7 @@
         'page_heading' => 'Homepage',
         'is_logged_in' => $logged_in,
         'logout_action' => '/football_trivia_game/public/logoutProcess',
-        'homepage_link' => '/football_trivia_game/public/',
+        'homepage_link' => '/football_trivia_game/public/managementHomepage',
         'signin' => 'Sign In',
         'signout' => 'Sign Out',
     ]);

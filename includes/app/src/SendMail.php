@@ -11,8 +11,7 @@
 
 namespace FootballTriviaGame;
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+use \Mailjet\Resources;
 
  class SendMail {
     // Properties
@@ -24,10 +23,11 @@ use PHPMailer\PHPMailer\Exception;
     private $non_html_content;
     private $server_settings;
     private $logger;
+    private $error;
 
     // Magic methods
     public function __construct() {
-        $this->mail = new PHPMailer(true);
+        $this->mail = new \Mailjet\Client('d810881eac40a908b989eae102df1621','fe8c4040c1944642d3770b0089df094a',true,['version' => 'v3.1']);
         $this->fname = null;
         $this->email_address = null;
         $this->subject = null;
@@ -35,6 +35,7 @@ use PHPMailer\PHPMailer\Exception;
         $this->non_html_content = null;
         $this->server_settings = null;
         $this->logger = null;
+        $this->error = null;
     }
 
     public function __destruct() {}
@@ -60,61 +61,8 @@ use PHPMailer\PHPMailer\Exception;
         $this->non_html_content = $non_html_content;
     }
 
-    public function setServerSettings($server_settings) {
-        $this->server_settings = $server_settings;
-    }
-
     public function setLogger($logger) {
         $this->logger = $logger;
-    }
-
-
-    // Method to set server settings
-    public function serverSettings() {
-        // get mail server settings
-        $server_settings = $this->server_settings;
-
-        $mail = $this->mail;
-
-        // Enable verbose debug output
-        //$mail->SMTPDebug = 1;
-        // Send using SMTP
-        $mail->isSMTP();
-        // Set the SMTP server to send through
-        $mail->Host = $server_settings['host'];
-        // Enable SMTP authentication
-        $mail->SMTPAuth = true;
-        // SMTP username
-        $mail->Username = $server_settings['username'];
-        // SMTP password
-        $mail->Password = $server_settings['password'];
-        // Enable TLS encryption
-        $mail->SMTP = 'tls';
-        // Port
-        $mail->Port = $server_settings['port'];
-    }
-
-    public function recipients() {
-
-        $mail = $this->mail;
-
-        // Set from email
-        $mail->setFrom('testmailer484@gmail.com', 'Test Mailer');
-        // Send to recipient
-        $mail->addAddress($this->email_address, $this->fname);
-    }
-
-    public function content() {
-
-        $mail = $this->mail;
-        // Set mail format to HTML
-        $mail->isHTML(true);
-        // Set the subject
-        $mail->Subject = $this->subject;
-        // Set email content
-        $mail->Body = $this->content;
-        // Set email content for non html email clients
-        $mail->AltBodt = $this->non_html_content;
     }
 
     public function sendMail() {
@@ -124,18 +72,35 @@ use PHPMailer\PHPMailer\Exception;
         $mail = $this->mail;
         // Try to send mail 
         try {
-            $this->serverSettings();
-            $this->recipients();
-            $this->content();
+            $body = [
+            'Messages' => [
+                [
+                'From' => [
+                    'Email' => "automated-email@footballthemedlearning.uk",
+                    'Name' => "FootballThemedLearning"
+                ],
+                'To' => [
+                    [
+                    'Email' => $this->email_address,
+                    'Name' => $this->fname
+                    ]
+                ],
+                'Subject' => $this->subject,
+                'TextPart' => $this->non_html_content,
+                'HTMLPart' => $this->content,
+                'CustomID' => "AutomatedEmailLoginDetails"
+                ]
+            ]
+            ];
 
-            $mail->send();
-
-            $sent_success = true;
+            $response = $mail->post(Resources::$Email, ['body' => $body]);
+            $sent_success = $response->success();
+            $this->error = $response->getData();
 
             $this->logger->notice('Email successfully sent');
 
         } catch (\Exception $e) {
-            $this->logger->warning('Message could not be sent: Mailer Error ' . $mail->ErrorInfo);
+            $this->logger->warning('Message could not be sent: Mailer Error ' . $this->error);
         }
 
         return $sent_success;

@@ -15,23 +15,14 @@
 
     // Validate form values
     $cleaned_values = validateChangePassForm($app, $form_values);
-    
-    // Hash password - use function from signup process
-    $hashed_password = hashPassword($app, $cleaned_values['new_password']);
-
-    // Ecnrypt password
-    $encryption_password = encryptPassword($app, $hashed_password);
-
-    // Encode password
-    $encoded_password = encodePassword($app, $encryption_password);
 
     // Update password and first time login
-    $redirect = changePassword($app, $encoded_password);
+    $redirect = changePassword($app, $cleaned_values);
 
     // Navigate to next page
-   return $response->withRedirect($this->router->pathFor($redirect['page'], ['err' => $redirect['err']]));
+    return $response->withRedirect($this->router->pathFor($redirect['page'], ['err' => $redirect['err']]));
 
- })->setName('ChangePassword');
+ })->setName('ChangePasswordProcess');
 
  // Function to validate form values
  function validateChangePassForm($app, $form_values) {
@@ -48,30 +39,8 @@
      return $cleaned_values;
  }
 
- // function to encrypt password
- function encryptPassword($app, $hashed_password) {
-     // Get container
-     $libsodium_wrapper = $app->getContainer()->get('libSodiumWrapper');
-
-     // Encrypt password
-     $encryption_password = $libsodium_wrapper->encryption($hashed_password);
-
-     return $encryption_password;
- }
-
- // function to encode password
- function encodePassword($app, $encryption_password) {
-    // Get container
-    $base64 = $app->getContainer()->get('base64Wrapper');
-
-    // encode password
-    $encoded_password = $base64->encode($encryption_password['nonce_and_encrypted_string']);
-
-    return $encoded_password;
- }
-
  // Function to update password in the database
- function changePassword($app, $encoded_password) {
+ function changePassword($app, $cleaned_values) {
     // Get containers
     $user_model = $app->getContainer()->get('userModel');
     $db = $app->getContainer()->get('dbh');
@@ -80,21 +49,40 @@
     $settings = $app->getContainer()->get('settings');
     $connection_settings = $settings['pdo_settings'];
     $logger = $app->getContainer()->get('logger');
+    $libsodium_wrapper = $app->getContainer()->get('libSodiumWrapper');
+    $base64 = $app->getContainer()->get('base64Wrapper');
+    $bycrypt = $app->getContainer()->get('bycryptWrapper');
 
     // Set user properties
-    $user_model->setPassword($encoded_password);
     $user_model->setDb($db);
     $user_model->setDbConnectionSettings($connection_settings);
     $user_model->setSqlQueries($sql_queries);
     $user_model->setSessionWrapper($session_wrapper);
+    $user_model->setLibsodiumWrapper($libsodium_wrapper);
+    $user_model->setBase64Wrapper($base64);
+    $user_model->setBycrypt($bycrypt);
     $user_model->setLogger($logger);
+
+    // Get first time login
+    $user_model->getFirstTimeLogin();
 
     // Empty array for store results
     $store_results = [];
 
     // Call methods to update password and first time login
-    $store_results['password'] = $user_model->updatePassword();
-    $store_results['first_time_login'] = $user_model->updateFirstTimeLogin();
+    $store_results['password'] = $user_model->updatePassword($cleaned_values['new_password']);
+
+    // Get account type
+    $account_type = $session_wrapper->getSessionVar('account_type');
+
+    // If student account do not update first time login as it will be updated at the team details page
+    // Only update if its a teacher account
+    if ($account_type == 'Teacher') {
+        $store_results['first_time_login'] = $user_model->updateFirstTimeLogin();
+    } else {
+        $store_results['first_time_login'] = true;
+        $user_model->setChangedPassword(true);
+    }
 
     // Empty array for redirect
     $redirect = [];
@@ -104,9 +92,8 @@
         $redirect['page'] = 'ChangePassword';
         $redirect['err'] = 'storeErr';
     } else {
-        // Set redirect
-        $redirect['page'] = 'ManagementHomepage';
-        $redirect['err'] = '';
+        $redirect = $user_model->redirect();
     }
+
     return $redirect;
  }
