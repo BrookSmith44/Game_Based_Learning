@@ -5,14 +5,15 @@
  use \Psr\Http\Message\ResponseInterface as Response;
  
  $app->post('/getGameStats', function(Request $request, Response $response) use ($app) {
+   $post_data = $request->getParsedBody();
 
-   $game_stats = getGameStats($app);
+   $game_stats = getGameStats($app, $post_data);
    
     echo json_encode(array($game_stats));
 
  })->setName('GetGameStats');
 
- function getGameStats($app) {
+ function getGameStats($app, $post_data) {
     // Get containers
     $team_model = $app->getContainer()->get('teamModel');
     $db = $app->getContainer()->get('dbh');
@@ -32,8 +33,13 @@
     // Empty array for game stats
     $game_stats =[];
 
-    // Get game stats from db
-    $game_stats = $team_model->getGameStats();
+    if ($post_data['account_type'] == 'player') {
+      // Get game stats from db
+      $game_stats = $team_model->getUserGameStats();
+    } else if ($post_data['account_type'] == 'management') {
+      // Get game stats from db
+      $game_stats = $team_model->getStudentData($post_data['username']);
+    }
 
     return $game_stats;
  }

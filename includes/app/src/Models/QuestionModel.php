@@ -10,6 +10,7 @@
 
  class QuestionModel {
      // Properties
+     private $question_id;
      private $question;
      private $choice1;
      private $choice2;
@@ -27,6 +28,7 @@
     
     // Magic methods
     public function __construct() {
+        $this->question_id = null;
         $this->question = null;
         $this->choice1 = null;
         $this->choice2 = null;
@@ -46,6 +48,11 @@
     public function __destruct() {}
  
     // Setter Methdods
+    public function setQuestionId($question_id) {
+        $this->question_id = $question_id;
+    }
+
+    
     public function setQuestion($question) {
         $this->question = $question;
     }
@@ -200,6 +207,27 @@
         $results = $this->db->getValues($query_parameters, $query_string);
 
         // return results
+        return $results;
+    }
+
+    public function getData() {
+        // Connect to database
+        $this->connect();
+
+        // Create empty array for results
+        $results = [];
+
+        // Set empty query parameters
+        $query_parameters = [
+            ':param_id' => $this->question_id
+        ];
+
+        // Get query string to get question data
+        $query_string = $this->sql_queries->getQuestion();
+
+        // Execute queries
+        $results = $this->db->getValues($query_parameters, $query_string);
+
         return $results;
     }
 

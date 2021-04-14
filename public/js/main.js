@@ -222,7 +222,9 @@ function formListeners() {
         // Add event listeners for loading up models
         play_button.addEventListener('click', selectDifficulty);
 
-        game_stats_button.addEventListener('click', displayGameStats);
+        game_stats_button.addEventListener('click', function() {
+            displayGameStats('player');
+        });
 
         edit_team_button.addEventListener('click', function() {
             window.location.href = '/football_trivia_game/public/teamDetails';
@@ -250,6 +252,16 @@ function formListeners() {
                 createSubjectInput(radio_subjects[i].value) 
             });
         }
+    }
+
+    // Check that it is display page
+    if (document.getElementsByClassName('display-data')[0] !== undefined) {
+        // Get button to pull up modal
+        const game_stats = document.getElementById('display-gamestats-button');
+
+        game_stats.addEventListener('click', function() {
+            displayGameStats('management');
+        });
     }
 
 }
@@ -382,12 +394,12 @@ function selectDifficulty() {
     openModal();
 }
 
-function displayGameStats() {
+function displayGameStats(account_type) {
     // Instantiate object for list data class
     const list_data = new ListData();
 
     // Call list data method to fetch and display game stats
-    list_data.listGameStats();
+    list_data.listGameStats(account_type);
 
     // Open modal with backdrop
     openModal();

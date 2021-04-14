@@ -80,6 +80,27 @@
          return $check_result;
      }
 
+     public function getData() {
+        // Connect to database
+        $this->connect();
+
+        // Create empty array for results
+        $results = [];
+
+        // Set empty query parameters
+        $query_parameters = [
+            ':param_username' => $this->username
+        ];
+
+        // Get query string to get all teacher data
+        $query_string = $this->sql_queries->getTeacher();
+
+        // Execute queries
+        $results = $this->db->getValues($query_parameters, $query_string);
+
+        return $results;
+    }
+
      // Method to get all the teachers in the database
      public function getAllTeachers() {
         // Set empty array for results

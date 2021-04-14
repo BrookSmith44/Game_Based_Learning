@@ -32,8 +32,11 @@ class ListData {
                        cell_name.innerHTML = teachers[i].fname + ' ' + teachers[i].surname;
                        cell_email.innerHTML = teachers[i].email;
                        cell_date_added.innerHTML = teachers[i].date_added;
-                       // Create buttons
-                       this_var.createButtons(row, 5);
+
+                       // Create event listener for row
+                       row.addEventListener('click', function() {
+                           window.location.href = '/football_trivia_game/public/display/teacher/' + teachers[i].username;
+                       })
                    }
                 });
             }
@@ -72,8 +75,11 @@ class ListData {
                        cell_email.innerHTML = students[i].email;
                        cell_teacher_name.innerHTML = students[i].teacher_name;
                        cell_date_added.innerHTML = students[i].date_added;
-                       // Create buttons
-                       this_var.createButtons(row, 6);
+
+                       // Create event listener for row
+                       row.addEventListener('click', function() {
+                        window.location.href = '/football_trivia_game/public/display/student/' + students[i].username;
+                    })
                    }
                 });
             }
@@ -122,8 +128,11 @@ class ListData {
                        cell_subject.innerHTML = questions[i].subject;
                        cell_teacher.innerHTML = questions[i].teacher_name;
                        cell_date_added.innerHTML = questions[i].date_added;
-                       // Create buttons
-                       this_var.createButtons(row, 11);
+
+                       // Create event listener for row
+                       row.addEventListener('click', function() {
+                        window.location.href = '/football_trivia_game/public/display/question/' + questions[i].question_id;
+                    })
                    }
                 });
             }
@@ -185,25 +194,6 @@ class ListData {
         }
 
         stats_content.appendChild(table);
-    }
-
-    createButtons(row, column) {
-        // Create elements
-        const edit_button = document.createElement("BUTTON");
-        const delete_button = document.createElement("BUTTON");
-
-        // Create text for button
-        const edit_text = document.createTextNode('Edit');
-        const delete_text = document.createTextNode('Delete');
-
-        // Append text to corresponding button
-        edit_button.appendChild(edit_text);
-        delete_button.appendChild(delete_text);
-
-        // Create cell for buttons
-        let cell_buttons = row.insertCell(column);
-        cell_buttons.appendChild(edit_button);
-        cell_buttons.appendChild(delete_button); 
     }
 
     listSubjects(difficulty, display_type) {
@@ -301,18 +291,25 @@ class ListData {
         subject_div.appendChild(select);
     }
 
-    listGameStats() {
+    listGameStats(account_type) {
         // Local variable for this
         const this_var = this;
+        let username = '';
+
+        if (account_type == 'management') {
+            username = document.getElementsByClassName('display-username')[0].id.replace(/\s/g, '');
+        }
 
         // Send http request to get route to get list of game stats
         $.ajax({
             url: '/football_trivia_game/public/getGameStats',
             type: 'POST',
-            data: {},
+            data: {
+                account_type: account_type, 
+                username: username
+            },
             // If ajax request is successful
             success: function (data) {
-                //console.log(data);
                 // map out json encoded data
                 $.map(JSON.parse(data), function(game_stats) {
                     // Function to display game stats data returned from db

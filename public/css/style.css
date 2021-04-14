@@ -162,7 +162,7 @@ header {
     font-size: .8em;
 }
 
-.btn, #question form button, .update-btn {
+.btn, #question form button, .update-btn, .display-btn {
     margin: 20px;
     height: 50px;
     width: 5em;
@@ -248,7 +248,7 @@ header {
    color: white;
 }
 
-#btn-signup, #signup-submit-input, #update-submit-input:hover  {
+#btn-signup, #signup-submit-input, #update-submit-input:hover, .display-btn:hover  {
     background-color: white;
     color: seagreen;
     border: 2px solid white;
@@ -279,13 +279,13 @@ header {
     bottom: 6.7%;
 }
 
-#delete-submit-input {
+#delete-submit-input, #display-delete input {
     background-color: red;
     color: white;
     border: 2px solid red;
 }
 
-#delete-submit-input:hover {
+#delete-submit-input:hover, #display-delete input:hover {
     background-color: white;
     color: red;
 }
@@ -774,10 +774,17 @@ header {
 
 .stats-content table {
     height: 100%;
+    width: 100%;
+    border-spacing: 0;
 }
 
 .stats-content table tbody {
     height: 100%;
+    width: 100%;
+}
+
+.stats-content table tbody tr td {
+    text-align: center;
 }
 .stats-content table, .stats-content tbody, .stats-content tr:nth-last-child(1) {
     border-radius: 0 0 20px 20px;
@@ -831,12 +838,14 @@ header {
 }
 
 /* List Teachers Page */
-table {
+#teacher-table, #students-table, #questions-table {
     width: 100%;
     border-spacing: 0;
     margin-top: 10px;
     font-weight: normal;
 }
+
+
 
 .table-header th {
     background-color: seagreen;
@@ -852,9 +861,20 @@ tr:nth-child(even) {
     background-color: #ccc;
 }
 
-table td {
+#teacher-table td, #students-table td, #questions-table td {
     text-align: center;
+    padding: 0 5px;
 }
+
+#teacher-table tr, #students-table tr, #questions-table tr {
+    height: 60px;
+    cursor: pointer;
+}
+
+#teacher-table tr:hover, #students-table tr:hover, #questions-table tr:hover {
+    background-color: darkgrey;
+    color: white;
+} 
 
 
 
@@ -949,6 +969,51 @@ table td {
 
 #subject-choice input {
     display: none;
+}
+
+/* Display Data Page */
+.display-data {
+    width: 95%;
+    height: 60%;
+    padding: 10px 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.display-data h3 {
+    padding: 10px 20px;
+}
+
+.display-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.display-btn {
+    width: 6em;
+    background-color: seagreen;
+    color: white;
+    cursor: pointer;
+    border: 2px solid seagreen;
+    box-shadow: 2px 2px 5px black;
+    transition: background-color .5s, color .5s;
+}
+
+#display-delete input {
+    background-color: red;
+}
+
+#display-gamestats-input {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Match Page */

@@ -120,6 +120,12 @@
         return $query_string;
     }
 
+    public function getQuestion() {
+        $query_string = 'SELECT question_id, question, choice1, choice2, choice3, choice4, answer, difficulty, subject, teacher_name, date_added FROM questions WHERE question_id = :param_id ';
+
+        return $query_string;
+    }
+
     public function getAllQuestions() {
         $query_string = 'SELECT question_id, question, choice1, choice2, choice3, choice4, answer, difficulty, subject, teacher_name, date_added FROM questions ';
 
@@ -379,6 +385,20 @@
         return $query_string;
     }
 
+    public function getTeacher() {
+        $query_string = 'SELECT account_id, account_username, account_fname, account_surname, account_email, date_added, admin ';
+        $query_string .= 'FROM teacher_accounts WHERE account_username = :param_username';
+
+        return $query_string;
+    }
+
+    public function getStudent() {
+        $query_string = 'SELECT account_id, account_username, account_fname, account_surname, account_email, date_added, teacher_name ';
+        $query_string .= 'FROM student_accounts WHERE account_username = :param_username';
+
+        return $query_string;
+    }
+    
     public function getAllStudents() {
         $query_string = 'SELECT account_id, account_username, account_fname, account_surname, account_email, date_added, teacher_name ';
         $query_string .= 'FROM student_accounts';

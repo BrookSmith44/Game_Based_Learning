@@ -28,7 +28,8 @@
  require 'routes/addStudentProcess.php';
  require 'routes/addQuestion.php';
  require 'routes/addQuestionProcess.php';
- require 'routes/emailConfirmation.php';
+ require 'routes/displayData.php';
+ require 'routes/update.php';
  require 'routes/ajax_requests/uploadStats.php';
  require 'routes/ajax_requests/getSubjects.php';
  require 'routes/ajax_requests/getGameData.php';

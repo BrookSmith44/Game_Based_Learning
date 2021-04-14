@@ -1,0 +1,55 @@
+{% extends 'banner.html.twig' %}
+{% block content %}
+    <div id="page-content-div">
+        <div id="content-wrapper" class="content-div"> 
+            <div class="display-data">
+                <h1>{{ heading }}</h1>
+                {% if table == 'Teacher' or table == 'Student' %}
+                <h3>Name: {{ name }}</h3>
+                <h3 id="{{ username }}" class="display-username">Username: {{ username }}</h3>
+                <h3>Email: {{ email }}</h3>
+                {% if table == 'Student' %}
+                <h3>Teacher: {{ teacher_name }}</h3>
+                {% endif %}
+                {% elseif table == 'Question' %}
+                <h3>Question: {{ question }}</h3>
+                <h3>Choice 1: {{ choice1 }}</h3>
+                <h3>Choice 2: {{ choice2 }}</h3>
+                <h3>Choice 3: {{ choice3 }}</h3>
+                <h3>Choice 4: {{ choice4 }}</h3>
+                <h3>Answer: {{ answer }}</h3>
+                <h3>Difficulty: {{ difficulty }}</h3>
+                <h3>Subject: {{ subject }}</h3>
+                {% endif %}
+                <h3>Date Added: {{ da }}</h3>
+                {% if admin == 'Y' %}
+                <h2>Admin</h2>
+                {% endif %}
+                <div class="display-buttons">
+                    <form id="display-back" method="get" action="{{ action_back }}">
+                        <input class="display-btn" id="display-back-input" type="submit" name="submit" value="Back" />
+                    </form>
+                    {% if table == 'Student' %}
+                        <button class="display-btn" id="display-gamestats-button">Game Stats</button>
+                    {% endif %}
+                   <button href="{{ action_update }}" class="display-btn" id="display-update-button">Update</button>
+                    <form id="display-delete" method="post" action="{{ action_delete }}">
+                        <input class="display-btn" id="display-delete-input" type="submit" name="submit" value="Delete" />
+                    </form>
+                </div>
+            </div>
+            <div id="backdrop"></div>
+            <div id="playerModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span id="playerModal-close" class="close">&times;</span>
+                    <h1 id="modal-header"></h1>
+                    <div class="left"></div>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}

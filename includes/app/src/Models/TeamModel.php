@@ -479,7 +479,7 @@
         return $results;
     }
 
-    public function getGameStats() {
+    public function getUserGameStats() {
         // Set empty array for results
         $results = [];
 
@@ -490,7 +490,52 @@
         $this->session_wrapper->setLogger($this->logger);
 
         // Get team id from session variables
-        $team_id = $this->session_wrapper->getSessionVar('team_id');;
+        $team_id = $this->session_wrapper->getSessionVar('team_id');
+
+        $results = $this->loopThroughStats($team_id);
+
+        return $results;
+    }
+
+    // functiont to get skill rating and game statistcs for display
+    public function getStudentData($username) {
+         // Connect to database
+         $this->connect();
+         // Empty results array
+         $results = [];
+        
+         // set query parametersd
+         $query_parameters = [
+             ':param_username' => $username,
+         ];
+
+         // Get query string
+         $query_string = $this->sql_queries->getTeamId();
+
+         // Execute query
+         $team_id = $this->db->getValues($query_parameters, $query_string);
+
+         $results = $this->loopThroughStats($team_id['team_id']);
+
+         return $results;
+    }
+
+    // Destroy session variables 
+    public function destroySessionVar() {
+
+        // Set session wrapper logger
+        $this->session_wrapper->setLogger($this->logger);
+
+        // Call methods to destroy session vairables
+        $this->session_wrapper->unsetSessionVar('team_name');
+        $this->session_wrapper->unsetSessionVar('colour');
+        $this->session_wrapper->unsetSessionVar('rating');
+
+    }
+
+    public function loopThroughStats($team_id) {
+        // Empty results array
+        $results = [];
 
         // set query parametersd
         $query_parameters = [
@@ -508,18 +553,5 @@
         }
 
         return $results;
-    }
-
-    // Destroy session variables 
-    public function destroySessionVar() {
-
-        // Set session wrapper logger
-        $this->session_wrapper->setLogger($this->logger);
-
-        // Call methods to destroy session vairables
-        $this->session_wrapper->unsetSessionVar('team_name');
-        $this->session_wrapper->unsetSessionVar('colour');
-        $this->session_wrapper->unsetSessionVar('rating');
-
     }
 }

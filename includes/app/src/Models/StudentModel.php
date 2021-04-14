@@ -58,6 +58,27 @@ class StudentModel extends UserModel {
         return $store_result;
     }
 
+    public function getData() {
+        // Connect to database
+        $this->connect();
+
+        // Create empty array for results
+        $results = [];
+
+        // Set empty query parameters
+        $query_parameters = [
+            ':param_username' => $this->username
+        ];
+
+        // Get query string to get student data
+        $query_string = $this->sql_queries->getStudent();
+
+        // Execute queries
+        $results = $this->db->getValues($query_parameters, $query_string);
+
+        return $results;
+    }
+
     public function getAllStudents() {
         // Connect to database
         $this->connect();
