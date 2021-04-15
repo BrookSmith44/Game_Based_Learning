@@ -68,7 +68,7 @@
   // Empty err message
   $err_message = '';
   
-  if (!empty($args)) {
+  if (!empty($args['err'])) {
     if ($args['err'] == 'storeErr') {
       $err_message = 'Data was not stored, please submit form again';
     } else if ($args['err'] == 'emailErr') {

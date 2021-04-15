@@ -308,4 +308,33 @@
         return $randomized_questions;
     }
 
+    public function updateData() {
+        // Connect to database
+        $this->connect();
+
+        // Create empty array for store results
+        $store_result = [];
+
+        // Set empty query parameters
+        $query_parameters = [
+            ':param_question' => $this->question,
+            ':param_choice1' => $this->choice1,
+            ':param_choice2' => $this->choice2,
+            ':param_choice3' => $this->choice3,
+            ':param_choice4' => $this->choice4,
+            ':param_answer' => $this->answer,
+            ':param_difficulty' => $this->difficulty,
+            ':param_subject' => $this->subject,
+            ':param_id' => $this->question_id
+        ];
+
+        // Get query string update question
+        $query_string = $this->sql_queries->updateQuestion();
+
+        // Execute queries
+        $store_result = $this->db->storeData($query_parameters, $query_string);
+
+        return $store_result;
+    }
+
 }

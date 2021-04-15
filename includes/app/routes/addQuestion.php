@@ -22,20 +22,11 @@
       return $response->withRedirect($this->router->pathFor('PlayerHomepage'));
     } 
   }
-
-  if (!empty($args)) {
-      if ($args['err'] == 'success') {
-          $success = 'Question stored successfully';
-      } else if ($args['err'] == 'storeErr') {
-          $err_message = 'Question was not able to be stored at this time, please try again later';
-      }
-  }
-
   $content = 'Fill in questions details here to add them to the system';
   $fyi = 'Each subject must have at least 25 questions in them before the student is able to access it';
 
    // Empty err message
-   $err_message = addFormError();
+   $err_message = addFormError($args);
 
     // Check to see if logged in
     $logged_in = displayHeaderButton();

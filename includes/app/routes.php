@@ -30,6 +30,7 @@
  require 'routes/addQuestionProcess.php';
  require 'routes/displayData.php';
  require 'routes/update.php';
+ require 'routes/updateProcess.php';
  require 'routes/ajax_requests/uploadStats.php';
  require 'routes/ajax_requests/getSubjects.php';
  require 'routes/ajax_requests/getGameData.php';

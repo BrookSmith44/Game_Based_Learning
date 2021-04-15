@@ -209,7 +209,7 @@ header {
     width: 100%;
 }
 
-#signup-form, #update-form, #update-pass-form {
+#signup-form, #update-form, #update-pass-form, #update-question-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -224,11 +224,11 @@ header {
     align-self: center;
 }
 
-#signup-fname-input, #add-choice1, #add-choice3, #update-fname {
+#signup-fname-input, #add-choice1, #add-choice3, #update-fname, #management-update-fname, #update-choice1, #update-choice3 {
     margin-left: 0;
 }
 
-#signup-surname-input, #add-choice2, #add-choice4, #update-surname {
+#signup-surname-input, #add-choice2, #add-choice4, #update-surname, #management-update-surname, #update-choice2, #update-choice4 {
     margin-right: 0;
 }
 
@@ -248,7 +248,7 @@ header {
    color: white;
 }
 
-#btn-signup, #signup-submit-input, #update-submit-input:hover, .display-btn:hover  {
+#btn-signup, #signup-submit-input, #update-submit-input:hover, .display-btn:hover, #management-update-submit:hover, #update-question:hover  {
     background-color: white;
     color: seagreen;
     border: 2px solid white;
@@ -903,14 +903,13 @@ tr:nth-child(even) {
 }
 
 /* Add Teacher Form */
-#add-teacher-form, #add-question-form {
+#add-teacher-form, #add-question-form, #management-update-form, #update-question-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-content: center;
     padding: 2em 5em;
     width: 80%;
-    height: 50%;
 }
 
 #add-teacher-fname {
@@ -974,7 +973,6 @@ tr:nth-child(even) {
 /* Display Data Page */
 .display-data {
     width: 95%;
-    height: 60%;
     padding: 10px 5%;
     display: flex;
     flex-direction: column;
@@ -984,6 +982,7 @@ tr:nth-child(even) {
 
 .display-data h3 {
     padding: 10px 20px;
+    text-align: center;
 }
 
 .display-buttons {
@@ -995,7 +994,7 @@ tr:nth-child(even) {
     flex-wrap: wrap;
 }
 
-.display-btn {
+.display-btn, #management-update-submit, #update-question {
     width: 6em;
     background-color: seagreen;
     color: white;
@@ -1005,15 +1004,27 @@ tr:nth-child(even) {
     transition: background-color .5s, color .5s;
 }
 
+#management-update-submit {
+    align-self: center;
+}
+
 #display-delete input {
     background-color: red;
 }
 
-#display-gamestats-input {
+#display-back-button, #display-update-button, #management-update-back {
     text-decoration: none;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#update-question-form #subject-choice {
+    width: 100%;
+}
+
+#update-question-form {
+    padding: 0 2em;
 }
 
 /* Match Page */

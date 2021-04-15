@@ -1,0 +1,55 @@
+{% extends 'banner.html.twig' %}
+{# Add Teacher/ Student Form #}
+{% block content %}
+
+<div id="page-content-div">
+        <div id="content-wrapper" class="content-div">
+            <h1>{{ heading }}</h1>
+            <p class="content-text">{{ add_content }}</p>
+            <p id="add-teacher-err" class="err">{{ err }}</p>
+            {% if table != 'Question' %}
+            <form id="management-update-form" method="post" action="{{action}}">
+            <input class="signin-text-input" id="management-update-username" type="text" name="username" value="{{ username }}" />
+                <div class="name-wrapper">
+                    <input class="signin-text-input" id="management-update-fname" type="text" name="fname" value="{{ fname }}" />
+                    <input class="signin-text-input" id="management-update-surname" type="text" name="surname" value="{{ surname }}" />
+                </div>
+                <input class="signin-text-input" id="management-update-email" type="text" name="email" value="{{ email }}" />
+                {% if table == 'Teacher' %}
+                <div id="admin-div">
+                    {% if admin == true %}
+                    <label id="admin-label" for="admin-checkbox">Admin: </label><input id="admin-checkbox" type="checkbox" name="update_admin" checked/>
+                    {% else %}
+                     <label id="admin-label" for="admin-checkbox">Admin: </label><input id="admin-checkbox" type="checkbox" name="update_admin" />
+                    {% endif %}
+                </div>
+                {% endif %}
+                <div class="display-buttons">
+                <a href="{{ action_back }}" class="display-btn" id="management-update-back">Back</a>
+                 <input class="btn" id="management-update-submit" type="submit" name="management-update_submit" value="Update!" />
+                 </div>
+            </form>
+            {% else %}
+            <form id="update-question-form" method="post" action="{{ action }}">
+                <input id="first-choices-div" class="signin-text-input" id="update-question" type="text" name="question" value="{{ question }}" />
+                <div class="name-wrapper">
+                    <input class="signin-text-input" id="update-choice1" type="text" name="choice1" value="{{ choice1 }}" />
+                    <input class="signin-text-input" id="update-choice2" type="text" name="choice2" value="{{ choice2 }}" />
+                </div>
+
+                <div id="second-choices-div" class="name-wrapper">
+                    <input class="signin-text-input" id="update-choice3" type="text" name="choice3" value="{{ choice3 }}" />
+                    <input class="signin-text-input" id="update-choice4" type="text" name="choice4" value="{{ choice4 }}" />
+                </div>
+                <input class="signin-text-input" id="update-answer" type="text" name="answer" value="{{ answer }}" />
+                 <input id="subject-input" class="signin-text-input" name="difficulty" placeholder="Difficulty" type="text" value={{ difficulty }} />
+                <input id="subject-input" class="signin-text-input" name="subject" placeholder="Subject" type="text" value={{ subject }} />
+                <div class="display-buttons">
+                    <a href="{{ action_back }}" class="display-btn" id="management-update-back">Back</a>
+                    <input class="btn" id="update-question" type="submit" name="question-submit" value="Update!" />
+                </div>
+            </form>
+            {% endif %}
+    </div>
+</div>
+{% endblock %}

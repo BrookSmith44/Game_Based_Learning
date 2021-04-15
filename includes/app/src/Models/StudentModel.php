@@ -133,4 +133,29 @@ class StudentModel extends UserModel {
 
         return $results;
     }
+
+    public function updateData($username_id) {
+        // Connect to database
+        $this->connect();
+
+        // Create empty array for store results
+        $store_result = [];
+
+        // Set empty query parameters
+        $query_parameters = [
+            ':param_username' => $this->username,
+            ':param_fname' => $this->fname,
+            ':param_surname' => $this->surname,
+            ':param_email' => $this->email,
+            ':param_username_id' => $username_id
+        ];
+
+        // Get query string to update student data
+        $query_string = $this->sql_queries->updateStudent();
+
+        // Execute queries
+        $store_result = $this->db->storeData($query_parameters, $query_string);
+
+        return $store_result;
+    }
 }

@@ -434,6 +434,26 @@
         return $query_string;
     }
 
+    public function updateStudent() {
+        $query_string = 'UPDATE student_accounts SET account_username = :param_username, account_fname = :param_fname, account_surname = :param_surname, account_email = :param_email ';
+        $query_string .= 'WHERE account_username = :param_username_id';
+    }
+
+    public function updateTeacher() {
+        $query_string = 'UPDATE teacher_accounts SET account_username = :param_username, account_fname = :param_fname, account_surname = :param_surname, account_email = :param_email, admin = :param_admin ';
+        $query_string .= 'WHERE account_username = :param_username_id';
+
+        return $query_string;
+    }
+
+    public function updateQuestion() {
+        $query_string = 'UPDATE questions SET question = :param_question, choice1 = :param_choice1, choice2 = :param_choice2, choice3 = :param_choice3, choice4 = :param_choice4, ';
+        $query_string .= 'answer = :param_answer, difficulty = :param_difficulty, subject = :param_subject ';
+        $query_string .= 'WHERE question_id = :param_id';
+
+        return $query_string;
+    }
+
     public function deleteRow($table_name,  $column) {
         $query_string = 'DELETE FROM ' . $table_name . ' WHERE ' . $column . ' = :param ';
 

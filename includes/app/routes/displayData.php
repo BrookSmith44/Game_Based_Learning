@@ -53,15 +53,15 @@
         'js_path' => JS_PATH,
         'validate' => VALIDATE,
         'list_data' => LISTDATA,
-        'page_heading' => '',
+        'page_heading' => $table,
         'is_logged_in' => $logged_in,
         'logout_action' => '/football_trivia_game/public/logoutProcess',
         'homepage_link' => '/football_trivia_game/public/managementHomepage',
         'signin' => 'Sign In',
         'signout' => 'Sign Out',
         'heading' => $table,
-        'action' => '/football_trivia_game/public/editData',
-        'action_update' => '/football_trivia_game/public/managementProcess/' . $args['table'] . '/' . $args['id'] . '/update',
+        'action_back' => '/football_trivia_game/public/list' . $table . 's',
+        'action_update' => '/football_trivia_game/public/update/' . $args['table'] . '/' . $args['id'],
         'table' => $table,
         'name' => ' ' . $data['name'],
         'username' => ' ' . $data['username'],
@@ -76,7 +76,7 @@
         'choice4' => ' ' . $data['choice4'],
         'answer' => ' ' . $data['answer'],
         'difficulty' => ' ' . $data['difficulty'],
-        'subject' => ' ' . $data['subject'],
+        'subject' => ' ' . $data['subject']
     ]);
  })->setName('DisplayData');
 
@@ -170,6 +170,8 @@
  function setDisplayVariables($app, $results, $args) {
   // Set empty variables
   $data = [];
+  $data['fname'] = '';
+  $data['surname'] = '';
   $data['name'] = '';
   $data['username'] = '';
   $data['email'] = '';
@@ -190,9 +192,9 @@
     case 'student';
     case 'teacher':
         // Decrypt data
-        $fname = decryptString($app, $results['account_fname']);
-        $surname = decryptString($app, $results['account_surname']);
-        $data['name'] = $fname . ' ' . $surname;
+        $data['fname'] = decryptString($app, $results['account_fname']);
+        $data['surname'] = decryptString($app, $results['account_surname']);
+        $data['name'] = $data['fname'] . ' ' . $data['surname'];
         $data['username'] = $results['account_username'];
         $data['email'] = decryptString($app, $results['account_email']);
         $data['date_added'] = $results['date_added'];

@@ -12,7 +12,7 @@
                 <h3>Teacher: {{ teacher_name }}</h3>
                 {% endif %}
                 {% elseif table == 'Question' %}
-                <h3>Question: {{ question }}</h3>
+                <h3>Question: <br> {{ question }}</h3>
                 <h3>Choice 1: {{ choice1 }}</h3>
                 <h3>Choice 2: {{ choice2 }}</h3>
                 <h3>Choice 3: {{ choice3 }}</h3>
@@ -26,13 +26,11 @@
                 <h2>Admin</h2>
                 {% endif %}
                 <div class="display-buttons">
-                    <form id="display-back" method="get" action="{{ action_back }}">
-                        <input class="display-btn" id="display-back-input" type="submit" name="submit" value="Back" />
-                    </form>
+                    <a href="{{ action_back }}" class="display-btn" id="display-back-button">Back</a>
                     {% if table == 'Student' %}
                         <button class="display-btn" id="display-gamestats-button">Game Stats</button>
                     {% endif %}
-                   <button href="{{ action_update }}" class="display-btn" id="display-update-button">Update</button>
+                   <a href="{{ action_update }}" class="display-btn" id="display-update-button">Update</a>
                     <form id="display-delete" method="post" action="{{ action_delete }}">
                         <input class="display-btn" id="display-delete-input" type="submit" name="submit" value="Delete" />
                     </form>
