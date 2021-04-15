@@ -32,7 +32,7 @@
     // Check wheter user is admin
     $admin = getAdmin($app);
 
-    // Empty err message
+    // Get err message
     $err_message = addFormError($args);
 
     // Check to see if logged in
@@ -75,6 +75,8 @@
       $err_message = "Email providing login details to teacher was not able to send";
     } else if ($args['err'] == 'storeSuccess') {
       $err_message = 'Successfully added to the system';
+    } else if ($args['err'] == 'updateSuccess') {
+      $err_message = 'Successfully Updated data';
     } else if ($args['err'] == 'accessErr') {
       // Set error message to inform user they have to be logged in to gain access to the website
       $err_message = 'Must be logged in to gain access';

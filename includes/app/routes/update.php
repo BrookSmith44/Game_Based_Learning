@@ -66,7 +66,7 @@
         'validate' => VALIDATE,
         'list_data' => LISTDATA,
         'action' => '/football_trivia_game/public/updateProcess/' . $args['table'] . '/' . $args['id'],
-        'action_back' => '/football_trivia_game/public/list' . $table . 's',
+        'action_back' => '/football_trivia_game/public/display/' . $args['table'] . '/' . $args['id'],
         'homepage_link' => '/football_trivia_game/public/managementHomepage',
         'logout_action' => '/football_trivia_game/public/logoutProcess',
         'is_logged_in' => $logged_in,

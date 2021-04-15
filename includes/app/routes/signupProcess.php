@@ -37,8 +37,13 @@
         // Redirect user to correct page
         $redirect = redirect($app, $store_result);
 
-        // Navigate to next page
-        return $response->withRedirect($this->router->pathFor($redirect['page'], ['err' => $redirect['err']]));
+        if (!empty($redirect['err'])) {
+            // Navigate back to form with error
+            return $response->withRedirect($this->router->pathFor($redirect['page'], ['err' => $redirect['err']]));
+        } else {
+            // Navigate to next page
+            return $response->withRedirect($this->router->pathFor($redirect['page']));
+        }
     }
 
  })->setName('signupProcess');

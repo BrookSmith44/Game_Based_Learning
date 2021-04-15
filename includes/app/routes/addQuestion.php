@@ -44,7 +44,6 @@
         'logout_action' => '/football_trivia_game/public/logoutProcess',
         'is_logged_in' => $logged_in,
         'err' => $err_message,
-        'success' => $success,
         'signout' => 'Sign Out',
         'page_heading' => 'Add Question',
         'heading' => 'Add Question',

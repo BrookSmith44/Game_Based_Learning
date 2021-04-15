@@ -4,6 +4,7 @@
         <div id="content-wrapper" class="content-div"> 
             <div class="display-data">
                 <h1>{{ heading }}</h1>
+                <p id="display-err" class="err">{{ err }}</p>
                 {% if table == 'Teacher' or table == 'Student' %}
                 <h3>Name: {{ name }}</h3>
                 <h3 id="{{ username }}" class="display-username">Username: {{ username }}</h3>

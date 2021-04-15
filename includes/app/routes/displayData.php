@@ -9,7 +9,7 @@
  use \Psr\Http\Message\ServerRequestInterface as Request;
  use \Psr\Http\Message\ResponseInterface as Response; 
 
- $app->get('/display/{table}/{id}', function(Request $request, Response $response, $args) use ($app) {
+ $app->get('/display/{table}/{id}[/{err}]', function(Request $request, Response $response, $args) use ($app) {
     // Check to see if session logged in is set
   if (!isset($_SESSION['is_logged_in'])) {
     // Navigate to login page with error
@@ -26,6 +26,9 @@
   }
     // Check to see if logged in
     $logged_in = displayHeaderButton();
+
+    // Empty err message
+    $err_message = addFormError($args);
   
   // Set empty variable for account type  
     $table = '';
@@ -45,6 +48,12 @@
 
     // Call function to display
     $data = displayData($app, $args);
+
+    // Make sure results are not empty before attempting to set and decrypt variables
+    if(empty($data)) {
+      // Navigate to list
+      return $response->withRedirect($this->router->pathFor('List' . ucfirst($args['table'] . 's')));
+    } 
   
     return $this->view->render($response,
     'display.html.twig',
@@ -60,8 +69,10 @@
         'signin' => 'Sign In',
         'signout' => 'Sign Out',
         'heading' => $table,
+        'err' => $err_message,
         'action_back' => '/football_trivia_game/public/list' . $table . 's',
         'action_update' => '/football_trivia_game/public/update/' . $args['table'] . '/' . $args['id'],
+        'action_delete' => '/football_trivia_game/public/deleteProcess/' . $args['table'] . '/' . $args['id'],
         'table' => $table,
         'name' => ' ' . $data['name'],
         'username' => ' ' . $data['username'],
@@ -135,8 +146,11 @@
         // Get data
         $results = $model->getData();
 
-        // Call function to set display variables
-        $data = setDisplayVariables($app, $results, $args);
+        // Make sure results are not empty before attempting to set and decrypt variables
+        if(!empty($results)) {
+          // Call function to set display variables
+          $data = setDisplayVariables($app, $results, $args);
+        } 
         break;
       case 'question':
         // Set question id property
@@ -145,8 +159,11 @@
         // Get data
         $results = $model->getData();
 
-        // Call function to set display variables
-        $data = setDisplayVariables($app, $results, $args);  
+        // Make sure results are not empty before attempting to set and decrypt variables
+        if(!empty($results)) {
+          // Call function to set display variables
+          $data = setDisplayVariables($app, $results, $args);
+        }  
         break;
 
     }

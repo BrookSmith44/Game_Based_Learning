@@ -29,6 +29,7 @@
  require 'routes/addQuestion.php';
  require 'routes/addQuestionProcess.php';
  require 'routes/displayData.php';
+ require 'routes/deleteProcess.php';
  require 'routes/update.php';
  require 'routes/updateProcess.php';
  require 'routes/ajax_requests/uploadStats.php';

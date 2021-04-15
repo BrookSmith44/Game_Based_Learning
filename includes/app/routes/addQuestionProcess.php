@@ -88,7 +88,7 @@
     // If data is stored successfully
    if ($store_result == true) {
       $redirect['page'] = 'AddQuestion';
-      $redirect['err'] = 'success';
+      $redirect['err'] = 'storeSuccess';
    } else {
       $redirect['page'] = 'AddQuestion';
       $redirect['err'] = 'storeErr';

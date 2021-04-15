@@ -158,4 +158,25 @@ class StudentModel extends UserModel {
 
         return $store_result;
     }
+
+    public function deleteData() {
+        // Connect to database
+        $this->connect();
+
+        // Create empty array for store results
+        $store_result = [];
+
+        // Set empty query parameters
+        $query_parameters = [
+            ':param' => $this->username,
+        ];
+
+        // Get query string to delete student data
+        $query_string = $this->sql_queries->deleteRow('student_accounts', 'account_username');
+
+        // Execute queries
+        $store_result = $this->db->storeData($query_parameters, $query_string);
+
+        return $store_result;
+    }
 }

@@ -146,8 +146,8 @@
       $send_success = sendMail($app, $cleaned_values, $username);
 
       if ($send_success == true) {
-         $redirect['page'] = 'EmailConfirmation';
-         $redirect['err'] = '';
+         $redirect['page'] = 'AddTeacher';
+         $redirect['err'] = 'storeSuccess';
 
       } else {
          $redirect['page'] = 'AddTeacher';

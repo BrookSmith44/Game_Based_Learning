@@ -7,7 +7,7 @@
  use \Psr\Http\Message\ServerRequestInterface as Request;
  use \Psr\Http\Message\ResponseInterface as Response; 
 
- $app->get('/teamDetails', function(Request $request, Response $response) use ($app) {
+ $app->get('/teamDetails[/{err}]', function(Request $request, Response $response) use ($app) {
    // Check to see if session logged in is set
   if (!isset($_SESSION['is_logged_in'])) {
     // Navigate to login page with error
@@ -22,7 +22,10 @@
       return $response->withRedirect($this->router->pathFor('ManagementHomepage'));
     } 
   }
-  
+
+  // Get err message
+  $err_message = addFormError($args);
+
   // Check to see if logged in
   $logged_in = displayHeaderButton(); 
   
@@ -40,6 +43,7 @@
         'signin' => 'Sign In',
         'signout' => 'Sign Out',
         'heading' => 'Create Team',
+        'err' -> $err_message,
         'edit_team_content' => 'Fill out the details of your team',
         'name' => 'Team Name - Max 25 Characters!',
         'colour' => 'Choose Your Team Colour: ',

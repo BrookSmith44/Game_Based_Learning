@@ -6,7 +6,7 @@
         <div id="content-wrapper" class="content-div">
             <h1>{{ heading }}</h1>
             <p class="content-text">{{ add_content }}</p>
-            <p id="add-teacher-err" class="err">{{ err }}</p>
+            <p id="update-err" class="err">{{ err }}</p>
             {% if table != 'Question' %}
             <form id="management-update-form" method="post" action="{{action}}">
             <input class="signin-text-input" id="management-update-username" type="text" name="username" value="{{ username }}" />

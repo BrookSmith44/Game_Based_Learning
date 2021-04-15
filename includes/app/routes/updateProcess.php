@@ -92,10 +92,10 @@ function handleUpdateRequest($app, $cleaned_values, $args) {
 
                 // Redirect back to display page with success message or error message
                 if ($store_result == true) {
-                    $redirect['page'] = 'Update';
+                    $redirect['page'] = 'DisplayData';
                     $redirect['table'] = $args['table'];
                     $redirect['id'] = $cleaned_values['username'];
-                    $redirect['err'] = 'storeSuccess';
+                    $redirect['err'] = 'updateSuccess';
                 } else {
                     $redirect['page'] = 'Update';
                     $redirect['table'] = $args['table'];
@@ -114,10 +114,10 @@ function handleUpdateRequest($app, $cleaned_values, $args) {
             $store_result = updateData($app, $question_model, $cleaned_values, $args);
 
             if ($store_result == true) {
-                $redirect['page'] = 'Update';
+                $redirect['page'] = 'DisplayData';
                 $redirect['table'] = $args['table'];
                 $redirect['id'] = $args['id'];
-                $redirect['err'] = 'storeSuccess';
+                $redirect['err'] = 'updateSuccess';
             } else {
                 $redirect['page'] = 'Update';
                 $redirect['table'] = $args['table'];
